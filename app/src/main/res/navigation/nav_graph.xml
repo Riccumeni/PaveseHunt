@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/quizFragment">
+
+    <fragment
+        android:id="@+id/quizFragment"
+        android:name="com.example.pavesehunt.ui.quiz.QuizFragment"
+        android:label="fragment_quiz"
+        tools:layout="@layout/fragment_quiz" >
+        <action
+            android:id="@+id/action_quizFragment_to_rankFragment"
+            app:destination="@id/rankFragment" />
+        <action
+            android:id="@+id/action_quizFragment_to_puzzleFragment"
+            app:destination="@id/puzzleFragment" />
+        <action
+            android:id="@+id/action_quizFragment_to_questionFragment"
+            app:destination="@id/questionFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/rankFragment"
+        android:name="com.example.pavesehunt.ui.quiz.RankFragment"
+        android:label="fragment_rank"
+        tools:layout="@layout/fragment_rank" />
+    <fragment
+        android:id="@+id/puzzleFragment"
+        android:name="com.example.pavesehunt.ui.quiz.PuzzleFragment"
+        android:label="fragment_puzzle"
+        tools:layout="@layout/fragment_puzzle" />
+    <fragment
+        android:id="@+id/questionFragment"
+        android:name="com.example.pavesehunt.ui.quiz.QuestionFragment"
+        android:label="fragment_question"
+        tools:layout="@layout/fragment_question" />
+    <fragment
+        android:id="@+id/searchFragment"
+        android:name="com.example.pavesehunt.ui.search.SearchFragment"
+        android:label="fragment_search"
+        tools:layout="@layout/fragment_search" >
+        <action
+            android:id="@+id/action_searchFragment2_to_detailFragment2"
+            app:destination="@id/detailFragment2" />
+    </fragment>
+    <fragment
+        android:id="@+id/detailFragment2"
+        android:name="com.example.pavesehunt.ui.search.DetailFragment"
+        android:label="fragment_detail"
+        tools:layout="@layout/fragment_detail" />
+    <fragment
+        android:id="@+id/settingsFragment"
+        android:name="com.example.pavesehunt.ui.settings.SettingsFragment"
+        android:label="fragment_settings"
+        tools:layout="@layout/fragment_settings" />
+</navigation>
