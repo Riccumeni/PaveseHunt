@@ -79,7 +79,8 @@ dependencies {
     implementation(project(":unityLibrary"))
     implementation(fileTree(mapOf("dir" to project(":unityLibrary").dependencyProject.projectDir.toString() + "\\libs", "include" to listOf("*.jar"))))
 
-
+    // splash screen
+    implementation("androidx.core:core-splashscreen:1.0.1")
 
 
 }

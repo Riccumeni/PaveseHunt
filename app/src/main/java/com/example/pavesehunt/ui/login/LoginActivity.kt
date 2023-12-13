@@ -1,13 +1,15 @@
 package com.example.pavesehunt.ui.login
 
+import android.content.Context
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Toast
 import androidx.activity.viewModels
+import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
+import com.example.pavesehunt.data.models.Status
 import com.example.pavesehunt.databinding.ActivityLoginBinding
 import com.example.testapp.domain.viewmodels.LoginViewModel
-import com.example.testapp.domain.viewmodels.Status
 
 import com.example.pavesehunt.ui.home.HomeActivity
 
@@ -22,7 +24,7 @@ class LoginActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         binding.loginButton.setOnClickListener {
-            viewModel.login("","")
+            viewModel.login("","", this)
         }
 
         viewModel.status.observe(this){ status ->

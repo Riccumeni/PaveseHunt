@@ -1,5 +1,6 @@
 package com.example.pavesehunt.ui.quiz
 
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -43,6 +44,13 @@ class QuizFragment : Fragment() {
             if(user != null){
                 binding.pointsTextView.text = user.points.toString()
                 binding.usernameTextView.text = user.username
+
+                val shared = view.context.getSharedPreferences("shared", Context.MODE_PRIVATE)
+
+                with(shared.edit()){
+                    putInt("points", user.points)
+                    apply()
+                }
             }
         }
 
@@ -51,7 +59,8 @@ class QuizFragment : Fragment() {
         }
 
         binding.quizButton.setOnClickListener {
-            startActivity(Intent(view.context, UnityPlayerActivity::class.java))
+            view.findNavController().navigate(R.id.action_quizFragment_to_questionFragment)
+            // startActivity(Intent(view.context, UnityPlayerActivity::class.java))
         }
     }
 
