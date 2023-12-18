@@ -41,4 +41,10 @@
         android:layout_width="125dp"
         android:layout_height="50dp" />
 
+    <Button
+        android:id="@+id/registerButton"
+        android:text="register"
+        android:layout_width="125dp"
+        android:layout_height="50dp" />
+
 </LinearLayout>

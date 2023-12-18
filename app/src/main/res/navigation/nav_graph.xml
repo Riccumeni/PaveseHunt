@@ -24,7 +24,11 @@
         android:id="@+id/rankFragment"
         android:name="com.example.pavesehunt.ui.quiz.RankFragment"
         android:label="fragment_rank"
-        tools:layout="@layout/fragment_rank" />
+        tools:layout="@layout/fragment_rank" >
+        <action
+            android:id="@+id/action_rankFragment_to_addFriendFragment"
+            app:destination="@id/addFriendFragment" />
+    </fragment>
     <fragment
         android:id="@+id/puzzleFragment"
         android:name="com.example.pavesehunt.ui.quiz.PuzzleFragment"
@@ -54,4 +58,9 @@
         android:name="com.example.pavesehunt.ui.settings.SettingsFragment"
         android:label="fragment_settings"
         tools:layout="@layout/fragment_settings" />
+    <fragment
+        android:id="@+id/addFriendFragment"
+        android:name="com.example.pavesehunt.ui.quiz.AddFriendFragment"
+        android:label="fragment_add_friend"
+        tools:layout="@layout/fragment_add_friend" />
 </navigation>

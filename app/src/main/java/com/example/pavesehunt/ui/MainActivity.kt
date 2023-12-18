@@ -39,6 +39,8 @@ class MainActivity : AppCompatActivity() {
                 status == Status.LOADING
             }
 
+            // TODO: RIMETTERE A POSTO
+
             this.setOnExitAnimationListener{
                 if(viewModel.status.value == Status.SUCCESS){
                     startActivity(Intent(this@MainActivity, HomeActivity::class.java))
@@ -51,22 +53,5 @@ class MainActivity : AppCompatActivity() {
 
         }
         setContentView(R.layout.activity_main)
-
-        /*
-
-        val counterText = findViewById<TextView>(R.id.counterText)
-
-        counterText.text = "0"
-
-        viewModel.startTimer()
-
-        viewModel.getClassification()
-
-        viewModel.counter.observe(this){
-            counterText.text = it.toString()
-        }
-         */
-
-
     }
 }

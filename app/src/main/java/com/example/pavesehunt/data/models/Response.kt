@@ -1,7 +1,7 @@
 package com.example.pavesehunt.data.models
 
 data class Response (
-    val status: Status,
+    var status: Status,
     val data: Any? = null
 
 )
@@ -9,5 +9,6 @@ data class Response (
 enum class Status{
     SUCCESS,
     LOADING,
-    ERROR
+    ERROR,
+    NOT_STARTED
 }

@@ -2,6 +2,7 @@ package com.example.pavesehunt.ui.quiz
 
 import android.content.Context
 import android.os.Bundle
+import android.os.Handler
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -32,6 +33,12 @@ class QuestionFragment : Fragment() {
         return inflater.inflate(R.layout.fragment_question, container, false)
     }
 
+    override fun onDestroyView() {
+        super.onDestroyView()
+
+        viewModel.stopTimer()
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
@@ -39,7 +46,7 @@ class QuestionFragment : Fragment() {
 
         val shared = view.context.getSharedPreferences("shared", Context.MODE_PRIVATE)
 
-        val position = shared.getInt("indexQuestion", 0)
+        var position = shared.getInt("indexQuestion", 0)
 
         val questionText = view.findViewById<TextView>(R.id.questionText)
 
@@ -58,8 +65,13 @@ class QuestionFragment : Fragment() {
 
         buttons.forEachIndexed{ index, button ->
             button.setOnClickListener {
+
+                val time: Int? = viewModel.counter.value
+
+                viewModel.stopTimer()
+
                 if(index == Questions.questions[position].indexOfCorrectAnswer){
-                    viewModel.stopTimer(view.context)
+                    viewModel.addPoints(time!!, view.context)
                 }
                 buttons.forEachIndexed { i, button ->
                     if(i == Questions.questions[position].indexOfCorrectAnswer){
@@ -73,6 +85,24 @@ class QuestionFragment : Fragment() {
 
                     }
                 }
+
+                position += 1
+
+                with(shared.edit()){
+                    putInt("indexQuestion", position)
+                    apply()
+                }
+
+                Handler().postDelayed({
+                    Questions.questions[position].answers.forEachIndexed{index, s ->
+                        buttons[index].setBackgroundColor(0xFFC4C4C4.toInt())
+                        buttons[index].text = s
+                    }
+
+                    questionText.text = Questions.questions[position].question
+
+                    viewModel.startTimer()
+                }, 1000)
             }
         }
 

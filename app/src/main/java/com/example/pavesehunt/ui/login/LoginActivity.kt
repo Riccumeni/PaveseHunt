@@ -1,22 +1,20 @@
 package com.example.pavesehunt.ui.login
 
-import android.content.Context
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Toast
 import androidx.activity.viewModels
-import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import com.example.pavesehunt.data.models.Status
 import com.example.pavesehunt.databinding.ActivityLoginBinding
-import com.example.testapp.domain.viewmodels.LoginViewModel
+import com.example.testapp.domain.viewmodels.UserViewModel
 
 import com.example.pavesehunt.ui.home.HomeActivity
 
 class LoginActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityLoginBinding
-    val viewModel: LoginViewModel by viewModels()
+    val viewModel: UserViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -24,7 +22,13 @@ class LoginActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         binding.loginButton.setOnClickListener {
-            viewModel.login("","", this)
+
+            viewModel.login(binding.emailEditText.text.toString(),binding.passwordEditText.text.toString(), this)
+        }
+
+        binding.registerButton.setOnClickListener {
+            //viewModel.registerEmail("gageve4075@apdiv.com", "gageve", "gianfranco", this)
+            startActivity(Intent(this, SignUpActivity::class.java))
         }
 
         viewModel.status.observe(this){ status ->

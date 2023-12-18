@@ -67,6 +67,8 @@ dependencies {
     implementation("io.github.jan-tennert.supabase:postgrest-kt:1.4.7")
     implementation("io.ktor:ktor-client-cio:2.3.3")
     implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.5.1")
+    implementation("io.github.jan-tennert.supabase:storage-kt:2.0.1")
+    implementation("io.github.jan-tennert.supabase:gotrue-kt:2.0.1")
 
     // navigation
     val nav_version = "2.7.5"
@@ -74,6 +76,9 @@ dependencies {
     implementation("androidx.navigation:navigation-fragment-ktx:$nav_version")
     implementation("androidx.navigation:navigation-ui-ktx:$nav_version")
     implementation("androidx.navigation:navigation-dynamic-features-fragment:$nav_version")
+
+    // glide
+    implementation("com.github.bumptech.glide:glide:4.16.0")
 
     // unity
     implementation(project(":unityLibrary"))

@@ -9,6 +9,7 @@ import android.widget.TextView
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.LifecycleObserver
 import androidx.lifecycle.LifecycleOwner
+import androidx.navigation.findNavController
 import com.example.pavesehunt.R
 import com.example.pavesehunt.data.models.Status
 import com.example.testapp.data.models.User
@@ -34,6 +35,11 @@ class RankFragment : Fragment() {
         viewModel.getLeatherboard()
 
         val rankText = view.findViewById<TextView>(R.id.rankText)
+        val addFriendButton = view.findViewById<View>(R.id.addFriendButton)
+
+        addFriendButton.setOnClickListener {
+            view.findNavController().navigate(R.id.action_rankFragment_to_addFriendFragment)
+        }
 
         viewModel.leatherboard.observe(viewLifecycleOwner){ response ->
             when(response.status){
@@ -55,6 +61,10 @@ class RankFragment : Fragment() {
                 Status.LOADING -> {
                     rankText.textSize=32.0f
                     rankText.text = "Loading"
+                }
+
+                Status.NOT_STARTED -> {
+
                 }
             }
         }

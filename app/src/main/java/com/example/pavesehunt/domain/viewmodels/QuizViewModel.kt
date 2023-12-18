@@ -1,6 +1,7 @@
 package com.example.testapp.domain.viewmodels
 
 import android.content.Context
+import android.util.Log
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -12,7 +13,7 @@ import com.example.testapp.data.models.User
 import io.github.jan.supabase.exceptions.BadRequestRestException
 import io.github.jan.supabase.exceptions.HttpRequestException
 import io.github.jan.supabase.exceptions.UnauthorizedRestException
-import io.github.jan.supabase.gotrue.gotrue
+import io.github.jan.supabase.gotrue.auth
 import io.github.jan.supabase.gotrue.user.UserInfo
 import io.github.jan.supabase.postgrest.postgrest
 import io.github.jan.supabase.postgrest.query.Columns
@@ -26,7 +27,7 @@ class QuizViewModel: ViewModel() {
     var user = MutableLiveData<User?>(null)
     var leatherboard = MutableLiveData<Response>()
     var counter: MutableLiveData<Int> = MutableLiveData(0)
-    val timer = Timer()
+    var timer = Timer()
 
     fun getUser(){
 
@@ -34,7 +35,7 @@ class QuizViewModel: ViewModel() {
 
         viewModelScope.launch {
             try{
-                val session = client.gotrue.currentSessionOrNull()
+                val session = client.auth.currentSessionOrNull()
 
                 if (session != null){
                     val user = client.postgrest["users"].select {
@@ -71,17 +72,18 @@ class QuizViewModel: ViewModel() {
         val timerTask = object : TimerTask() {
             override fun run() {
                 counter.postValue(counter.value!! + 1)
-                println("Counter: $counter")
+
+                Log.d("timer", counter.value.toString())
             }
         }
 
         timer.scheduleAtFixedRate(timerTask, 0, 1000)
     }
 
-    fun stopTimer(context: Context){
+    fun stopTimer(){
         timer.cancel()
-        addPoints(counter.value!!, context)
         counter.value = 0
+        timer = Timer()
     }
 
     fun addPoints(time: Int, context: Context){
@@ -97,7 +99,7 @@ class QuizViewModel: ViewModel() {
 
         try {
             viewModelScope.launch {
-                val user: UserInfo? = client.gotrue.currentUserOrNull()
+                val user: UserInfo? = client.auth.currentUserOrNull()
 
                 client.postgrest.from("users").update (
                     {

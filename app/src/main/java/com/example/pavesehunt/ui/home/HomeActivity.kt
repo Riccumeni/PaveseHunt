@@ -15,17 +15,9 @@ import com.example.pavesehunt.ui.quiz.QuizFragment
 import com.example.pavesehunt.ui.search.SearchFragment
 import com.google.android.material.bottomnavigation.BottomNavigationView
 
-enum class STACK{
-    QUIZ,
-    RANK,
-    SETTINGS
-}
-
 class HomeActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityHomeBinding
-
-
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
