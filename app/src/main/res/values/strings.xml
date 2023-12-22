@@ -8,4 +8,6 @@
     <string name="amici">Amici</string>
     <string name="posizione">Posizione</string>
     <string name="username">Username</string>
+    <string name="tutorial">Tutorial</string>
+    <string name="tutorial_explained_dialog">Per leggere la poesia tappare sul bottone che rappresenta un libro</string>
 </resources>

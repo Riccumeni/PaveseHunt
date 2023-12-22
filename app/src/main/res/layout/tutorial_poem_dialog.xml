@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:background="@color/secondaryContainer"
+    android:padding="20dp"
+    android:layout_width="300dp"
+    android:layout_height="wrap_content">
+
+    <TextView
+
+        android:text="@string/tutorial"
+        android:fontFamily="@font/poppins"
+        android:textColor="@color/onSecondaryContainer"
+        android:textSize="24sp"
+
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <TextView
+
+        android:text="@string/tutorial_explained_dialog"
+        android:fontFamily="@font/poppins"
+        android:textColor="@color/onSecondaryContainer"
+
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+
+    <Button
+        android:id="@+id/okDialogButton"
+        style="@style/Widget.Material3.Button.TextButton"
+        android:text="Ok"
+
+        android:layout_gravity="end"
+
+        android:textColor="@color/onSecondaryContainer"
+
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+
+</LinearLayout>
