@@ -2,7 +2,7 @@ package com.example.pavesehunt.data.models
 
 data class Response (
     var status: Status,
-    val data: Any? = null
+    var data: Any? = null
 
 )
 

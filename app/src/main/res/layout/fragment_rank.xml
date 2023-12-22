@@ -3,6 +3,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/background"
+    android:paddingVertical="40dp"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".ui.quiz.RankFragment">
 
@@ -13,23 +15,139 @@
         android:layout_height="50dp"
 
         android:background="#AAA"
-
-        android:layout_marginEnd="20dp"
-        android:layout_marginTop="20dp"
-
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         />
+
+    <View
+        android:id="@+id/globalButton"
+        android:background="@drawable/rounded_border_button_rank"
+        android:backgroundTint="@color/primaryContainer"
+        android:layout_width="130dp"
+        android:layout_height="50dp"
+
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/rankText"
+        android:id="@+id/globalTextButton"
+        android:text="@string/globale"
+        android:fontFamily="@font/poppins"
+        android:textFontWeight="500"
+        android:textSize="18sp"
+        android:textColor="@color/onPrimaryContainer"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/hello_blank_fragment"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toTopOf="@id/globalButton"
+        app:layout_constraintEnd_toEndOf="@id/globalButton"
+        app:layout_constraintStart_toStartOf="@id/globalButton"
+        app:layout_constraintBottom_toBottomOf="@id/globalButton"
         />
+
+    <View
+        android:id="@+id/friendsButton"
+        android:background="@drawable/rounded_border_button_rank"
+        android:layout_width="130dp"
+        android:layout_height="50dp"
+        android:backgroundTint="@color/tertiaryContainer"
+        app:layout_constraintStart_toEndOf="@id/globalButton"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/friendTextButton"
+        android:text="@string/amici"
+        android:fontFamily="@font/poppins"
+        android:textFontWeight="500"
+        android:textSize="18sp"
+        android:textColor="@color/onTertiaryContainer"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="@id/friendsButton"
+        app:layout_constraintEnd_toEndOf="@id/friendsButton"
+        app:layout_constraintStart_toStartOf="@id/friendsButton"
+        app:layout_constraintBottom_toBottomOf="@id/friendsButton"
+        />
+
+    <LinearLayout
+        android:id="@+id/topBarIndicator"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:orientation="horizontal"
+        android:gravity="center"
+        app:layout_constraintTop_toBottomOf="@id/friendsButton"
+        android:background="@color/primaryContainer"
+        >
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+
+            android:text="@string/posizione"
+            android:fontFamily="@font/poppins"
+            android:textFontWeight="500"
+            android:textSize="18sp"
+            android:textColor="@color/onPrimaryContainer"
+
+            android:layout_weight="1"
+            android:textAlignment="center"
+            />
+        <TextView
+
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="@string/username"
+            android:fontFamily="@font/poppins"
+            android:textFontWeight="500"
+            android:textSize="18sp"
+            android:textColor="@color/onPrimaryContainer"
+
+            android:layout_weight="1"
+            android:textAlignment="center"
+            />
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="@string/punti"
+            android:fontFamily="@font/poppins"
+            android:textFontWeight="500"
+            android:textSize="18sp"
+            android:textColor="@color/onPrimaryContainer"
+
+            android:layout_weight="1"
+            android:textAlignment="center"
+            />
+    </LinearLayout>
+
+
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/leatherboardRecyclerView"
+        android:layout_width="match_parent"
+        android:layout_height="500dp"
+
+        android:paddingHorizontal="10dp"
+
+        android:background="@color/tertiaryContainer"
+
+        app:layout_constraintTop_toBottomOf="@id/topBarIndicator"
+    />
+
+    <com.google.android.material.progressindicator.CircularProgressIndicator
+        android:id="@+id/rankCircularIndicator"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+
+        app:trackThickness="5dp"
+        app:indicatorColor="#959595"
+        app:trackColor="#1D1D1D"
+        app:trackCornerRadius="5dp"
+        app:indicatorSize="50dp"
+        android:indeterminate="true"
+
+        android:visibility="visible"
+
+        app:layout_constraintBottom_toBottomOf="@+id/leatherboardRecyclerView"
+        app:layout_constraintEnd_toEndOf="@+id/leatherboardRecyclerView"
+        app:layout_constraintStart_toStartOf="@+id/leatherboardRecyclerView"
+        app:layout_constraintTop_toBottomOf="@+id/topBarIndicator" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

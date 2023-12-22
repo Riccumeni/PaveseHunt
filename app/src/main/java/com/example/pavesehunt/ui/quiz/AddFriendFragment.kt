@@ -9,8 +9,12 @@ import android.widget.EditText
 import android.widget.TextView
 import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.activityViewModels
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import androidx.recyclerview.widget.RecyclerView.LayoutManager
 import com.example.pavesehunt.R
 import com.example.pavesehunt.data.models.Status
+import com.example.pavesehunt.ui.adapters.FriendAdapter
 import com.example.testapp.data.models.User
 import com.example.testapp.domain.viewmodels.QuizViewModel
 import com.example.testapp.domain.viewmodels.UserViewModel
@@ -51,11 +55,15 @@ class AddFriendFragment : Fragment() {
             when(it.status){
                 Status.SUCCESS -> {
                     val users = it.data as List<User>
-                    val friendTextView = view.findViewById<TextView>(R.id.frientTextView)
 
-                    users.forEach {
-                        friendTextView.text = friendTextView.text.toString() + it.username + "\n"
+                    val friendRecyclerView = view.findViewById<RecyclerView>(R.id.friendRecyclerView)
+
+                    friendRecyclerView.apply {
+                        adapter = FriendAdapter(users = users)
+                        layoutManager = LinearLayoutManager(view.context, LinearLayoutManager.VERTICAL, false)
                     }
+
+
                 }
 
                 Status.LOADING -> {

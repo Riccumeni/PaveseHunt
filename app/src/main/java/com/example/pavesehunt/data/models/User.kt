@@ -8,5 +8,6 @@ data class User (
     val username: String,
     var points: Int,
     val uuid: String? = null,
-    val created_at: String? = null
+    val created_at: String? = null,
+    var imageUrl: String? = null
 )

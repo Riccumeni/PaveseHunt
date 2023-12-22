@@ -1,7 +1,7 @@
 plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
-    kotlin("plugin.serialization") version "1.9.0"
+    kotlin("plugin.serialization") version "1.9.21"
 }
 
 android {
@@ -86,6 +86,9 @@ dependencies {
 
     // splash screen
     implementation("androidx.core:core-splashscreen:1.0.1")
+
+    // json
+    implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.6.2")
 
 
 }

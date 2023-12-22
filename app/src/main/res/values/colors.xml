@@ -3,8 +3,12 @@
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
 
-    <color name="background">#3E2207</color>
-    <color name="onBackground">#CBB18C</color>
+    <color name="background">#1F1B17</color>
+    <color name="onBackground">#FFF</color>
     <color name="primaryContainer">#CBB18C</color>
-    <color name="onPrimaryContainer">#FFFFFF</color>
+    <color name="onPrimaryContainer">#55442B</color>
+    <color name="secondaryContainer">#55442B</color>
+    <color name="onSecondaryContainer">#F9DFBB</color>
+    <color name="tertiaryContainer">#746551</color>
+    <color name="onTertiaryContainer">#FFF</color>
 </resources>

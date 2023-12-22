@@ -20,12 +20,13 @@ import io.github.jan.supabase.postgrest.query.Columns
 import io.github.jan.supabase.postgrest.query.FilterOperator
 import kotlinx.coroutines.launch
 import io.github.jan.supabase.postgrest.query.Order
+import io.github.jan.supabase.storage.storage
 import java.util.Timer
 import java.util.TimerTask
 
 class QuizViewModel: ViewModel() {
     var user = MutableLiveData<User?>(null)
-    var leatherboard = MutableLiveData<Response>()
+    var leatherboard = MutableLiveData(Response(status = Status.NOT_STARTED))
     var counter: MutableLiveData<Int> = MutableLiveData(0)
     var timer = Timer()
 
@@ -50,15 +51,58 @@ class QuizViewModel: ViewModel() {
     }
 
     fun getLeatherboard(){
+
+        leatherboard.value!!.data = mutableListOf<User>()
         viewModelScope.launch {
             val client = SupabaseClientSingleton.getClient()
+
+            this@QuizViewModel.leatherboard.value!!.status = Status.LOADING
 
             try{
                 val leatherboard = client.postgrest.from("users").select (columns = Columns.list("username", "points")){
                     order("points", Order.DESCENDING)
                 }.decodeList<User>()
 
+                leatherboard.forEach {
+                    val url = client.storage.from("avatars").publicUrl("${it.username}.jpg")
+                    it.imageUrl = url
+                }
+
                 this@QuizViewModel.leatherboard.value = Response(Status.SUCCESS, leatherboard)
+
+            }catch (err: BadRequestRestException){
+                this@QuizViewModel.leatherboard.value = Response(Status.ERROR)
+            }catch (err: HttpRequestException){
+                this@QuizViewModel.leatherboard.value = Response(Status.ERROR)
+            }
+        }
+    }
+
+    fun getFriendsLeatherboard(context: Context){
+        leatherboard.value!!.data = mutableListOf<User>()
+        viewModelScope.launch {
+            val client = SupabaseClientSingleton.getClient()
+
+            this@QuizViewModel.leatherboard.value!!.status = Status.LOADING
+
+            try{
+                val leatherboard = client.postgrest.from("users").select (columns = Columns.list("username", "points")){
+                    order("points", Order.DESCENDING)
+                }.decodeList<User>()
+
+                val shared = context.getSharedPreferences("shared", Context.MODE_PRIVATE)
+
+                val friends = shared.getString("friends", "[]")
+
+                val leatherboardFiltered: MutableList<User> = mutableListOf()
+
+                leatherboard.forEach {
+                    if(friends!!.contains(it.username)){
+                        leatherboardFiltered.add(it)
+                    }
+                }
+
+                this@QuizViewModel.leatherboard.value = Response(Status.SUCCESS, leatherboardFiltered)
 
             }catch (err: BadRequestRestException){
                 this@QuizViewModel.leatherboard.value = Response(Status.ERROR)

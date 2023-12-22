@@ -3,4 +3,9 @@
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="game_view_content_description" translatable="false">Game view</string>
+    <string name="punti">Punti</string>
+    <string name="globale">Globale</string>
+    <string name="amici">Amici</string>
+    <string name="posizione">Posizione</string>
+    <string name="username">Username</string>
 </resources>
