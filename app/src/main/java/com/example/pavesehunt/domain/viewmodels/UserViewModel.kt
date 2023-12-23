@@ -10,6 +10,7 @@ import com.example.testapp.common.SupabaseClientSingleton
 import com.example.testapp.data.models.User
 import io.github.jan.supabase.exceptions.BadRequestRestException
 import io.github.jan.supabase.exceptions.HttpRequestException
+import io.github.jan.supabase.exceptions.UnauthorizedRestException
 import io.github.jan.supabase.gotrue.auth
 import io.github.jan.supabase.gotrue.providers.builtin.Email
 import io.github.jan.supabase.postgrest.postgrest
@@ -26,8 +27,34 @@ class UserViewModel: ViewModel() {
     var statusSignOut = MutableLiveData(Status.LOADING)
     var statusSignUpEmail = MutableLiveData(Status.LOADING)
 
+    val userResponse = MutableLiveData(Response(status = Status.NOT_STARTED))
+
     var usersResponse = MutableLiveData(Response(status = Status.LOADING))
 
+    fun getUser(){
+
+        val client = SupabaseClientSingleton.getClient()
+
+        viewModelScope.launch {
+            try{
+                val session = client.auth.currentSessionOrNull()
+
+                if (session != null){
+                    val user = client.postgrest["users"].select {
+                        eq("uuid", session.user!!.id)
+                    }.decodeSingle<User>()
+
+                    val url = client.storage.from("avatars").publicUrl("${user.username}.jpg")
+
+                    user.imageUrl = url
+
+                    this@UserViewModel.userResponse.value = Response(status = Status.SUCCESS, data = user)
+                }
+            }catch(err: UnauthorizedRestException){
+                print("errore")
+            }
+        }
+    }
     fun getUsers(text: String){
         viewModelScope.launch {
             val client = SupabaseClientSingleton.getClient()

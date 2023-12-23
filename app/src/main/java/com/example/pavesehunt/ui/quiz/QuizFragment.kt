@@ -9,14 +9,19 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.findNavController
+import com.bumptech.glide.Glide
 import com.example.pavesehunt.R
+import com.example.pavesehunt.data.models.Status
 import com.example.pavesehunt.databinding.FragmentQuizBinding
+import com.example.testapp.data.models.User
 import com.example.testapp.domain.viewmodels.QuizViewModel
+import com.example.testapp.domain.viewmodels.UserViewModel
 import com.unity3d.player.UnityPlayerActivity
 
 class QuizFragment : Fragment() {
 
     private val quizViewModel : QuizViewModel by activityViewModels()
+    private val userViewModel : UserViewModel by activityViewModels()
 
     private var _binding: FragmentQuizBinding? = null
     private val binding get() = _binding!!
@@ -38,14 +43,25 @@ class QuizFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        quizViewModel.getUser()
 
-        quizViewModel.user.observe(viewLifecycleOwner){ user ->
-            if(user != null){
+        userViewModel.userResponse.observe(viewLifecycleOwner){ response ->
+
+            if(response.status == Status.SUCCESS){
+                val user = response.data as User
+
                 binding.pointsTextView.text = user.points.toString()
-                binding.usernameTextView.text = user.username
+
+                var username = user.username[0].uppercase() + user.username.substring(1, user.username.length)
+
+                binding.usernameTextView.text = username
+                Glide.with(this).load(user.imageUrl).into(binding.userImageView)
 
                 val shared = view.context.getSharedPreferences("shared", Context.MODE_PRIVATE)
+
+                val answerGiven = shared.getInt("indexQuestion", 0) + 1
+
+                binding.answerTextView.text = answerGiven.toString()
+                binding.remainingAnswerTextView.text = (20 - answerGiven).toString()
 
                 with(shared.edit()){
                     putInt("points", user.points)

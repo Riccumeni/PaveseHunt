@@ -10,4 +10,8 @@
     <string name="username">Username</string>
     <string name="tutorial">Tutorial</string>
     <string name="tutorial_explained_dialog">Per leggere la poesia tappare sul bottone che rappresenta un libro</string>
+    <string name="pavese_verse">“non c\'è dolore peggiore dell\'amare chi non sa sceglierti ma non \nvuole perderti.”</string>
+    <string name="remaining">Rimanenti</string>
+    <string name="answer">Risposte</string>
+    <string name="points">Punti</string>
 </resources>

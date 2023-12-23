@@ -6,6 +6,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.pavesehunt.common.Questions
 import com.example.pavesehunt.data.models.Response
 import com.example.pavesehunt.data.models.Status
 import com.example.testapp.common.SupabaseClientSingleton
@@ -21,34 +22,40 @@ import io.github.jan.supabase.postgrest.query.FilterOperator
 import kotlinx.coroutines.launch
 import io.github.jan.supabase.postgrest.query.Order
 import io.github.jan.supabase.storage.storage
+import io.ktor.client.plugins.HttpRequestTimeoutException
+import kotlinx.serialization.Serializable
 import java.util.Timer
 import java.util.TimerTask
 
+@Serializable
+data class QuestionTwo(
+    val id: Int? = null,
+    val question: String,
+    val answer: String,
+    val correct_answer: Int
+)
+
 class QuizViewModel: ViewModel() {
-    var user = MutableLiveData<User?>(null)
     var leatherboard = MutableLiveData(Response(status = Status.NOT_STARTED))
     var counter: MutableLiveData<Int> = MutableLiveData(0)
     var timer = Timer()
 
-    fun getUser(){
+    val questionsResponse = MutableLiveData(Response(status = Status.NOT_STARTED))
 
+
+    fun getQuestions(){
         val client = SupabaseClientSingleton.getClient()
 
         viewModelScope.launch {
-            try{
-                val session = client.auth.currentSessionOrNull()
-
-                if (session != null){
-                    val user = client.postgrest["users"].select {
-                        eq("uuid", session.user!!.id)
-                    }.decodeSingle<User>()
-                    this@QuizViewModel.user.value = user
-                }
-            }catch(err: UnauthorizedRestException){
-                print("errore")
+            try {
+                val questions = client.postgrest.from("questions").select().decodeList<QuestionTwo>()
+                questionsResponse.value = Response(status = Status.SUCCESS, data = questions)
+            }catch (err: BadRequestRestException){
+                questionsResponse.value = Response(status = Status.ERROR)
             }
         }
     }
+
 
     fun getLeatherboard(){
 

@@ -11,4 +11,5 @@
     <color name="onSecondaryContainer">#F9DFBB</color>
     <color name="tertiaryContainer">#746551</color>
     <color name="onTertiaryContainer">#FFF</color>
+    <color name="icontextColor">#3E2207</color>
 </resources>

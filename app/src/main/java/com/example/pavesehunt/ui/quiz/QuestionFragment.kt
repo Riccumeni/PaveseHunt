@@ -1,6 +1,5 @@
 package com.example.pavesehunt.ui.quiz
 
-import android.app.AlertDialog
 import android.app.Dialog
 import android.content.Context
 import android.os.Bundle
@@ -16,12 +15,23 @@ import androidx.cardview.widget.CardView
 import androidx.fragment.app.activityViewModels
 import com.example.pavesehunt.R
 import com.example.pavesehunt.common.Questions
+import com.example.pavesehunt.data.models.Status
+import com.example.pavesehunt.databinding.FragmentQuestionBinding
+import com.example.pavesehunt.databinding.FragmentQuizBinding
+import com.example.testapp.data.models.User
+import com.example.testapp.domain.viewmodels.QuestionTwo
 import com.example.testapp.domain.viewmodels.QuizViewModel
+import com.example.testapp.domain.viewmodels.UserViewModel
 import com.google.android.material.progressindicator.LinearProgressIndicator
+import kotlinx.serialization.json.Json
 
 class QuestionFragment : Fragment() {
 
-    private val viewModel : QuizViewModel by activityViewModels()
+    private val quizViewModel : QuizViewModel by activityViewModels()
+    private val userViewModel: UserViewModel by activityViewModels()
+
+    private var _binding: FragmentQuestionBinding? = null
+    private val binding get() = _binding!!
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -34,33 +44,107 @@ class QuestionFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_question, container, false)
+        _binding = FragmentQuestionBinding.inflate(inflater, container, false)
+        return binding.root
     }
 
     override fun onDestroyView() {
         super.onDestroyView()
-
-        viewModel.stopTimer()
+        quizViewModel.stopTimer()
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        viewModel.startTimer()
+        quizViewModel.questionsResponse.observe(viewLifecycleOwner){ response ->
+            when(response.status){
+                Status.NOT_STARTED -> {
+                    quizViewModel.getQuestions()
+                }
 
-        val shared = view.context.getSharedPreferences("shared", Context.MODE_PRIVATE)
+                Status.SUCCESS -> {
 
-        var position = shared.getInt("indexQuestion", 0)
+                    val questions = response.data as List<QuestionTwo>
 
-        val questionText = view.findViewById<TextView>(R.id.questionText)
+                    val user = userViewModel.userResponse.value!!.data as User
+
+                    binding.questionText.text = questions[user.answer_given!!].question
+
+                    val buttons: List<Button> = listOf(
+                        view.findViewById(R.id.firstAnswerButton),
+                        view.findViewById(R.id.secondAnswerButton),
+                        view.findViewById(R.id.thirdAnswerButton),
+                        view.findViewById(R.id.fourthAnswerButton)
+                    )
+
+                    var answers = Json.decodeFromString<Array<String>>(questions[user.answer_given!!].answer)
+
+                    answers.forEachIndexed { index, answer ->
+                        buttons[index].text = answer
+                    }
+
+                    buttons.forEachIndexed{ index, button ->
+                        button.setOnClickListener {
+
+                            val time: Int? = quizViewModel.counter.value
+
+                            quizViewModel.stopTimer()
+
+                            if(index == questions[user.answer_given!!].correct_answer){
+                                quizViewModel.addPoints(time!!, view.context)
+                            }
+                            buttons.forEachIndexed { i, button ->
+                                if(i == questions[user.answer_given!!].correct_answer){
+                                    buttons[i].setBackgroundColor(0xFF00FF00.toInt())
+                                }else{
+                                    if(i == index){
+                                        buttons[i].setBackgroundColor(0xFF0000FF.toInt())
+                                    }else{
+                                        buttons[i].setBackgroundColor(0xFFFF0000.toInt())
+                                    }
+
+                                }
+                            }
+
+                            user.answer_given = user.answer_given!! + 1
+
+                            Handler().postDelayed({
+
+                                answers = Json.decodeFromString(questions[user.answer_given!!].answer)
+
+                                answers.forEachIndexed{index, s ->
+                                    buttons[index].setBackgroundColor(0xFFCBB18C.toInt())
+                                    buttons[index].text = s
+                                }
+
+                                binding.questionText.text = Questions.questions[user.answer_given!!].question
+
+                                quizViewModel.startTimer()
+                            }, 1000)
+                        }
+                    }
+
+
+                }
+
+                Status.LOADING -> {
+
+                }
+
+                Status.ERROR -> {
+
+                }
+            }
+        }
+
+        quizViewModel.startTimer()
+
         val counterIndicator = view.findViewById<LinearProgressIndicator>(R.id.counterIndicator)
         val openPoemDialogCard = view.findViewById<CardView>(R.id.openPoemCard)
         val tutorialCard = view.findViewById<CardView>(R.id.tutorialCard)
 
-        questionText.text = Questions.questions[position].question
 
-        viewModel.counter.observe(viewLifecycleOwner){
+        quizViewModel.counter.observe(viewLifecycleOwner){
             counterIndicator.progress = it
         }
 
@@ -71,61 +155,6 @@ class QuestionFragment : Fragment() {
         tutorialCard.setOnClickListener {
             showTutorialDialog()
         }
-
-        val buttons: List<Button> = listOf(
-            view.findViewById(R.id.firstAnswerButton),
-            view.findViewById(R.id.secondAnswerButton),
-            view.findViewById(R.id.thirdAnswerButton),
-            view.findViewById(R.id.fourthAnswerButton)
-        )
-
-        Questions.questions[position].answers.forEachIndexed{index, s ->
-            buttons[index].text = s
-        }
-
-        buttons.forEachIndexed{ index, button ->
-            button.setOnClickListener {
-
-                val time: Int? = viewModel.counter.value
-
-                viewModel.stopTimer()
-
-                if(index == Questions.questions[position].indexOfCorrectAnswer){
-                    viewModel.addPoints(time!!, view.context)
-                }
-                buttons.forEachIndexed { i, button ->
-                    if(i == Questions.questions[position].indexOfCorrectAnswer){
-                        buttons[i].setBackgroundColor(0xFF00FF00.toInt())
-                    }else{
-                        if(i == index){
-                            buttons[i].setBackgroundColor(0xFF0000FF.toInt())
-                        }else{
-                            buttons[i].setBackgroundColor(0xFFFF0000.toInt())
-                        }
-
-                    }
-                }
-
-                position += 1
-
-                with(shared.edit()){
-                    putInt("indexQuestion", position)
-                    apply()
-                }
-
-                Handler().postDelayed({
-                    Questions.questions[position].answers.forEachIndexed{index, s ->
-                        buttons[index].setBackgroundColor(0xFFCBB18C.toInt())
-                        buttons[index].text = s
-                    }
-
-                    questionText.text = Questions.questions[position].question
-
-                    viewModel.startTimer()
-                }, 1000)
-            }
-        }
-
     }
 
     fun showDialog(){

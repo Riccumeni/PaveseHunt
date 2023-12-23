@@ -1,84 +1,292 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="20dp"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".ui.quiz.QuizFragment">
+    android:background="@color/background">
 
-    <View
+
+    <!-- Puslsante Puzzle -->
+    <ImageButton
         android:id="@+id/puzzleButton"
-
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:background="#555555"
         android:layout_width="50dp"
-        android:layout_height="50dp" />
+        android:layout_height="50dp"
+        android:src="@drawable/ic_baseline_extension_24"
+        android:background="@color/background"
+        android:layout_alignParentStart="true"
+        android:layout_marginStart="25dp"
+        android:layout_marginTop="15dp"/>
 
+    <!-- Titolo -->
     <TextView
-        android:id="@+id/usernameTextView"
-
-        app:layout_constraintLeft_toRightOf="@id/puzzleButton"
-        app:layout_constraintRight_toLeftOf="@id/rankButton"
-        app:layout_constraintTop_toTopOf="parent"
-        android:text="Username"
-        android:gravity="center"
-        android:layout_width="wrap_content"
-        android:layout_height="50dp" />
-
-    <com.google.android.material.progressindicator.CircularProgressIndicator
-        android:id="@+id/pointsCircularIndicator"
+        android:id="@+id/welcome"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/rankButton"
+        android:layout_toStartOf="@+id/rankButton"
+        android:layout_toEndOf="@+id/puzzleButton"
+        android:text="Welcome"
+        android:textAlignment="center"
+        android:textAllCaps="true"
+        android:textColor="@color/white"
+        android:textStyle="bold"
+        android:textSize="20sp"/>
 
-        app:trackThickness="15dp"
-        app:indicatorColor="#959595"
-        app:trackColor="#1D1D1D"
-        app:trackCornerRadius="5dp"
-        app:indicatorSize="150dp"
-
-        android:max="20"
-        android:progress="5"
-
-
-        app:layout_constraintBottom_toBottomOf="@id/quizButton"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/usernameTextView" />
-
-    <View
+    <!-- Pulsante Trofeo -->
+    <ImageButton
         android:id="@+id/rankButton"
-
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:background="#555555"
         android:layout_width="50dp"
-        android:layout_height="50dp" />
+        android:layout_height="50dp"
+        android:src="@drawable/ic_baseline_emoji_events_24"
+        android:background="@color/background"
+        android:layout_alignParentEnd="true"
+        android:layout_marginEnd="25dp"
+        android:layout_marginTop="15dp"/>
 
-    <TextView
-        android:id="@+id/pointsTextView"
+    <!-- Layout Statistiche -->
+    <View
+        android:id="@+id/rectangleView"
+        android:layout_width="match_parent"
+        android:layout_height="180dp"
+        android:layout_below="@+id/userImage"
+        android:layout_alignStart="@+id/puzzleButton"
+        android:layout_marginStart="25dp"
+        android:layout_marginEnd="25dp"
+        android:layout_alignEnd="@+id/rankButton"
+        android:background="@drawable/rounded_rectangle"
+        android:layout_marginTop="-50dp" />
+
+    <!-- Immagine Giocatore -->
+    <androidx.cardview.widget.CardView
+        android:id="@+id/userImage"
+        android:layout_marginTop="30dp"
+        android:layout_below="@+id/welcome"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:elevation="12dp"
+        app:cardCornerRadius="50dp"
+        android:layout_centerHorizontal="true"
+        android:innerRadius="0dp"
+        android:shape="ring"
+        android:thicknessRatio="1.9"
+        android:layout_marginHorizontal="10dp">
+
+        <ImageView
+            android:id="@+id/userImageView"
+            android:src="@mipmap/ic_launcher"
+
+            android:scaleType="centerCrop"
+
+            android:layout_width="100dp"
+            android:layout_height="100dp" />
+    </androidx.cardview.widget.CardView>
+
+    <!-- Linea -->
+    <View
+        android:id="@+id/lineView3"
+        android:layout_width="1dp"
+        android:layout_height="match_parent"
+        android:layout_alignTop="@+id/grindLayout"
+        android:layout_alignBottom="@+id/grindLayout"
+        android:layout_centerVertical="true"
+        android:layout_toEndOf="@+id/userImage"
+        android:layout_marginTop="50dp"
+        android:layout_marginStart="-4dp"
+        android:background="@color/black" />
+
+    <!-- Linea -->
+    <View
+        android:id="@+id/lineView4"
+        android:layout_width="1dp"
+        android:layout_height="match_parent"
+        android:layout_toStartOf="@+id/userImage"
+        android:layout_alignTop="@+id/grindLayout"
+        android:layout_alignBottom="@+id/grindLayout"
+        android:layout_marginTop="50dp"
+        android:layout_marginEnd="-18dp"
+        android:background="@color/black" />
+
+    <!-- Tabella -->
+    <GridLayout
+        android:id="@+id/grindLayout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_below="@+id/userImage"
+        android:layout_alignEnd="@+id/welcome"
+        android:layout_gravity="bottom"
+        android:layout_marginTop="20dp"
+        android:layout_toEndOf="@+id/puzzleButton"
+        android:alignmentMode="alignMargins"
+        android:columnCount="3"
+        android:rowCount="1">
 
-        android:textSize="32sp"
-        android:text="0"
+        <!-- Titolo -->
+        <TextView
+            android:id="@+id/usernameTextView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_columnSpan="3"
+            android:text="Nome Giocatore"
+            android:textAlignment="center"
+            android:textColor="@color/onSecondaryContainer"
+            android:textSize="24sp"
+            android:textStyle="bold"
+            android:layout_marginBottom="10dp"/>
 
-        app:layout_constraintTop_toTopOf="@+id/pointsCircularIndicator"
-        app:layout_constraintBottom_toBottomOf="@+id/pointsCircularIndicator"
-        app:layout_constraintEnd_toEndOf="@+id/pointsCircularIndicator"
-        app:layout_constraintStart_toStartOf="@+id/pointsCircularIndicator"
+        <!-- Colonna 1 -->
+        <TextView
+            android:id="@+id/risposte"
+            android:layout_columnWeight="1"
+            android:layout_margin="5sp"
+            android:layout_gravity="center_horizontal"
+            android:textSize="14sp"
+            android:textStyle="bold"
+            android:textColor="@color/onSecondaryContainer"
+            android:text="@string/answer"
+            android:textAlignment="center" />
+
+        <!-- Colonna 2 -->
+        <TextView
+            android:id="@+id/rimanenti"
+            android:layout_columnWeight="1"
+            android:layout_margin="5sp"
+            android:layout_gravity="center_horizontal"
+            android:textSize="14sp"
+            android:textStyle="bold"
+            android:textColor="@color/onSecondaryContainer"
+            android:text="@string/remaining"
+            android:textAlignment="center" />
+
+        <!-- Colonna 3 -->
+        <TextView
+            android:id="@+id/rank"
+            android:layout_columnWeight="1"
+            android:layout_margin="5sp"
+            android:layout_gravity="center_horizontal"
+            android:textSize="14sp"
+            android:textStyle="bold"
+            android:textColor="@color/onSecondaryContainer"
+            android:text="@string/points"
+            android:textAlignment="center" />
+
+        <!-- Riga 1 -->
+        <TextView
+            android:id="@+id/answerTextView"
+            android:layout_rowWeight="0"
+            android:layout_gravity="center_horizontal"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:textColor="@color/onSecondaryContainer"
+            android:layout_margin="5sp"
+            android:text="nnn"
+            android:textAlignment="center" />
+
+        <!-- Riga 2 -->
+        <TextView
+            android:id="@+id/remainingAnswerTextView"
+            android:layout_rowWeight="0"
+            android:layout_gravity="center_horizontal"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:textColor="@color/onSecondaryContainer"
+            android:layout_margin="5sp"
+            android:text="nnn"
+            android:textAlignment="center" />
+
+        <!-- Riga 3 -->
+        <TextView
+            android:id="@+id/pointsTextView"
+            android:layout_rowWeight="0"
+            android:layout_gravity="center_horizontal"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:textColor="@color/onSecondaryContainer"
+            android:layout_margin="5sp"
+            android:text="n"
+            android:textAlignment="center" />
+
+    </GridLayout>
+
+    <!-- Immagine CesarePavese -->
+    <androidx.cardview.widget.CardView
+        android:id="@+id/imgCesarePavese"
+
+        app:cardCornerRadius="10dp"
+        android:layout_marginTop="50dp"
+        android:layout_below="@+id/grindLayout"
+        android:layout_alignStart="@+id/rectangleView"
+        android:layout_width="150dp"
+        android:layout_height="200dp">
+
+        <ImageView
+            android:layout_width="150dp"
+            android:layout_height="200dp"
+            android:src="@drawable/cesare_pavese"
+            android:scaleType="centerCrop"
 
         />
+    </androidx.cardview.widget.CardView>
 
-    <Button
+    <!-- Frase -->
+    <TextView
+        android:id="@+id/fraseNota"
+        android:layout_width="90dp"
+        android:layout_height="162dp"
+        android:layout_alignTop="@+id/imgCesarePavese"
+        android:layout_alignEnd="@+id/rectangleView"
+        android:layout_alignBottom="@+id/imgCesarePavese"
+        android:layout_marginStart="75dp"
+        android:layout_marginTop="23dp"
+        android:layout_marginBottom="23dp"
+        android:layout_toEndOf="@+id/imgCesarePavese"
+        android:text="@string/pavese_verse"
+        android:textAlignment="textStart"
+        android:textColor="@color/white"
+        android:textSize="14sp"
+        android:textStyle="bold" />
+
+    <!-- Bottone Quiz -->
+    <com.google.android.material.button.MaterialButton
         android:id="@+id/quizButton"
-        android:text="comincia il quiz"
-        android:layout_marginBottom="100dp"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
-        android:layout_width="150dp"
-        android:layout_height="50dp" />
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+        android:layout_width="160dp"
+        android:layout_height="55dp"
+        android:layout_below="@+id/imgCesarePavese"
+        android:layout_centerInParent="true"
+
+        android:layout_marginTop="30dp"
+        android:backgroundTint="@color/secondaryContainer"
+
+        android:fontFamily="@font/poppins"
+        android:text="Play Quiz"
+        android:textAllCaps="false"
+        android:textColor="@color/onSecondaryContainer"
+        android:textFontWeight="500"
+        android:textSize="24sp"
+        app:cornerRadius="10dp" />
+
+    <!-- Linea -->
+    <View
+        android:id="@+id/lineView1"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_above="@+id/fraseNota"
+        android:layout_below="@+id/grindLayout"
+        android:layout_alignStart="@+id/fraseNota"
+        android:layout_alignEnd="@+id/fraseNota"
+        android:layout_marginTop="49dp"
+        android:background="@color/primaryContainer" />
+
+    <!-- Linea -->
+    <View
+        android:id="@+id/lineView2"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_alignStart="@+id/fraseNota"
+        android:layout_alignEnd="@+id/fraseNota"
+        android:layout_below="@+id/fraseNota"
+        android:background="@color/primaryContainer" />
+
+
+</RelativeLayout>

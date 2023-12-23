@@ -13,16 +13,21 @@ import com.example.pavesehunt.databinding.ActivityHomeBinding
 import com.example.testapp.domain.viewmodels.QuizViewModel
 import com.example.pavesehunt.ui.quiz.QuizFragment
 import com.example.pavesehunt.ui.search.SearchFragment
+import com.example.testapp.domain.viewmodels.UserViewModel
 import com.google.android.material.bottomnavigation.BottomNavigationView
 
 class HomeActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityHomeBinding
+    private val userViewModel : UserViewModel by viewModels()
+    private val quizViewModel : QuizViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityHomeBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        userViewModel.getUser()
 
         val navHostFragment = supportFragmentManager.findFragmentById(R.id.fragmentView) as NavHostFragment
         val navController = navHostFragment.navController
