@@ -136,34 +136,4 @@ class QuizViewModel: ViewModel() {
         counter.value = 0
         timer = Timer()
     }
-
-    fun addPoints(time: Int, context: Context){
-        val client = SupabaseClientSingleton.getClient()
-
-        val shared = context.getSharedPreferences("shared", Context.MODE_PRIVATE)
-
-        val userPoints = shared.getInt("points", 0) + (1000/time)
-
-        with(shared.edit()){
-            putInt("points", userPoints )
-        }
-
-        try {
-            viewModelScope.launch {
-                val user: UserInfo? = client.auth.currentUserOrNull()
-
-                client.postgrest.from("users").update (
-                    {
-                        User::points setTo userPoints
-                    }
-                ){
-                    filter(column = "uuid", operator = FilterOperator.EQ, value = "${user?.id}")
-                }
-            }
-        }catch (err: HttpRequestException) {
-
-        }catch (err: BadRequestRestException){
-
-        }
-    }
 }

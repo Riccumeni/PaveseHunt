@@ -13,6 +13,7 @@ import io.github.jan.supabase.exceptions.HttpRequestException
 import io.github.jan.supabase.exceptions.UnauthorizedRestException
 import io.github.jan.supabase.gotrue.auth
 import io.github.jan.supabase.gotrue.providers.builtin.Email
+import io.github.jan.supabase.gotrue.user.UserInfo
 import io.github.jan.supabase.postgrest.postgrest
 import io.github.jan.supabase.postgrest.query.Columns
 import io.github.jan.supabase.postgrest.query.FilterOperator
@@ -30,6 +31,51 @@ class UserViewModel: ViewModel() {
     val userResponse = MutableLiveData(Response(status = Status.NOT_STARTED))
 
     var usersResponse = MutableLiveData(Response(status = Status.LOADING))
+
+    fun addPoints(time: Int, context: Context){
+        val client = SupabaseClientSingleton.getClient()
+
+        val user = userResponse.value!!.data as User
+
+        user.points = user.points + (1000/time)
+
+        try {
+            viewModelScope.launch {
+
+                client.postgrest.from("users").update (
+                    {
+                        User::points setTo user.points
+                    }
+                ){
+                    filter(column = "uuid", operator = FilterOperator.EQ, value = "${user.uuid}")
+                }
+            }
+        }catch (err: HttpRequestException) {
+
+        }catch (err: BadRequestRestException){
+
+        }
+    }
+
+    fun setProgress(actualProgress: Int){
+        val client = SupabaseClientSingleton.getClient()
+
+        val user = userResponse.value!!.data as User
+        user.answer_given = user.answer_given?.plus(1)
+
+        viewModelScope.launch {
+
+            try{
+                client.postgrest.from("users").update({
+                    User::answer_given setTo actualProgress + 1
+                }) {
+                    filter("uuid", FilterOperator.EQ, "${user.uuid}")
+                }
+            }catch (err: HttpRequestException){
+
+            }
+        }
+    }
 
     fun getUser(){
 

@@ -5,9 +5,25 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.widget.addTextChangedListener
+import androidx.fragment.app.activityViewModels
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.example.pavesehunt.R
+import com.example.pavesehunt.data.models.Collection
+import com.example.pavesehunt.data.models.Status
+import com.example.pavesehunt.databinding.FragmentQuizBinding
+import com.example.pavesehunt.databinding.FragmentSearchBinding
+import com.example.pavesehunt.domain.viewmodels.CollectionViewModel
+import com.example.pavesehunt.ui.adapters.CollectionAdapter
+import com.example.testapp.domain.viewmodels.UserViewModel
 
 class SearchFragment : Fragment() {
+
+    private val collectionsViewModel : CollectionViewModel by activityViewModels()
+
+    private var _binding: FragmentSearchBinding? = null
+    private val binding get() = _binding!!
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -16,9 +32,54 @@ class SearchFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_search, container, false)
+    ): View {
+        _binding = FragmentSearchBinding.inflate(inflater, container, false)
+        return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        collectionsViewModel.getCollections()
+
+        binding.searchEditText.addTextChangedListener {
+            collectionsViewModel.getCollectionsFiltered(it.toString())
+        }
+
+        collectionsViewModel.collectionsFiltered.observe(viewLifecycleOwner){
+            if(collectionsViewModel.collectionsResponse.value!!.status === Status.SUCCESS){
+                view.findViewById<RecyclerView>(R.id.searchRecyclerView).apply {
+                    adapter = CollectionAdapter(it)
+                    layoutManager = LinearLayoutManager(view.context, LinearLayoutManager.VERTICAL, false)
+                }
+            }
+        }
+
+        collectionsViewModel.collectionsResponse.observe(viewLifecycleOwner){
+            when(it.status){
+                Status.SUCCESS -> {
+
+                    val collections = it.data as List<Collection>
+
+                    view.findViewById<RecyclerView>(R.id.searchRecyclerView).apply {
+                        adapter = CollectionAdapter(collections)
+                        layoutManager = LinearLayoutManager(view.context, LinearLayoutManager.VERTICAL, false)
+                    }
+                }
+
+                Status.LOADING -> {
+
+                }
+
+                Status.ERROR -> {
+
+                }
+
+                Status.NOT_STARTED -> {
+
+                }
+            }
+        }
     }
 
     companion object {

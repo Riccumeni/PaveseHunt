@@ -64,6 +64,11 @@ class QuestionFragment : Fragment() {
 
                 Status.SUCCESS -> {
 
+                    binding.mainContent.visibility = View.VISIBLE
+                    binding.loadingLayout.root.visibility = View.GONE
+
+                    quizViewModel.startTimer()
+
                     val questions = response.data as List<QuestionTwo>
 
                     val user = userViewModel.userResponse.value!!.data as User
@@ -91,7 +96,7 @@ class QuestionFragment : Fragment() {
                             quizViewModel.stopTimer()
 
                             if(index == questions[user.answer_given!!].correct_answer){
-                                quizViewModel.addPoints(time!!, view.context)
+                                userViewModel.addPoints(time!!, view.context)
                             }
                             buttons.forEachIndexed { i, button ->
                                 if(i == questions[user.answer_given!!].correct_answer){
@@ -128,7 +133,8 @@ class QuestionFragment : Fragment() {
                 }
 
                 Status.LOADING -> {
-
+                    binding.loadingLayout.root.visibility = View.VISIBLE
+                    binding.mainContent.visibility = View.GONE
                 }
 
                 Status.ERROR -> {
@@ -137,7 +143,7 @@ class QuestionFragment : Fragment() {
             }
         }
 
-        quizViewModel.startTimer()
+
 
         val counterIndicator = view.findViewById<LinearProgressIndicator>(R.id.counterIndicator)
         val openPoemDialogCard = view.findViewById<CardView>(R.id.openPoemCard)

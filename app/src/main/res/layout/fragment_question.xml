@@ -1,177 +1,186 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:orientation="vertical"
-    android:padding="20dp"
-    android:background="@color/background"
-    tools:context=".ui.quiz.QuestionFragment">
+    android:layout_height="match_parent">
 
+    <include android:id="@+id/loadingLayout" layout="@layout/loading_layout" android:visibility="visible"/>
 
-    <com.google.android.material.progressindicator.LinearProgressIndicator
-        android:id="@+id/counterIndicator"
+    <LinearLayout
+        android:id="@+id/mainContent"
+        android:visibility="gone"
+        xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:orientation="vertical"
+        android:padding="20dp"
+        android:background="@color/background"
+        tools:context=".ui.quiz.QuestionFragment">
 
-        app:trackThickness="30dp"
-        app:trackColor="@color/secondaryContainer"
-        app:indicatorColor="@color/onSecondaryContainer"
-        app:trackCornerRadius="15dp"
+        <com.google.android.material.progressindicator.LinearProgressIndicator
+            android:id="@+id/counterIndicator"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
 
-        android:max="1000"
-        android:progress="100"
+            app:trackThickness="30dp"
+            app:trackColor="@color/secondaryContainer"
+            app:indicatorColor="@color/onSecondaryContainer"
+            app:trackCornerRadius="15dp"
 
-        android:layout_marginBottom="30dp"
-        />
+            android:max="1000"
+            android:progress="100"
 
-    <androidx.cardview.widget.CardView
-        android:backgroundTint="@color/secondaryContainer"
-        app:cardCornerRadius="15dp"
-        app:cardElevation="5dp"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+            android:layout_marginBottom="30dp"
+            />
 
-        <LinearLayout
-            android:orientation="vertical"
-            android:padding="20dp"
+        <androidx.cardview.widget.CardView
+            android:backgroundTint="@color/secondaryContainer"
+            app:cardCornerRadius="15dp"
+            app:cardElevation="5dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
-            <androidx.cardview.widget.CardView
-                android:id="@+id/tutorialCard"
-                android:backgroundTint="@color/primaryContainer"
-                android:layout_marginBottom="10dp"
-                android:layout_gravity="end"
-                app:cardCornerRadius="15dp"
-                android:layout_width="30dp"
-                android:layout_height="30dp">
+            <LinearLayout
+                android:orientation="vertical"
+                android:padding="20dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/tutorialCard"
+                    android:backgroundTint="@color/primaryContainer"
+                    android:layout_marginBottom="10dp"
+                    android:layout_gravity="end"
+                    app:cardCornerRadius="15dp"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp">
+
+                    <TextView
+                        android:text="?"
+                        android:fontFamily="@font/poppins"
+                        android:textFontWeight="700"
+                        android:layout_gravity="center"
+                        android:textAlignment="center"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content" />
+                </androidx.cardview.widget.CardView>
+
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/openPoemCard"
+                    android:backgroundTint="@color/primaryContainer"
+                    app:cardCornerRadius="10dp"
+                    android:padding="10dp"
+                    app:cardElevation="10dp"
+                    android:layout_gravity="center"
+                    android:layout_width="100dp"
+                    android:layout_height="100dp">
+
+                    <ImageView
+                        android:src="@drawable/book"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:scaleType="center"
+                        />
+
+                </androidx.cardview.widget.CardView>
+
 
                 <TextView
-                    android:text="?"
-                    android:fontFamily="@font/poppins"
-                    android:textFontWeight="700"
-                    android:layout_gravity="center"
+                    android:id="@+id/questionText"
+
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+
+                    android:text="@string/hello_blank_fragment"
                     android:textAlignment="center"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content" />
-            </androidx.cardview.widget.CardView>
+                    android:textSize="20sp"
+                    android:textColor="@color/onSecondaryContainer"
+                    android:fontFamily="@font/poppins"
+                    android:textFontWeight="600"
 
-            <androidx.cardview.widget.CardView
-                android:id="@+id/openPoemCard"
-                android:backgroundTint="@color/primaryContainer"
-                app:cardCornerRadius="10dp"
-                android:padding="10dp"
-                app:cardElevation="10dp"
-                android:layout_gravity="center"
-                android:layout_width="100dp"
-                android:layout_height="100dp">
+                    android:layout_marginVertical="20dp"
 
-                <ImageView
-                    android:src="@drawable/book"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:scaleType="center"
                     />
 
-            </androidx.cardview.widget.CardView>
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/firstAnswerButton"
+                    android:backgroundTint="@color/primaryContainer"
+                    app:cornerRadius="10dp"
+                    android:textColor="@color/onPrimaryContainer"
+                    android:fontFamily="@font/poppins"
+                    android:textFontWeight="600"
 
+                    android:layout_height="60dp"
+                    android:layout_width="match_parent"
 
-            <TextView
-                android:id="@+id/questionText"
+                    android:layout_marginVertical="10dp"
 
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                    android:text="First Button"
+                    android:textSize="18sp"
+                    />
 
-                android:text="@string/hello_blank_fragment"
-                android:textAlignment="center"
-                android:textSize="20sp"
-                android:textColor="@color/onSecondaryContainer"
-                android:fontFamily="@font/poppins"
-                android:textFontWeight="600"
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/secondAnswerButton"
 
-                android:layout_marginVertical="20dp"
+                    android:backgroundTint="@color/primaryContainer"
+                    app:cornerRadius="10dp"
 
-                />
+                    android:textColor="@color/onPrimaryContainer"
+                    android:fontFamily="@font/poppins"
+                    android:textFontWeight="600"
 
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/firstAnswerButton"
-                android:backgroundTint="@color/primaryContainer"
-                app:cornerRadius="10dp"
-                android:textColor="@color/onPrimaryContainer"
-                android:fontFamily="@font/poppins"
-                android:textFontWeight="600"
+                    android:layout_height="60dp"
+                    android:layout_width="match_parent"
 
-                android:layout_height="60dp"
-                android:layout_width="match_parent"
+                    android:layout_marginVertical="10dp"
 
-                android:layout_marginVertical="10dp"
+                    android:text="First Button"
+                    android:textSize="18sp"
+                    />
 
-                android:text="First Button"
-                android:textSize="18sp"
-                />
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/thirdAnswerButton"
 
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/secondAnswerButton"
+                    android:backgroundTint="@color/primaryContainer"
+                    app:cornerRadius="10dp"
 
-                android:backgroundTint="@color/primaryContainer"
-                app:cornerRadius="10dp"
+                    android:textColor="@color/onPrimaryContainer"
+                    android:fontFamily="@font/poppins"
+                    android:textFontWeight="600"
 
-                android:textColor="@color/onPrimaryContainer"
-                android:fontFamily="@font/poppins"
-                android:textFontWeight="600"
+                    android:layout_height="60dp"
+                    android:layout_width="match_parent"
 
-                android:layout_height="60dp"
-                android:layout_width="match_parent"
+                    android:layout_marginVertical="10dp"
 
-                android:layout_marginVertical="10dp"
+                    android:text="First Button"
+                    android:textSize="18sp"
+                    />
 
-                android:text="First Button"
-                android:textSize="18sp"
-                />
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/fourthAnswerButton"
 
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/thirdAnswerButton"
+                    android:backgroundTint="@color/primaryContainer"
+                    app:cornerRadius="10dp"
 
-                android:backgroundTint="@color/primaryContainer"
-                app:cornerRadius="10dp"
+                    android:textColor="@color/onPrimaryContainer"
+                    android:fontFamily="@font/poppins"
+                    android:textFontWeight="600"
 
-                android:textColor="@color/onPrimaryContainer"
-                android:fontFamily="@font/poppins"
-                android:textFontWeight="600"
+                    android:layout_height="60dp"
+                    android:layout_width="match_parent"
 
-                android:layout_height="60dp"
-                android:layout_width="match_parent"
+                    android:layout_marginVertical="10dp"
 
-                android:layout_marginVertical="10dp"
+                    android:text="First Button"
+                    android:textSize="18sp"
+                    />
+            </LinearLayout>
 
-                android:text="First Button"
-                android:textSize="18sp"
-                />
-
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/fourthAnswerButton"
-
-                android:backgroundTint="@color/primaryContainer"
-                app:cornerRadius="10dp"
-
-                android:textColor="@color/onPrimaryContainer"
-                android:fontFamily="@font/poppins"
-                android:textFontWeight="600"
-
-                android:layout_height="60dp"
-                android:layout_width="match_parent"
-
-                android:layout_marginVertical="10dp"
-
-                android:text="First Button"
-                android:textSize="18sp"
-                />
-        </LinearLayout>
-
-    </androidx.cardview.widget.CardView>
+        </androidx.cardview.widget.CardView>
 
 
 
-</LinearLayout>
+    </LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>
