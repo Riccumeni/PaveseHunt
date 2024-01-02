@@ -1,23 +1,235 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
     xmlns:tools="http://schemas.android.com/tools"
+    android:padding="25dp"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".ui.settings.SettingsFragment">
+    android:background="@color/background">
 
-    <Button
+    <!-- Settings -->
+    <TextView
+        android:id="@+id/settingsText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="25dp"
+        android:text="Settings"
+        android:textColor="@color/white"
+        android:textStyle="bold"
+        android:textSize="32sp"/>
+
+    <!-- General -->
+    <TextView
+        android:id="@+id/generalText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="50dp"
+        android:layout_marginBottom="20dp"
+        android:text="General"
+        android:textColor="@color/white"
+        android:textSize="24sp"
+        android:textStyle="bold" />
+
+    <!-- Schermata Resetta -->
+
+    <androidx.cardview.widget.CardView
+        android:backgroundTint="@color/secondaryContainer"
+        app:cardCornerRadius="10dp"
+        android:layout_marginBottom="20dp"
+        android:layout_width="match_parent"
+        android:layout_height="50dp">
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <ImageView
+                android:id="@+id/rotateVector"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+
+                android:layout_gravity="center"
+                android:layout_marginStart="15dp"
+                android:src="@drawable/ic_baseline_rotate_right_24"/>
+
+            <TextView
+                android:id="@+id/resetquizText"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:layout_marginStart="15dp"
+                android:text="Resetta il tuo quiz"
+                android:textColor="@color/onSecondaryContainer"
+                android:textSize="18sp"
+                android:textStyle="bold" />
+
+            <ImageView
+                android:id="@+id/resetButton"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_marginEnd="15dp"
+                android:layout_gravity="center"
+                android:src="@drawable/ic_baseline_keyboard_arrow_right_24" />
+
+        </LinearLayout>
+    </androidx.cardview.widget.CardView>
+
+    <!-- Schermata Cambia -->
+
+    <androidx.cardview.widget.CardView
+        android:backgroundTint="@color/secondaryContainer"
+        app:cardCornerRadius="10dp"
+        android:layout_marginBottom="20dp"
+        android:layout_width="match_parent"
+        android:layout_height="50dp">
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+
+                android:layout_gravity="center"
+                android:layout_marginStart="15dp"
+                android:src="@drawable/ic_baseline_person_24"/>
+
+            <TextView
+                android:id="@+id/changeNameTextView"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:layout_marginStart="15dp"
+                android:text="Cambia il nome utente"
+                android:textColor="@color/onSecondaryContainer"
+                android:textSize="18sp"
+                android:textStyle="bold" />
+
+            <ImageView
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_marginEnd="15dp"
+                android:layout_gravity="center"
+                android:src="@drawable/ic_baseline_keyboard_arrow_right_24" />
+        </LinearLayout>
+    </androidx.cardview.widget.CardView>
+
+    <!-- Schermata Gestisci -->
+
+    <androidx.cardview.widget.CardView
+        android:backgroundTint="@color/secondaryContainer"
+        app:cardCornerRadius="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="50dp">
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+
+                android:layout_gravity="center"
+                android:layout_marginStart="15dp"
+                android:src="@drawable/ic_baseline_group_24"/>
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:layout_marginStart="15dp"
+                android:text="Gestisci amici"
+                android:textColor="@color/onSecondaryContainer"
+                android:textSize="18sp"
+                android:textStyle="bold" />
+
+            <ImageView
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_marginEnd="15dp"
+                android:layout_gravity="center"
+                android:src="@drawable/ic_baseline_keyboard_arrow_right_24" />
+        </LinearLayout>
+    </androidx.cardview.widget.CardView>
+
+    <!-- FeedBack -->
+    <TextView
+        android:id="@+id/feedbackText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="35dp"
+        android:layout_marginBottom="20dp"
+        android:text="Feedback"
+        android:textColor="@color/white"
+        android:textSize="24sp"
+        android:textStyle="bold" />
+
+    <!-- Schermata Problema -->
+
+    <androidx.cardview.widget.CardView
+        android:backgroundTint="@color/secondaryContainer"
+        app:cardCornerRadius="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="50dp">
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+
+                android:layout_gravity="center"
+                android:layout_marginStart="15dp"
+                android:src="@drawable/ic_baseline_report_problem_24"/>
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:layout_marginStart="15dp"
+                android:text="Riporta un problema"
+                android:textColor="@color/onSecondaryContainer"
+                android:textSize="18sp"
+                android:textStyle="bold" />
+
+            <ImageView
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_marginEnd="15dp"
+                android:layout_gravity="center"
+                android:src="@drawable/ic_baseline_keyboard_arrow_right_24" />
+        </LinearLayout>
+    </androidx.cardview.widget.CardView>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        />
+
+    <!-- Bottone Disconnettiti -->
+    <com.google.android.material.button.MaterialButton
         android:id="@+id/signOutButton"
 
         android:layout_width="match_parent"
-        android:layout_height="60dp"
-        android:backgroundTint="#AA0000"
+        android:layout_height="50dp"
+        app:cornerRadius="10dp"
+        android:layout_marginBottom="25dp"
+        android:text="Disconnettiti"
+        android:textColor="@color/white"
+        android:backgroundTint="@color/red" />
 
-        android:text="disconnettiti"
-
-        app:layout_constraintBottom_toBottomOf="parent"
-        android:layout_marginHorizontal="20dp"
-        android:layout_marginBottom="20dp"
-        />
-
-</androidx.constraintlayout.widget.ConstraintLayout>
+</LinearLayout>

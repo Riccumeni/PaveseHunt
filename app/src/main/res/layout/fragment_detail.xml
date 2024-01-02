@@ -3,12 +3,68 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.search.DetailFragment">
+    android:background="@color/background">
 
     <!-- TODO: Update blank fragment layout -->
-    <TextView
+
+    <!-- Scrollo schermata -->
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+        android:layout_height="wrap_content">
+
+        <!-- Secondo Layout -->
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <!-- Immagine Poema -->
+            <ImageView
+                android:id="@+id/poemImg"
+                android:layout_width="wrap_content"
+                android:layout_height="330dp"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentEnd="true"
+                android:scaleType="centerCrop"
+                android:src="@mipmap/ic_launcher"/>
+
+            <!-- Titolo Poema -->
+            <TextView
+                android:id="@+id/titlePoem"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/poemImg"
+                android:layout_alignParentStart="true"
+                android:layout_centerInParent="true"
+                android:layout_marginStart="40dp"
+                android:layout_marginTop="30dp"
+                android:fontFamily="@font/poppins"
+                android:text="Le Poesie"
+                android:textColor="@color/white"
+                android:textSize="32dp"
+                android:textStyle="bold" />
+
+            <!-- Frase Poema -->
+            <TextView
+                android:id="@+id/textPoem"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/titlePoem"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentEnd="true"
+                android:layout_centerInParent="true"
+                android:layout_marginStart="40dp"
+                android:layout_marginTop="25dp"
+                android:layout_marginEnd="40dp"
+                android:layout_marginBottom="25dp"
+                android:fontFamily="@font/poppins"
+                android:text="Lavorare stanca (nell’edizione del ’36, con le poesie aggiunte nel ’43 e le altre non raccolte), La terra e la morte, Due poesie a T., Verrà la morte e avrà i tuoi occhi: le composizioni piú conosciute accanto a quelle meno note, qui riunite sotto i titoli di Prima di «Lavorare stanca» e Estravaganti scelte. Il percorso creativo di «una voce isolata della poesia contemporanea », che ha scoperto un ritmo della lingua italiana e lo ha strutturato artisticamente, musicalmente, con una cadenza nuova, o comunque poco usata dalla nostra tradizione letteraria, dando vita a un metro inconfondibile e diverso da tutti gli altri."
+                android:textAlignment="textStart"
+                android:textColor="@color/white"
+                android:textSize="16dp" />
+
+        </RelativeLayout>
+
+    </ScrollView>
 
 </FrameLayout>

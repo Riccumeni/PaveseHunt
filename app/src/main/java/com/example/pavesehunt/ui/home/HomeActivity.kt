@@ -10,6 +10,7 @@ import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.NavigationUI
 import com.example.pavesehunt.R
 import com.example.pavesehunt.databinding.ActivityHomeBinding
+import com.example.pavesehunt.domain.viewmodels.CollectionViewModel
 import com.example.testapp.domain.viewmodels.QuizViewModel
 import com.example.pavesehunt.ui.quiz.QuizFragment
 import com.example.pavesehunt.ui.search.SearchFragment
@@ -21,6 +22,7 @@ class HomeActivity : AppCompatActivity() {
     private lateinit var binding: ActivityHomeBinding
     private val userViewModel : UserViewModel by viewModels()
     private val quizViewModel : QuizViewModel by viewModels()
+    private val collectionViewModel : CollectionViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

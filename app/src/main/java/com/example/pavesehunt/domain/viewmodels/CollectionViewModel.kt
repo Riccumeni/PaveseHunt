@@ -17,6 +17,7 @@ import kotlinx.coroutines.launch
 class CollectionViewModel: ViewModel() {
     val collectionsResponse = MutableLiveData(Response(status = Status.NOT_STARTED))
     val collectionsFiltered = MutableLiveData<List<Collection>>()
+    var collectionSelected: Collection? = null
 
     fun getCollections(){
         val client = SupabaseClientSingleton.getClient()
@@ -51,5 +52,9 @@ class CollectionViewModel: ViewModel() {
         collectionsFiltered.value = collections.filter {
             pattern.matches(it.title)
         }
+    }
+
+    fun setCollection(tappedCollection: Collection){
+        collectionSelected = tappedCollection
     }
 }

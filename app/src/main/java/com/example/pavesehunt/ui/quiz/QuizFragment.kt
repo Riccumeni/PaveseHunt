@@ -43,7 +43,6 @@ class QuizFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-
         userViewModel.userResponse.observe(viewLifecycleOwner){ response ->
 
             if(response.status == Status.SUCCESS){
@@ -68,6 +67,10 @@ class QuizFragment : Fragment() {
                     apply()
                 }
             }
+        }
+
+        binding.puzzleButton.setOnClickListener {
+            view.findNavController().navigate(R.id.action_quizFragment_to_puzzleFragment)
         }
 
         binding.rankButton.setOnClickListener {

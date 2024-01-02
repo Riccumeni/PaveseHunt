@@ -43,13 +43,15 @@ class SearchFragment : Fragment() {
         collectionsViewModel.getCollections()
 
         binding.searchEditText.addTextChangedListener {
-            collectionsViewModel.getCollectionsFiltered(it.toString())
+            if(collectionsViewModel.collectionsResponse.value!!.status === Status.SUCCESS){
+                collectionsViewModel.getCollectionsFiltered(it.toString())
+            }
         }
 
         collectionsViewModel.collectionsFiltered.observe(viewLifecycleOwner){
             if(collectionsViewModel.collectionsResponse.value!!.status === Status.SUCCESS){
                 view.findViewById<RecyclerView>(R.id.searchRecyclerView).apply {
-                    adapter = CollectionAdapter(it)
+                    adapter = CollectionAdapter(it, collectionsViewModel)
                     layoutManager = LinearLayoutManager(view.context, LinearLayoutManager.VERTICAL, false)
                 }
             }
@@ -62,7 +64,7 @@ class SearchFragment : Fragment() {
                     val collections = it.data as List<Collection>
 
                     view.findViewById<RecyclerView>(R.id.searchRecyclerView).apply {
-                        adapter = CollectionAdapter(collections)
+                        adapter = CollectionAdapter(collections, collectionsViewModel)
                         layoutManager = LinearLayoutManager(view.context, LinearLayoutManager.VERTICAL, false)
                     }
                 }
