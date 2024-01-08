@@ -1,4 +1,4 @@
-package com.example.pavesehunt.ui.quiz
+package com.example.pavesehunt.ui.calendar
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -12,6 +12,7 @@ import com.example.pavesehunt.data.models.Event
 import com.example.pavesehunt.data.models.Status
 import com.example.pavesehunt.databinding.FragmentCalendarBinding
 import com.example.pavesehunt.domain.viewmodels.EventsViewModel
+import com.example.pavesehunt.domain.viewmodels.TopBarViewModel
 import com.example.pavesehunt.ui.adapters.DateAdapter
 import com.example.pavesehunt.ui.adapters.EventAdapter
 import java.time.LocalDateTime
@@ -21,6 +22,7 @@ import java.util.Calendar
 class CalendarFragment : Fragment() {
 
     private val eventsViewModel: EventsViewModel by activityViewModels()
+    private val topBarViewModel : TopBarViewModel by activityViewModels()
 
     private var _binding: FragmentCalendarBinding? = null
     private val binding get() = _binding!!
@@ -40,8 +42,11 @@ class CalendarFragment : Fragment() {
         return binding.root
     }
 
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        topBarViewModel.screenChanged.value = true
 
         val calendar = Calendar.getInstance()
 

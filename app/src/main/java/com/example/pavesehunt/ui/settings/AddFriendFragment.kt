@@ -1,4 +1,4 @@
-package com.example.pavesehunt.ui.quiz
+package com.example.pavesehunt.ui.settings
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -6,18 +6,20 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.EditText
-import android.widget.TextView
 import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import androidx.recyclerview.widget.RecyclerView.LayoutManager
 import com.example.pavesehunt.R
 import com.example.pavesehunt.data.models.Status
 import com.example.pavesehunt.ui.adapters.FriendAdapter
 import com.example.testapp.data.models.User
-import com.example.testapp.domain.viewmodels.QuizViewModel
 import com.example.testapp.domain.viewmodels.UserViewModel
+
+// TODO: Rename parameter arguments, choose names that match
+// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
+private const val ARG_PARAM1 = "param1"
+private const val ARG_PARAM2 = "param2"
 
 class AddFriendFragment : Fragment() {
 
@@ -60,7 +62,8 @@ class AddFriendFragment : Fragment() {
 
                     friendRecyclerView.apply {
                         adapter = FriendAdapter(users = users)
-                        layoutManager = LinearLayoutManager(view.context, LinearLayoutManager.VERTICAL, false)
+                        layoutManager =
+                            LinearLayoutManager(view.context, LinearLayoutManager.VERTICAL, false)
                     }
 
 

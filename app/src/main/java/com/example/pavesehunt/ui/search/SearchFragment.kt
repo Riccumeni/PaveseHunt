@@ -15,12 +15,14 @@ import com.example.pavesehunt.data.models.Status
 import com.example.pavesehunt.databinding.FragmentQuizBinding
 import com.example.pavesehunt.databinding.FragmentSearchBinding
 import com.example.pavesehunt.domain.viewmodels.CollectionViewModel
+import com.example.pavesehunt.domain.viewmodels.TopBarViewModel
 import com.example.pavesehunt.ui.adapters.CollectionAdapter
 import com.example.testapp.domain.viewmodels.UserViewModel
 
 class SearchFragment : Fragment() {
 
     private val collectionsViewModel : CollectionViewModel by activityViewModels()
+    private val topBarViewModel : TopBarViewModel by activityViewModels()
 
     private var _binding: FragmentSearchBinding? = null
     private val binding get() = _binding!!
@@ -37,10 +39,17 @@ class SearchFragment : Fragment() {
         return binding.root
     }
 
+    override fun onDestroyView() {
+        super.onDestroyView()
+
+        topBarViewModel.screenChanged.value = true
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
         collectionsViewModel.getCollections()
+        topBarViewModel.screenChanged.value = true
 
         binding.searchEditText.addTextChangedListener {
             if(collectionsViewModel.collectionsResponse.value!!.status === Status.SUCCESS){

@@ -3,7 +3,12 @@
     <style name="Base.Theme.PaveseHunt" parent="Theme.Material3.DayNight.NoActionBar">
         <!-- Customize your light theme here. -->
         <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
+        <item name="colorPrimaryVariant">@color/primaryContainer</item>
     </style>
 
-    <style name="Theme.PaveseHunt" parent="Base.Theme.PaveseHunt" />
+    <style name="Theme.PaveseHunt" parent="Base.Theme.PaveseHunt" >
+
+        <item name="colorPrimaryVariant">@color/primaryContainer</item>
+
+    </style>
 </resources>

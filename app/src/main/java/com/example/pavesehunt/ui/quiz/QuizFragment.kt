@@ -13,6 +13,7 @@ import com.bumptech.glide.Glide
 import com.example.pavesehunt.R
 import com.example.pavesehunt.data.models.Status
 import com.example.pavesehunt.databinding.FragmentQuizBinding
+import com.example.pavesehunt.domain.viewmodels.TopBarViewModel
 import com.example.testapp.data.models.User
 import com.example.testapp.domain.viewmodels.QuizViewModel
 import com.example.testapp.domain.viewmodels.UserViewModel
@@ -22,6 +23,7 @@ class QuizFragment : Fragment() {
 
     private val quizViewModel : QuizViewModel by activityViewModels()
     private val userViewModel : UserViewModel by activityViewModels()
+    private val topBarViewModel : TopBarViewModel by activityViewModels()
 
     private var _binding: FragmentQuizBinding? = null
     private val binding get() = _binding!!
@@ -40,8 +42,18 @@ class QuizFragment : Fragment() {
         return binding.root
     }
 
+    override fun onDestroyView() {
+        super.onDestroyView()
+
+        topBarViewModel.isInQuizFragment.value = false
+        topBarViewModel.screenChanged.value = true
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        topBarViewModel.isInQuizFragment.value = true
+        topBarViewModel.screenChanged.value = true
 
         userViewModel.userResponse.observe(viewLifecycleOwner){ response ->
 
@@ -67,10 +79,6 @@ class QuizFragment : Fragment() {
                     apply()
                 }
             }
-        }
-
-        binding.rankButton.setOnClickListener {
-            view.findNavController().navigate(R.id.action_quizFragment_to_rankFragment)
         }
 
         binding.quizButton.setOnClickListener {

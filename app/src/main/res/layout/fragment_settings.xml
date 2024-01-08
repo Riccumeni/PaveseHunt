@@ -123,6 +123,7 @@
     <!-- Schermata Gestisci -->
 
     <androidx.cardview.widget.CardView
+        android:id="@+id/manageFriendCard"
         android:backgroundTint="@color/secondaryContainer"
         app:cardCornerRadius="10dp"
         android:layout_width="match_parent"

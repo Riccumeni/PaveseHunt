@@ -45,9 +45,7 @@ class RankFragment : Fragment() {
         val friendLeatherboardButton = view.findViewById<View>(R.id.friendsButton)
         val circularProgress = view.findViewById<CircularProgressIndicator>(R.id.rankCircularIndicator)
 
-        addFriendButton.setOnClickListener {
-            view.findNavController().navigate(R.id.action_rankFragment_to_addFriendFragment)
-        }
+
 
         globalLeatherboardButton.setOnClickListener {
             viewModel.getLeatherboard()

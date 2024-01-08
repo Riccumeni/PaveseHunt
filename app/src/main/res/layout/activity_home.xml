@@ -7,6 +7,46 @@
     android:orientation="vertical"
     tools:context=".ui.home.HomeActivity">
 
+    <LinearLayout
+        android:id="@+id/topBar"
+        android:background="@color/primaryContainer"
+        android:paddingHorizontal="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="64dp"
+        app:layout_constraintTop_toTopOf="parent"
+        android:orientation="horizontal">
+
+        <ImageButton
+            android:id="@+id/backButton"
+
+            android:visibility="gone"
+            android:layout_gravity="center"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:background="@color/primaryContainer"
+            android:src="@drawable/ic_baseline_keyboard_arrow_right_24"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:rotation="180"
+            app:tint="@color/onPrimaryContainer" />
+
+        <View
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="10dp" />
+        <ImageButton
+            android:id="@+id/rankButton"
+            android:layout_gravity="center"
+            android:visibility="gone"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:background="@color/primaryContainer"
+            android:src="@drawable/ic_baseline_emoji_events_24"
+            app:tint="@color/onPrimaryContainer"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+    </LinearLayout>
+
     <androidx.fragment.app.FragmentContainerView
         android:id="@+id/fragmentView"
         android:visibility="visible"
@@ -17,18 +57,19 @@
         app:layout_constraintBottom_toTopOf="@+id/bottomNavigation"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/topBar"
         app:navGraph="@navigation/nav_graph" />
 
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/bottomNavigation"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="80dp"
         app:menu="@menu/bottom_nav_menu"
         app:itemTextColor="@color/icontextColor"
         app:itemIconTint="@drawable/bottom_nav_color"
         app:itemTextAppearanceActiveBoldEnabled="true"
+        android:paddingVertical="5dp"
         android:background="@color/primaryContainer"
         style="@style/Widget.MaterialComponents.BottomNavigationView.PrimarySurface"
         app:layout_constraintBottom_toBottomOf="parent"

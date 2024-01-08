@@ -21,11 +21,7 @@
         android:id="@+id/rankFragment"
         android:name="com.example.pavesehunt.ui.quiz.RankFragment"
         android:label="fragment_rank"
-        tools:layout="@layout/fragment_rank" >
-        <action
-            android:id="@+id/action_rankFragment_to_addFriendFragment"
-            app:destination="@id/addFriendFragment" />
-    </fragment>
+        tools:layout="@layout/fragment_rank" />
     <fragment
         android:id="@+id/questionFragment"
         android:name="com.example.pavesehunt.ui.quiz.QuestionFragment"
@@ -49,15 +45,19 @@
         android:id="@+id/settingsFragment"
         android:name="com.example.pavesehunt.ui.settings.SettingsFragment"
         android:label="fragment_settings"
-        tools:layout="@layout/fragment_settings" />
+        tools:layout="@layout/fragment_settings" >
+        <action
+            android:id="@+id/action_settingsFragment_to_addFriendFragment"
+            app:destination="@id/addFriendFragment" />
+    </fragment>
     <fragment
         android:id="@+id/addFriendFragment"
-        android:name="com.example.pavesehunt.ui.quiz.AddFriendFragment"
+        android:name="com.example.pavesehunt.ui.settings.AddFriendFragment"
         android:label="fragment_add_friend"
         tools:layout="@layout/fragment_add_friend" />
     <fragment
         android:id="@+id/calendarFragment"
-        android:name="com.example.pavesehunt.ui.quiz.CalendarFragment"
+        android:name="com.example.pavesehunt.ui.calendar.CalendarFragment"
         android:label="fragment_calendar"
         tools:layout="@layout/fragment_calendar" />
 </navigation>

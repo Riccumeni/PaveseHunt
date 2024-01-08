@@ -8,15 +8,19 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import androidx.appcompat.app.AppCompatActivity
+import androidx.cardview.widget.CardView
 import androidx.fragment.app.activityViewModels
+import androidx.navigation.findNavController
 import com.example.pavesehunt.R
 import com.example.pavesehunt.data.models.Status
+import com.example.pavesehunt.domain.viewmodels.TopBarViewModel
 import com.example.pavesehunt.ui.login.LoginActivity
 import com.example.testapp.domain.viewmodels.UserViewModel
 
 class SettingsFragment : Fragment() {
 
     private val viewModel : UserViewModel by activityViewModels()
+    private val topBarViewModel : TopBarViewModel by activityViewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -37,6 +41,13 @@ class SettingsFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         val signOutButton = view.findViewById<Button>(R.id.signOutButton)
+        val manageFriendsButton = view.findViewById<CardView>(R.id.manageFriendCard)
+
+        manageFriendsButton.setOnClickListener {
+            view.findNavController().navigate(R.id.action_settingsFragment_to_addFriendFragment)
+        }
+
+        topBarViewModel.screenChanged.value = true
 
         signOutButton.setOnClickListener {
             viewModel.signOut(view.context)

@@ -7,40 +7,6 @@
     android:padding="20dp"
     android:background="@color/background">
 
-
-    <TextView
-        android:id="@+id/welcome"
-
-        android:layout_width="wrap_content"
-        android:layout_height="50dp"
-
-        android:gravity="center"
-
-        android:text="Welcome"
-        android:textAlignment="center"
-        android:textAllCaps="true"
-        android:textColor="@color/white"
-        android:textSize="20sp"
-        android:textStyle="bold"
-
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
-
-    <!-- Pulsante Trofeo -->
-    <ImageButton
-        android:id="@+id/rankButton"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:layout_alignParentEnd="true"
-        android:background="@color/background"
-        android:src="@drawable/ic_baseline_emoji_events_24"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-
-
-
     <androidx.cardview.widget.CardView
         android:id="@+id/cardStatistic"
         android:layout_width="match_parent"
@@ -52,7 +18,7 @@
 
         <GridLayout
             android:id="@+id/grindLayout"
-            android:paddingHorizontal="20dp"
+
             android:paddingBottom="20dp"
             android:paddingTop="60dp"
             android:layout_width="match_parent"
@@ -67,6 +33,7 @@
             <!-- Titolo -->
             <TextView
                 android:id="@+id/usernameTextView"
+                android:layout_marginTop="10dp"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_columnSpan="3"
@@ -80,9 +47,9 @@
             <!-- Colonna 1 -->
             <TextView
                 android:id="@+id/risposte"
-                android:layout_columnWeight="1"
-                android:layout_gravity="center_horizontal"
-                android:layout_margin="5sp"
+                android:layout_columnWeight="0.7"
+                android:layout_marginBottom="10dp"
+                android:layout_marginTop="10dp"
                 android:text="@string/answer"
                 android:textAlignment="center"
                 android:textColor="@color/onSecondaryContainer"
@@ -93,8 +60,7 @@
             <TextView
                 android:id="@+id/rimanenti"
                 android:layout_columnWeight="1"
-                android:layout_gravity="center_horizontal"
-                android:layout_margin="5sp"
+                android:layout_marginTop="10dp"
                 android:text="@string/remaining"
                 android:textAlignment="center"
                 android:textColor="@color/onSecondaryContainer"
@@ -105,8 +71,7 @@
             <TextView
                 android:id="@+id/rank"
                 android:layout_columnWeight="1"
-                android:layout_gravity="center_horizontal"
-                android:layout_margin="5sp"
+                android:layout_marginTop="10dp"
                 android:text="@string/points"
                 android:textAlignment="center"
                 android:textColor="@color/onSecondaryContainer"
@@ -168,9 +133,9 @@
 
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/welcome"
+        app:layout_constraintTop_toTopOf="parent"
 
-        android:layout_marginTop="30dp">
+        android:layout_marginTop="10dp">
 
         <ImageView
             android:id="@+id/userImageView"
