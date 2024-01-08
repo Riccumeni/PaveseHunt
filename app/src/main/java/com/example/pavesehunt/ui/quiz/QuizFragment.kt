@@ -69,10 +69,6 @@ class QuizFragment : Fragment() {
             }
         }
 
-        binding.puzzleButton.setOnClickListener {
-            view.findNavController().navigate(R.id.action_quizFragment_to_puzzleFragment)
-        }
-
         binding.rankButton.setOnClickListener {
             view.findNavController().navigate(R.id.action_quizFragment_to_rankFragment)
         }

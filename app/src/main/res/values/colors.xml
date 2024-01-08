@@ -4,6 +4,8 @@
     <color name="white">#FFFFFFFF</color>
     <color name="red">#930009</color>
 
+    <color name="mtrl_textinput_default_box_stroke_color">#CBB18C</color>
+
     <color name="background">#1F1B17</color>
     <color name="onBackground">#FFF</color>
     <color name="primaryContainer">#CBB18C</color>

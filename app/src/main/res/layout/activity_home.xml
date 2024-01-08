@@ -27,15 +27,15 @@
         android:layout_height="wrap_content"
         app:menu="@menu/bottom_nav_menu"
         app:itemTextColor="@color/icontextColor"
-        app:itemIconTint="@color/icontextColor"
+        app:itemIconTint="@drawable/bottom_nav_color"
+        app:itemTextAppearanceActiveBoldEnabled="true"
         android:background="@color/primaryContainer"
+        style="@style/Widget.MaterialComponents.BottomNavigationView.PrimarySurface"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent">
 
     </com.google.android.material.bottomnavigation.BottomNavigationView>
-
-
 </androidx.constraintlayout.widget.ConstraintLayout>
 
 <!-- app:itemTextColor="@color/onPrimary"

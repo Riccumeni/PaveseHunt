@@ -14,9 +14,6 @@
             android:id="@+id/action_quizFragment_to_rankFragment"
             app:destination="@id/rankFragment" />
         <action
-            android:id="@+id/action_quizFragment_to_puzzleFragment"
-            app:destination="@id/puzzleFragment" />
-        <action
             android:id="@+id/action_quizFragment_to_questionFragment"
             app:destination="@id/questionFragment" />
     </fragment>
@@ -29,11 +26,6 @@
             android:id="@+id/action_rankFragment_to_addFriendFragment"
             app:destination="@id/addFriendFragment" />
     </fragment>
-    <fragment
-        android:id="@+id/puzzleFragment"
-        android:name="com.example.pavesehunt.ui.quiz.PuzzleFragment"
-        android:label="fragment_puzzle"
-        tools:layout="@layout/fragment_puzzle" />
     <fragment
         android:id="@+id/questionFragment"
         android:name="com.example.pavesehunt.ui.quiz.QuestionFragment"
@@ -63,4 +55,9 @@
         android:name="com.example.pavesehunt.ui.quiz.AddFriendFragment"
         android:label="fragment_add_friend"
         tools:layout="@layout/fragment_add_friend" />
+    <fragment
+        android:id="@+id/calendarFragment"
+        android:name="com.example.pavesehunt.ui.quiz.CalendarFragment"
+        android:label="fragment_calendar"
+        tools:layout="@layout/fragment_calendar" />
 </navigation>

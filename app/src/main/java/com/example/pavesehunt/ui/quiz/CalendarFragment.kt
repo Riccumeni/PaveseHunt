@@ -5,12 +5,12 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.view.get
 import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.pavesehunt.common.TimeHelper
 import com.example.pavesehunt.data.models.Event
 import com.example.pavesehunt.data.models.Status
-import com.example.pavesehunt.databinding.FragmentPuzzleBinding
+import com.example.pavesehunt.databinding.FragmentCalendarBinding
 import com.example.pavesehunt.domain.viewmodels.EventsViewModel
 import com.example.pavesehunt.ui.adapters.DateAdapter
 import com.example.pavesehunt.ui.adapters.EventAdapter
@@ -18,11 +18,11 @@ import java.time.LocalDateTime
 import java.time.YearMonth
 import java.util.Calendar
 
-class PuzzleFragment : Fragment() {
+class CalendarFragment : Fragment() {
 
     private val eventsViewModel: EventsViewModel by activityViewModels()
 
-    private var _binding: FragmentPuzzleBinding? = null
+    private var _binding: FragmentCalendarBinding? = null
     private val binding get() = _binding!!
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -36,7 +36,7 @@ class PuzzleFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        _binding = FragmentPuzzleBinding.inflate(inflater, container, false)
+        _binding = FragmentCalendarBinding.inflate(inflater, container, false)
         return binding.root
     }
 
@@ -59,6 +59,9 @@ class PuzzleFragment : Fragment() {
         val currentYearMonth = YearMonth.now()
         val numberOfDaysInMonth = currentYearMonth.lengthOfMonth()
 
+        var currentMonth = current.month.value
+        var currentYear = current.year
+
         eventsViewModel.eventsResponse.observe(viewLifecycleOwner){
             when(it.status){
                 Status.NOT_STARTED -> {
@@ -68,14 +71,28 @@ class PuzzleFragment : Fragment() {
                     val events = it.data as List<Event>
                     val daysInEvent = ArrayList<Int>()
 
+                    val startDay = TimeHelper.getDayOfWeek(1, currentMonth, currentYear)
+
                     events.forEach { event ->
                         daysInEvent.add(event.day)
                     }
 
-                    eventsViewModel.selectedDay.value = current.dayOfMonth
+                    if(currentMonth == current.month.value && currentYear == current.year){
+                        eventsViewModel.selectedDay.value = current.dayOfMonth
+                    }else{
+                        eventsViewModel.selectedDay.value = 1
+                    }
 
                     binding.calendarView.apply {
-                        adapter = DateAdapter(view.context, lifecycleOwner = viewLifecycleOwner, eventsViewModel = eventsViewModel, dayCount = numberOfDaysInMonth, inflater = null, daysInEvent = daysInEvent)
+                        adapter = DateAdapter(
+                            context = view.context,
+                            startDay = startDay,
+                            lifecycleOwner = viewLifecycleOwner,
+                            eventsViewModel = eventsViewModel,
+                            dayCount = numberOfDaysInMonth,
+                            inflater = null,
+                            daysInEvent = daysInEvent
+                        )
                     }
                 }
                 Status.LOADING -> {
@@ -102,12 +119,36 @@ class PuzzleFragment : Fragment() {
             }
         }
 
+        binding.nextMonth.setOnClickListener {
+            if(currentMonth < 12){
+                currentMonth += 1
+            } else{
+                currentMonth = 1
+                currentYear += 1
+            }
+
+            binding.monthText.text = TimeHelper.getMonthNameByNumber(currentMonth)
+            eventsViewModel.getEventsByMonthAndYear(currentMonth, currentYear)
+        }
+
+        binding.previousMonth.setOnClickListener {
+            if(currentMonth > 1){
+                currentMonth -= 1
+            } else{
+                currentMonth = 12
+                currentYear -= 1
+            }
+
+            binding.monthText.text = TimeHelper.getMonthNameByNumber(currentMonth)
+            eventsViewModel.getEventsByMonthAndYear(currentMonth, currentYear)
+        }
+
     }
 
     companion object {
         @JvmStatic
         fun newInstance() =
-            PuzzleFragment().apply {
+            CalendarFragment().apply {
                 arguments = Bundle().apply {
 
                 }

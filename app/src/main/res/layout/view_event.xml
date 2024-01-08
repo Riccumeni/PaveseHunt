@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
+    android:layout_marginVertical="10dp"
+    android:background="@color/background"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
     <LinearLayout
@@ -35,7 +37,7 @@
     <TextView
         android:id="@+id/bodyEventText"
 
-        android:text="15:00"
+        android:text="text body placeholder"
         android:fontFamily="@font/poppins"
         android:textSize="16sp"
         android:textColor="@color/onBackground"

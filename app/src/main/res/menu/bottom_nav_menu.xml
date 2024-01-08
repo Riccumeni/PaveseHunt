@@ -7,6 +7,10 @@
         android:title="search"
         android:icon="@drawable/baseline_search_24" />
 
+    <item android:id="@+id/calendarFragment"
+        android:title="events"
+        android:icon="@drawable/baseline_calendar_month_24" />
+
     <item android:id="@+id/settingsFragment"
         android:title="settings"
         android:icon="@drawable/baseline_settings_24" />
