@@ -24,6 +24,7 @@ import io.github.jan.supabase.postgrest.query.Order
 import io.github.jan.supabase.storage.storage
 import io.ktor.client.plugins.HttpRequestTimeoutException
 import kotlinx.serialization.Serializable
+import kotlinx.serialization.json.Json
 import java.util.Timer
 import java.util.TimerTask
 
@@ -32,7 +33,8 @@ data class QuestionTwo(
     val id: Int? = null,
     val question: String,
     val answer: String,
-    val correct_answer: Int
+    val correct_answer: Int,
+    val poem: String
 )
 
 class QuizViewModel: ViewModel() {
@@ -100,13 +102,21 @@ class QuizViewModel: ViewModel() {
                 val shared = context.getSharedPreferences("shared", Context.MODE_PRIVATE)
 
                 val friends = shared.getString("friends", "[]")
+                val friendObjects: MutableList<User> = Json.decodeFromString(friends!!)
 
                 val leatherboardFiltered: MutableList<User> = mutableListOf()
 
                 leatherboard.forEach {
-                    if(friends!!.contains(it.username)){
-                        leatherboardFiltered.add(it)
+                    friendObjects.forEachIndexed { index, friend ->
+                        if(friend.username.lowercase() == it.username.lowercase()){
+                            leatherboardFiltered.add(it)
+                        }
                     }
+                }
+
+                leatherboardFiltered.forEach {
+                    val url = client.storage.from("avatars").publicUrl("${it.username}.jpg")
+                    it.imageUrl = url
                 }
 
                 this@QuizViewModel.leatherboard.value = Response(Status.SUCCESS, leatherboardFiltered)

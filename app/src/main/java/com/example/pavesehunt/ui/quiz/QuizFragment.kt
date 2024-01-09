@@ -69,10 +69,9 @@ class QuizFragment : Fragment() {
 
                 val shared = view.context.getSharedPreferences("shared", Context.MODE_PRIVATE)
 
-                val answerGiven = shared.getInt("indexQuestion", 0) + 1
 
-                binding.answerTextView.text = answerGiven.toString()
-                binding.remainingAnswerTextView.text = (20 - answerGiven).toString()
+                binding.answerTextView.text = user.answer_given.toString()
+                binding.remainingAnswerTextView.text = (5 - user.answer_given!!).toString()
 
                 with(shared.edit()){
                     putInt("points", user.points)

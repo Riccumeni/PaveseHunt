@@ -1,6 +1,7 @@
 package com.example.pavesehunt.ui.adapters
 
 import android.content.Context
+import android.graphics.drawable.Drawable
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -27,41 +28,54 @@ class FriendAdapter(var users: List<User>): RecyclerView.Adapter<FriendAdapter.C
 
         val button = holder.view.findViewById<Button>(R.id.addFriendButton)
 
+        if(user.isFriend){
+            button.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.baseline_remove_24, 0)
+        }else{
+            button.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.baseline_add_24, 0)
+        }
+
         val shared = holder.view.context.getSharedPreferences("shared", Context.MODE_PRIVATE)
 
         var friends = shared.getString("friends", "[]")
 
         if(friends!!.contains(user.username)){
-            button.text = "-"
+            button.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.baseline_remove_24, 0)
         }
 
         button.setOnClickListener {
-            when(button.text){
-                "-" -> {
-                    val friendObjects: MutableList<User> = Json.decodeFromString(friends!!)
-                    friendObjects.remove(user)
-                    friends = Json.encodeToString(friendObjects)
+            if(user.isFriend){
+                val friendObjects: MutableList<User> = Json.decodeFromString(friends!!)
 
-                    with(shared.edit()){
-                        putString("friends", friends)
-                        apply()
+                friendObjects.forEachIndexed { index, userFav ->
+                    if(userFav.username.lowercase() == user.username.lowercase()){
+                        friendObjects.removeAt(index)
                     }
-
-                    button.text = "+"
                 }
-                "+" -> {
-                    val friendObjects: MutableList<User> = Json.decodeFromString(friends!!)
-                    friendObjects.add(user)
 
-                    friends = Json.encodeToString(friendObjects)
+                friends = Json.encodeToString(friendObjects)
 
-                    with(shared.edit()){
-                        putString("friends", friends)
-                        apply()
-                    }
+                user.isFriend = false
 
-                    button.text = "-"
+                with(shared.edit()){
+                    putString("friends", friends)
+                    apply()
                 }
+
+                button.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.baseline_add_24, 0)
+            }else{
+                val friendObjects: MutableList<User> = Json.decodeFromString(friends!!)
+                friendObjects.add(user)
+
+                friends = Json.encodeToString(friendObjects)
+
+                user.isFriend = true
+
+                with(shared.edit()){
+                    putString("friends", friends)
+                    apply()
+                }
+
+                button.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.baseline_remove_24, 0)
             }
         }
     }

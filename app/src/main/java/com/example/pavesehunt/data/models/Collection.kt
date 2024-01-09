@@ -7,6 +7,6 @@ data class Collection (
     val id: Int,
     val title: String,
     val text: String,
-    var image: String,
+    var image: String?,
     val category: String
 )

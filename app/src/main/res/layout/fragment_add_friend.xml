@@ -19,12 +19,16 @@
         android:layout_height="wrap_content">
 
         <com.google.android.material.tabs.TabItem
+            android:id="@+id/manageFriendTabItem"
+
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Gestisci Amici"
             />
 
         <com.google.android.material.tabs.TabItem
+            android:id="@+id/addFriendTabItem"
+
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Aggiungi amici"
@@ -34,6 +38,8 @@
 
     <EditText
         android:id="@+id/addFriendEditText"
+
+        android:layout_marginTop="20dp"
 
         android:hint="add a friend..."
 

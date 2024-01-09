@@ -29,7 +29,7 @@ class CollectionViewModel: ViewModel() {
                 val collections = client.postgrest.from("collections").select().decodeList<Collection>()
 
                 collections.forEach {
-                    val url = client.storage.from("collections").publicUrl(it.image)
+                    val url = client.storage.from("collections").publicUrl("${it.id}.jpeg")
                     it.image = url
                 }
 

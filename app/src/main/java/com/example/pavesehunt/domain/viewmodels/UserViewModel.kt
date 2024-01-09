@@ -19,7 +19,7 @@ import io.github.jan.supabase.postgrest.query.Columns
 import io.github.jan.supabase.postgrest.query.FilterOperator
 import io.github.jan.supabase.storage.storage
 import kotlinx.coroutines.launch
-
+import kotlinx.serialization.json.Json
 
 
 class UserViewModel: ViewModel() {
@@ -101,7 +101,7 @@ class UserViewModel: ViewModel() {
             }
         }
     }
-    fun getUsers(text: String){
+    fun getUsers(text: String, context: Context){
         viewModelScope.launch {
             val client = SupabaseClientSingleton.getClient()
 
@@ -109,6 +109,63 @@ class UserViewModel: ViewModel() {
                 val response = client.postgrest.from("users").select(columns = Columns.list("username", "points")){
                     User::username ilike "%${text}%"
                 }.decodeList<User>()
+
+                response.forEach {
+                    if(isFriend(it, context)){
+                        it.isFriend = true
+                    }
+                }
+
+                usersResponse.value = Response(status = Status.SUCCESS, data = response)
+            }catch (err: BadRequestRestException){
+                usersResponse.value!!.status = Status.ERROR
+            }catch (err: HttpRequestException){
+                usersResponse.value!!.status = Status.ERROR
+            }
+        }
+    }
+
+    private fun isFriend(user: User, context: Context): Boolean{
+        var  isFriend = false
+
+        val shared = context.getSharedPreferences("shared", Context.MODE_PRIVATE)
+        var friends = shared.getString("friends", "[]")
+
+        val friendObjects: MutableList<User> = Json.decodeFromString(friends!!)
+
+        friendObjects?.forEach {
+            if(user.username.lowercase() == it.username.lowercase()){
+                isFriend = true
+                it.isFriend = true
+            }
+        }
+
+        return isFriend
+    }
+
+    fun getFriends(context: Context, text: String?){
+        viewModelScope.launch {
+            val client = SupabaseClientSingleton.getClient()
+
+            try{
+
+                lateinit var response: List<User>
+
+                if(text == null){
+                    response = client.postgrest.from("users").select(columns = Columns.list("username", "points")){}.decodeList<User>()
+                }else{
+                    response = client.postgrest.from("users").select(columns = Columns.list("username", "points")){
+                        User::username ilike "%${text}%"
+                    }.decodeList<User>()
+                }
+
+                response = response.filter {
+                    isFriend(it, context)
+                }
+
+                response.forEach {
+                    it.isFriend = true
+                }
 
                 usersResponse.value = Response(status = Status.SUCCESS, data = response)
             }catch (err: BadRequestRestException){

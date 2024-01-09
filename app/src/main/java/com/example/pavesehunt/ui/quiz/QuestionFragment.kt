@@ -56,6 +56,10 @@ class QuestionFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        val counterIndicator = view.findViewById<LinearProgressIndicator>(R.id.counterIndicator)
+        val openPoemDialogCard = view.findViewById<CardView>(R.id.openPoemCard)
+        val tutorialCard = view.findViewById<CardView>(R.id.tutorialCard)
+
         quizViewModel.questionsResponse.observe(viewLifecycleOwner){ response ->
             when(response.status){
                 Status.NOT_STARTED -> {
@@ -74,6 +78,10 @@ class QuestionFragment : Fragment() {
                     val user = userViewModel.userResponse.value!!.data as User
 
                     binding.questionText.text = questions[user.answer_given!!].question
+
+                    openPoemDialogCard.setOnClickListener {
+                        showDialog(questions[user.answer_given!!].poem)
+                    }
 
                     val buttons: List<Button> = listOf(
                         view.findViewById(R.id.firstAnswerButton),
@@ -145,25 +153,21 @@ class QuestionFragment : Fragment() {
 
 
 
-        val counterIndicator = view.findViewById<LinearProgressIndicator>(R.id.counterIndicator)
-        val openPoemDialogCard = view.findViewById<CardView>(R.id.openPoemCard)
-        val tutorialCard = view.findViewById<CardView>(R.id.tutorialCard)
+
 
 
         quizViewModel.counter.observe(viewLifecycleOwner){
             counterIndicator.progress = it
         }
 
-        openPoemDialogCard.setOnClickListener {
-            showDialog()
-        }
+
 
         tutorialCard.setOnClickListener {
             showTutorialDialog()
         }
     }
 
-    fun showDialog(){
+    fun showDialog(poem: String){
         val dialog = Dialog(requireView().context)
 
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
@@ -173,17 +177,7 @@ class QuestionFragment : Fragment() {
         val poemTextView = dialog.findViewById<TextView>(R.id.poemTextView)
         val exitButton = dialog.findViewById<Button>(R.id.okDialogButton)
 
-        poemTextView.text = "Nel mezzo del cammin di nostra vita\n" +
-                "mi ritrovai per una selva oscura,\n" +
-                "ché la diritta via era smarrita.\n" +
-                "\n" +
-                "Ahi quanto a dir qual era è cosa dura\n" +
-                "esta selva selvaggia e aspra e forte\n" +
-                "che nel pensier rinova la paura!\n" +
-                "\n" +
-                "Tant’è amara che poco è più morte;\n" +
-                "ma per trattar del ben ch’i’ vi trovai,\n" +
-                "dirò de l’altre cose ch’i’ v’ ho scorte."
+        poemTextView.text = poem
 
         exitButton.setOnClickListener {
             dialog.dismiss()
