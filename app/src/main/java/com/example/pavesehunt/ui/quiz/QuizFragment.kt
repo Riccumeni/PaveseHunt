@@ -3,6 +3,7 @@ package com.example.pavesehunt.ui.quiz
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.os.Handler
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -77,6 +78,8 @@ class QuizFragment : Fragment() {
                     putInt("points", user.points)
                     apply()
                 }
+
+                binding.loadingLayout.root.visibility = View.GONE
             }
         }
 

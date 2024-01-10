@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Toast
 import androidx.activity.viewModels
+import com.example.pavesehunt.R
 import com.example.pavesehunt.data.models.Status
 import com.example.pavesehunt.databinding.ActivityLoginBinding
 import com.example.testapp.domain.viewmodels.UserViewModel
@@ -21,6 +22,8 @@ class LoginActivity : AppCompatActivity() {
         binding = ActivityLoginBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        window.statusBarColor = getColor(R.color.primaryContainer)
+
         binding.loginButton.setOnClickListener {
 
             viewModel.login(binding.emailEditText.text.toString(),binding.passwordEditText.text.toString(), this)
@@ -36,8 +39,8 @@ class LoginActivity : AppCompatActivity() {
                 startActivity(Intent(this, HomeActivity::class.java))
             }
             if(status == Status.ERROR){
-                val toast = Toast.makeText(this, "Invalid credential", Toast.LENGTH_LONG) // in Activity
-                toast.show()
+                binding.emailEditText.error = "Invalid credential"
+                binding.passwordEditText.error = "Invalid credential"
             }
         }
     }

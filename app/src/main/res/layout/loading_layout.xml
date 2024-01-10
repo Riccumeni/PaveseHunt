@@ -9,9 +9,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
 
-        app:trackThickness="15dp"
+        app:trackThickness="7dp"
         app:trackCornerRadius="10dp"
-        app:indicatorSize="100dp"
+        app:indicatorSize="75dp"
         app:indicatorColor="@color/primaryContainer"
 
         android:indeterminate="true"

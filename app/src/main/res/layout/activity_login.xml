@@ -41,6 +41,7 @@
 
     <LinearLayout
         android:id="@+id/linearLayout"
+        android:visibility="gone"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginVertical="20dp"
@@ -137,6 +138,7 @@
         android:layout_marginVertical="20dp"
 
         android:hint="Email"
+        app:errorEnabled="true"
 
         app:boxCornerRadiusBottomEnd="10dp"
         app:boxCornerRadiusBottomStart="10dp"
@@ -153,9 +155,10 @@
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/emailEditText"
+            android:textColor="@color/white"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:inputType="text" />
+            android:inputType="textEmailAddress" />
 
     </com.google.android.material.textfield.TextInputLayout>
 
@@ -168,6 +171,8 @@
         android:layout_marginVertical="20dp"
 
         android:hint="Password"
+
+        app:errorEnabled="true"
 
         app:boxCornerRadiusBottomEnd="10dp"
         app:boxCornerRadiusBottomStart="10dp"
@@ -184,9 +189,10 @@
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/passwordEditText"
+            android:textColor="@color/white"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:inputType="text" />
+            android:inputType="textPassword" />
 
     </com.google.android.material.textfield.TextInputLayout>
 

@@ -72,10 +72,14 @@ class SearchFragment : Fragment() {
 
                     val collections = it.data as List<Collection>
 
-                    view.findViewById<RecyclerView>(R.id.searchRecyclerView).apply {
+                    binding.searchRecyclerView.apply {
                         adapter = CollectionAdapter(collections, collectionsViewModel)
                         layoutManager = LinearLayoutManager(view.context, LinearLayoutManager.VERTICAL, false)
                     }
+
+                    binding.searchRecyclerView.visibility = View.VISIBLE
+
+                    binding.loadingLayout.root.visibility = View.GONE
                 }
 
                 Status.LOADING -> {

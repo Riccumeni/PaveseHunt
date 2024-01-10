@@ -20,6 +20,7 @@ import io.github.jan.supabase.postgrest.query.FilterOperator
 import io.github.jan.supabase.storage.storage
 import kotlinx.coroutines.launch
 import kotlinx.serialization.json.Json
+import java.lang.Error
 
 
 class UserViewModel: ViewModel() {
@@ -197,10 +198,17 @@ class UserViewModel: ViewModel() {
     }
 
     fun login(email: String, password: String, context: Context){
-
         viewModelScope.launch {
 
             try{
+                if(!isValidEmail(email)){
+                    throw Exception("Invalid email")
+                }
+
+                if(password.isEmpty()){
+                    throw Exception("Password is too short")
+                }
+
                 val client = SupabaseClientSingleton.getClient()
 
                 client.auth.signInWith(Email) {
@@ -223,8 +231,18 @@ class UserViewModel: ViewModel() {
                 status.value = Status.SUCCESS
             }catch(err: BadRequestRestException){
                 status.value = Status.ERROR
+            }catch (err: HttpRequestException){
+                status.value = Status.ERROR
+            } catch (err: Exception){
+                status.value = Status.ERROR
             }
+
         }
+    }
+
+    fun isValidEmail(email: String): Boolean {
+        val emailRegex = Regex("^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Z|a-z]{2,}\$")
+        return emailRegex.matches(email)
     }
 
     fun signUpEmail(email: String, password: String, username: String, image: ByteArray, context: Context){
