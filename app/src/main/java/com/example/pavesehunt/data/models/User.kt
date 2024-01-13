@@ -11,5 +11,6 @@ data class User (
     var answer_given: Int? = 0,
     val created_at: String? = null,
     var imageUrl: String? = null,
-    var isFriend: Boolean = false
+    var isFriend: Boolean = false,
+    var friends: String = ""
 )

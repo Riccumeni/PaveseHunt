@@ -39,6 +39,8 @@ class CollectionViewModel: ViewModel() {
                 collectionsResponse.value = Response(status = STATUS.ERROR)
             }catch (err: BadRequestRestException){
                 collectionsResponse.value = Response(status = STATUS.ERROR)
+            }catch (err: Exception){
+                this@CollectionViewModel.collectionsResponse.value = Response(STATUS.ERROR)
             }
         }
     }

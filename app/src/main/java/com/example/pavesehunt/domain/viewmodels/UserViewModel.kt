@@ -21,16 +21,43 @@ import io.github.jan.supabase.postgrest.query.FilterOperator
 import io.github.jan.supabase.storage.storage
 import kotlinx.coroutines.launch
 import kotlinx.serialization.json.Json
+import java.util.UUID
 
 class UserViewModel: ViewModel() {
 
     var status = MutableLiveData(STATUS.LOADING)
     var statusSignOut = MutableLiveData(STATUS.LOADING)
+    var statusResetPoints = MutableLiveData(STATUS.LOADING)
     var statusSignUpEmail = MutableLiveData(Response(status = STATUS.NOT_STARTED))
-
     val userResponse = MutableLiveData(Response(status = STATUS.NOT_STARTED))
-
     var usersResponse = MutableLiveData(Response(status = STATUS.LOADING))
+
+    fun resetPoints(){
+        val client = SupabaseClientSingleton.getClient()
+
+        val user = userResponse.value!!.data as User
+
+        viewModelScope.launch {
+            try {
+                client.postgrest.from("users").update (
+                    {
+                        User::points setTo 0
+                        User::answer_given setTo 0
+                    }
+                ){
+                    filter(column = "uuid", operator = FilterOperator.EQ, value = "${user.uuid}")
+                }.decodeSingle<User>()
+
+                user.points = 0
+                user.answer_given = 0
+
+                statusResetPoints.value = STATUS.SUCCESS
+
+            }catch (err: Exception){
+                statusResetPoints.value = STATUS.ERROR
+            }
+        }
+    }
 
     fun sendResult(time: Int, isCorrect: Boolean, actualProgress: Int){
         val client = SupabaseClientSingleton.getClient()
@@ -97,12 +124,12 @@ class UserViewModel: ViewModel() {
             val client = SupabaseClientSingleton.getClient()
 
             try{
-                val response = client.postgrest.from("users").select(columns = Columns.list("username", "points")){
+                val response = client.postgrest.from("users").select(columns = Columns.list("id", "username", "points")){
                     User::username ilike "%${text}%"
                 }.decodeList<User>()
 
                 response.forEach {
-                    if(isFriend(it, context)){
+                    if(isFriend(it.id!!)){
                         it.isFriend = true
                     }
                 }
@@ -116,22 +143,36 @@ class UserViewModel: ViewModel() {
         }
     }
 
-    private fun isFriend(user: User, context: Context): Boolean{
+    private fun isFriend(userId: Int): Boolean{
         var  isFriend = false
 
-        val shared = context.getSharedPreferences("shared", Context.MODE_PRIVATE)
-        var friends = shared.getString("friends", "[]")
+        val user = userResponse.value!!.data as User
+        val userFriends: MutableList<Int> = Json.decodeFromString(user.friends)
 
-        val friendObjects: MutableList<User> = Json.decodeFromString(friends!!)
-
-        friendObjects?.forEach {
-            if(user.username.lowercase() == it.username.lowercase()){
+        userFriends.forEach {
+            if(it == userId){
                 isFriend = true
-                it.isFriend = true
             }
         }
 
         return isFriend
+    }
+
+    fun setFriends(newFriends: String, uuid: String){
+        viewModelScope.launch {
+            val client = SupabaseClientSingleton.getClient()
+
+            client.postgrest.from("users").update (
+                {
+                    User::friends setTo newFriends
+                }
+            ){
+                filter(column = "uuid", operator = FilterOperator.EQ, value = uuid)
+            }.decodeSingle<User>()
+
+            val user = userResponse.value!!.data as User
+            user.friends = newFriends
+        }
     }
 
     fun getFriends(context: Context, text: String?){
@@ -143,16 +184,22 @@ class UserViewModel: ViewModel() {
                 lateinit var response: List<User>
 
                 if(text == null){
-                    response = client.postgrest.from("users").select(columns = Columns.list("username", "points")){}.decodeList<User>()
+                    response = client.postgrest.from("users").select(columns = Columns.list("id", "username", "points")){}.decodeList<User>()
                 }else{
-                    response = client.postgrest.from("users").select(columns = Columns.list("username", "points")){
+                    response = client.postgrest.from("users").select(columns = Columns.list("id", "username", "points")){
                         User::username ilike "%${text}%"
                     }.decodeList<User>()
                 }
 
                 response = response.filter {
+                    isFriend(it.id!!)
+                }
+
+                /*
+                response = response.filter {
                     isFriend(it, context)
                 }
+                */
 
                 response.forEach {
                     it.isFriend = true
@@ -256,8 +303,6 @@ class UserViewModel: ViewModel() {
             return
         }
 
-
-
         viewModelScope.launch {
             val client = SupabaseClientSingleton.getClient()
 
@@ -265,6 +310,7 @@ class UserViewModel: ViewModel() {
 
             try {
                 val usernameIsAlreadyToken = client.postgrest.from("users").select { filter("username", FilterOperator.EQ, username) }.decodeSingle<User>()
+                print(usernameIsAlreadyToken.username)
 
             }catch (err: Exception){
                 usernameAlreadyExist = true
@@ -286,7 +332,7 @@ class UserViewModel: ViewModel() {
                 client.postgrest.from("users").insert(user)
 
                 val bucket = client.storage.from("avatars")
-                bucket.upload("${username}.jpg", image, upsert = false)
+                bucket.upload("${username.lowercase()}.jpg", image, upsert = false)
 
                 statusSignUpEmail.value = Response(status = STATUS.SUCCESS)
 

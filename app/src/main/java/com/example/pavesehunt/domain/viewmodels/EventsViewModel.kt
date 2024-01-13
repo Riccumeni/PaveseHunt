@@ -31,6 +31,8 @@ class EventsViewModel: ViewModel() {
 
             }catch (err: HttpRequestException){
                 eventsResponse.value = Response(status = STATUS.ERROR)
+            }catch (err: Exception){
+                eventsResponse.value = Response(status = STATUS.ERROR)
             }
         }
     }

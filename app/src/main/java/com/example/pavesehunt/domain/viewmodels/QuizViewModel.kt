@@ -42,6 +42,8 @@ class QuizViewModel: ViewModel() {
                 questionsResponse.value = Response(status = STATUS.SUCCESS, data = questions)
             }catch (err: BadRequestRestException){
                 questionsResponse.value = Response(status = STATUS.ERROR)
+            }catch (err: Exception){
+                this@QuizViewModel.questionsResponse.value = Response(STATUS.ERROR)
             }
         }
     }
@@ -71,33 +73,38 @@ class QuizViewModel: ViewModel() {
                 this@QuizViewModel.leatherboard.value = Response(STATUS.ERROR)
             }catch (err: HttpRequestException){
                 this@QuizViewModel.leatherboard.value = Response(STATUS.ERROR)
+            }catch (err: Exception){
+                this@QuizViewModel.leatherboard.value = Response(STATUS.ERROR)
             }
         }
     }
 
-    fun getFriendsLeatherboard(context: Context){
+    fun getFriendsLeatherboard(context: Context, userId: Int, friends: String){
+
         leatherboard.value!!.data = mutableListOf<User>()
+
         viewModelScope.launch {
             val client = SupabaseClientSingleton.getClient()
 
             this@QuizViewModel.leatherboard.value!!.status = STATUS.LOADING
 
             try{
-                val leatherboard = client.postgrest.from("users").select (columns = Columns.list("username", "points")){
+                val leatherboard = client.postgrest.from("users").select (columns = Columns.list("username", "points", "id")){
                     order("points", Order.DESCENDING)
                 }.decodeList<User>()
 
-                val shared = context.getSharedPreferences("shared", Context.MODE_PRIVATE)
-
-                val friends = shared.getString("friends", "[]")
-                val friendObjects: MutableList<User> = Json.decodeFromString(friends!!)
+                val friendObjects: MutableList<Int> = Json.decodeFromString(friends)
 
                 val leatherboardFiltered: MutableList<User> = mutableListOf()
 
                 leatherboard.forEach {
-                    friendObjects.forEachIndexed { index, friend ->
-                        if(friend.username.lowercase() == it.username.lowercase()){
-                            leatherboardFiltered.add(it)
+                    if(it.id == userId){
+                        leatherboardFiltered.add(it)
+                    }else{
+                        friendObjects.forEachIndexed { index, friend ->
+                            if(friend == it.id){
+                                leatherboardFiltered.add(it)
+                            }
                         }
                     }
                 }
@@ -112,6 +119,8 @@ class QuizViewModel: ViewModel() {
             }catch (err: BadRequestRestException){
                 this@QuizViewModel.leatherboard.value = Response(STATUS.ERROR)
             }catch (err: HttpRequestException){
+                this@QuizViewModel.leatherboard.value = Response(STATUS.ERROR)
+            } catch (err: Exception){
                 this@QuizViewModel.leatherboard.value = Response(STATUS.ERROR)
             }
         }

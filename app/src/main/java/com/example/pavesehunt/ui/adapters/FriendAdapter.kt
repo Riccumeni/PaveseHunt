@@ -10,10 +10,11 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.pavesehunt.R
 import com.example.testapp.data.models.User
+import com.example.testapp.domain.viewmodels.UserViewModel
 import kotlinx.serialization.*
 import kotlinx.serialization.json.Json
 
-class FriendAdapter(var users: List<User>): RecyclerView.Adapter<FriendAdapter.CustomViewHolder>() {
+class FriendAdapter(var users: List<User>, var friends: String, var userViewModel: UserViewModel, var uuid: String): RecyclerView.Adapter<FriendAdapter.CustomViewHolder>() {
     class CustomViewHolder(val view: ViewGroup) : RecyclerView.ViewHolder(view)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CustomViewHolder {
@@ -28,52 +29,41 @@ class FriendAdapter(var users: List<User>): RecyclerView.Adapter<FriendAdapter.C
 
         val button = holder.view.findViewById<Button>(R.id.addFriendButton)
 
-        if(user.isFriend){
+        val userFriends: MutableList<Int> = Json.decodeFromString(friends)
+
+        var isFriend = false
+
+        userFriends.forEach {
+            if(user.id == it){
+                isFriend = true
+            }
+        }
+
+        if(isFriend){
             button.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.baseline_remove_24, 0)
         }else{
             button.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.baseline_add_24, 0)
         }
 
-        val shared = holder.view.context.getSharedPreferences("shared", Context.MODE_PRIVATE)
-
-        var friends = shared.getString("friends", "[]")
-
-        if(friends!!.contains(user.username)){
-            button.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.baseline_remove_24, 0)
-        }
-
         button.setOnClickListener {
-            if(user.isFriend){
-                val friendObjects: MutableList<User> = Json.decodeFromString(friends!!)
+            if(isFriend){
 
-                friendObjects.forEachIndexed { index, userFav ->
-                    if(userFav.username.lowercase() == user.username.lowercase()){
-                        friendObjects.removeAt(index)
+                userFriends.forEachIndexed { index, userFav ->
+                    if(userFav == user.id){
+                        userFriends.removeAt(index)
+                        friends = Json.encodeToString(userFriends)
+
+                        userViewModel.setFriends(friends, uuid)
                     }
-                }
-
-                friends = Json.encodeToString(friendObjects)
-
-                user.isFriend = false
-
-                with(shared.edit()){
-                    putString("friends", friends)
-                    apply()
                 }
 
                 button.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.baseline_add_24, 0)
             }else{
-                val friendObjects: MutableList<User> = Json.decodeFromString(friends!!)
-                friendObjects.add(user)
+                userFriends.add(user.id!!)
 
-                friends = Json.encodeToString(friendObjects)
+                friends = Json.encodeToString(userFriends)
 
-                user.isFriend = true
-
-                with(shared.edit()){
-                    putString("friends", friends)
-                    apply()
-                }
+                userViewModel.setFriends(friends, uuid)
 
                 button.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.baseline_remove_24, 0)
             }

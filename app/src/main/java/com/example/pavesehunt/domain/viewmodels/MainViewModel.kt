@@ -23,7 +23,6 @@ class MainViewModel: ViewModel() {
 
             try{
                 val user = client.auth.retrieveUser(token)
-                print(user.toString())
                 status.value = STATUS.SUCCESS
             }catch (err: BadRequestRestException){
                 status.value = STATUS.ERROR

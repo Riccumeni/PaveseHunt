@@ -17,10 +17,6 @@ import com.example.testapp.data.models.User
 import com.example.testapp.domain.viewmodels.UserViewModel
 import com.google.android.material.tabs.TabLayout
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
 
 class AddFriendFragment : Fragment() {
 
@@ -72,8 +68,10 @@ class AddFriendFragment : Fragment() {
 
                             val users: List<User> = listOf()
 
+                            val user = userViewModel.userResponse.value!!.data as User
+
                             friendRecyclerView.apply {
-                                adapter = FriendAdapter(users)
+                                adapter = FriendAdapter(users, user.friends, userViewModel, user.uuid!!)
                                 layoutManager = LinearLayoutManager(view.context, LinearLayoutManager.VERTICAL, false)
                             }
                         }
@@ -109,10 +107,10 @@ class AddFriendFragment : Fragment() {
                 STATUS.SUCCESS -> {
                     val users = it.data as List<User>
 
-
+                    val user = userViewModel.userResponse.value!!.data as User
 
                     friendRecyclerView.apply {
-                        adapter = FriendAdapter(users = users)
+                        adapter = FriendAdapter(users = users, user.friends, userViewModel, user.uuid!!)
                         layoutManager =
                             LinearLayoutManager(view.context, LinearLayoutManager.VERTICAL, false)
                     }

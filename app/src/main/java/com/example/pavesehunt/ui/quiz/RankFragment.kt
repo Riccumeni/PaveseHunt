@@ -15,11 +15,13 @@ import com.example.pavesehunt.domain.usecases.STATUS
 import com.example.pavesehunt.ui.adapters.RankAdapter
 import com.example.testapp.data.models.User
 import com.example.testapp.domain.viewmodels.QuizViewModel
+import com.example.testapp.domain.viewmodels.UserViewModel
 import com.google.android.material.progressindicator.CircularProgressIndicator
 
 class RankFragment : Fragment() {
 
     private val viewModel : QuizViewModel by activityViewModels()
+    private val userViewModel : UserViewModel by activityViewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -36,12 +38,9 @@ class RankFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         viewModel.getLeatherboard()
 
-        val addFriendButton = view.findViewById<View>(R.id.addFriendButton)
         val globalLeatherboardButton = view.findViewById<View>(R.id.globalButton)
         val friendLeatherboardButton = view.findViewById<View>(R.id.friendsButton)
         val circularProgress = view.findViewById<CircularProgressIndicator>(R.id.rankCircularIndicator)
-
-
 
         globalLeatherboardButton.setOnClickListener {
             viewModel.getLeatherboard()
@@ -57,7 +56,8 @@ class RankFragment : Fragment() {
         }
 
         friendLeatherboardButton.setOnClickListener {
-            viewModel.getFriendsLeatherboard(view.context)
+            val user = userViewModel.userResponse.value!!.data as User
+            viewModel.getFriendsLeatherboard(view.context, user.id!!, friends = user.friends)
 
             friendLeatherboardButton.setBackgroundTintList(ColorStateList.valueOf(0xFFCBB18C.toInt()))
             globalLeatherboardButton.setBackgroundTintList(ColorStateList.valueOf(0xFF746551.toInt()))

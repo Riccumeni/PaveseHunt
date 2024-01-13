@@ -33,6 +33,7 @@
             android:exported="true"/>
         <activity
             android:name=".ui.MainActivity"
+            android:label="Pavese Quiz"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

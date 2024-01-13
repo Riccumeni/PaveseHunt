@@ -80,8 +80,6 @@ class QuestionFragment : Fragment() {
                         view.findViewById(R.id.fourthAnswerButton)
                     )
 
-
-
                     if(user.answer_given!! < questions.size){
                         quizViewModel.startTimer()
 
@@ -100,8 +98,8 @@ class QuestionFragment : Fragment() {
                         }
 
                         buttons.forEachIndexed{ index, button ->
-                            button.setOnClickListener {
 
+                            button.setOnClickListener {
                                 val time: Int? = quizViewModel.counter.value
 
                                 quizViewModel.stopTimer()
@@ -121,6 +119,7 @@ class QuestionFragment : Fragment() {
                                 }
 
                                 buttons.forEachIndexed { i, button ->
+                                    button.isEnabled = false
                                     if(i == questions[user.answer_given!!].correct_answer){
                                         buttons[i].setBackgroundColor(0xFF1C9700.toInt())
                                     }else{
@@ -143,6 +142,7 @@ class QuestionFragment : Fragment() {
                                         answers.forEachIndexed{index, s ->
                                             buttons[index].setBackgroundColor(0xFFCBB18C.toInt())
                                             buttons[index].text = s
+                                            buttons[index].isEnabled = true
                                         }
 
                                         binding.questionText.text = questions[user.answer_given!!].question

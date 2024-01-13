@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:background="@color/secondaryContainer"
+    android:padding="20dp"
+    android:layout_width="300dp"
+    android:layout_height="wrap_content">
+
+    <TextView
+        android:id="@+id/titleDialog"
+
+        android:text="Resettare il quiz?"
+        android:fontFamily="@font/poppins"
+        android:textColor="@color/onSecondaryContainer"
+        android:textSize="24sp"
+
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <TextView
+        android:id="@+id/bodyDialog"
+
+        android:text="Se il quiz viene resettato vengono azzerati i punti accumulati."
+        android:fontFamily="@font/poppins"
+        android:textColor="@color/onSecondaryContainer"
+
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+
+    <LinearLayout
+        android:gravity="end"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <Button
+            android:id="@+id/discardDialogButton"
+            style="@style/Widget.Material3.Button.TextButton"
+            android:text="Annulla"
+
+            android:layout_gravity="end"
+
+            android:textColor="@color/onSecondaryContainer"
+
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+        <Button
+            android:id="@+id/okDialogButton"
+            style="@style/Widget.Material3.Button.TextButton"
+            android:text="Ok"
+
+            android:layout_gravity="end"
+
+            android:textColor="@color/onSecondaryContainer"
+
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+
+    </LinearLayout>
+
+
+</LinearLayout>
