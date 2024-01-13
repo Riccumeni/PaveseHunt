@@ -4,11 +4,9 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <include android:id="@+id/loadingLayout" layout="@layout/loading_layout" android:visibility="visible"/>
-
     <LinearLayout
         android:id="@+id/mainContent"
-        android:visibility="gone"
+        android:visibility="visible"
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -43,14 +41,13 @@
 
             <LinearLayout
                 android:orientation="vertical"
-                android:padding="20dp"
+                android:padding="15dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
                 <androidx.cardview.widget.CardView
                     android:id="@+id/tutorialCard"
                     android:backgroundTint="@color/primaryContainer"
-                    android:layout_marginBottom="10dp"
                     android:layout_gravity="end"
                     app:cardCornerRadius="15dp"
                     android:layout_width="30dp"
@@ -73,14 +70,15 @@
                     android:padding="10dp"
                     app:cardElevation="10dp"
                     android:layout_gravity="center"
-                    android:layout_width="100dp"
-                    android:layout_height="100dp">
+                    android:layout_width="75dp"
+                    android:layout_height="75dp">
 
                     <ImageView
                         android:src="@drawable/book"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:scaleType="center"
+                        android:layout_width="50dp"
+                        android:layout_height="50dp"
+                        android:scaleType="fitCenter"
+                        android:layout_gravity="center"
                         />
 
                 </androidx.cardview.widget.CardView>
@@ -182,5 +180,71 @@
 
 
 
+    </LinearLayout>
+
+    <include android:id="@+id/loadingLayout" layout="@layout/loading_layout" android:visibility="gone"/>
+
+    <LinearLayout
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/resetQuizLayout"
+        android:visibility="gone"
+        android:background="@color/background"
+        android:orientation="vertical"
+        android:padding="20dp"
+        android:gravity="center"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <ImageView
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_marginBottom="40dp"
+            android:src="@drawable/baseline_check_circle_24"
+            app:tint="@color/primaryContainer"
+            />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+
+            android:text="Hai completato il quiz!"
+            android:textSize="20sp"
+            android:textAlignment="center"
+            android:textColor="@color/onBackground"
+            android:fontFamily="@font/poppins"
+            android:textFontWeight="600"
+            android:layout_marginBottom="20dp"
+
+
+            />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+
+            android:text="Se vuoi ricominciare da capo vai in:"
+            android:textSize="18sp"
+            android:textAlignment="center"
+            android:textColor="@color/onBackground"
+            android:fontFamily="@font/poppins"
+            android:textFontWeight="400"
+
+
+            />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+
+            android:text="Impostazioni > Resetta Quiz"
+            android:textSize="20sp"
+            android:textAlignment="center"
+            android:textColor="@color/onBackground"
+            android:fontFamily="@font/poppins"
+            android:textFontWeight="600"
+
+            android:layout_marginBottom="40dp"
+
+            />
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

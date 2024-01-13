@@ -7,7 +7,7 @@ import android.os.Bundle
 import androidx.activity.viewModels
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import com.example.pavesehunt.R
-import com.example.pavesehunt.data.models.Status
+import com.example.pavesehunt.domain.usecases.STATUS
 import com.example.pavesehunt.ui.home.HomeActivity
 import com.example.pavesehunt.ui.login.LoginActivity
 import com.example.pavesehunt.domain.viewmodels.MainViewModel
@@ -20,7 +20,7 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         installSplashScreen().apply {
 
-            var status = Status.LOADING
+            var status = STATUS.LOADING
 
             val sharedPref = getSharedPreferences("shared", Context.MODE_PRIVATE)
             val token = sharedPref.getString("token", "")
@@ -28,7 +28,7 @@ class MainActivity : AppCompatActivity() {
             if(token != ""){
                 viewModel.checkToken(token!!)
             }else{
-                viewModel.status.value = Status.ERROR
+                viewModel.status.value = STATUS.ERROR
             }
 
             viewModel.status.observe(this@MainActivity){
@@ -36,16 +36,16 @@ class MainActivity : AppCompatActivity() {
             }
 
             this.setKeepOnScreenCondition {
-                status == Status.LOADING
+                status == STATUS.LOADING
             }
 
             // TODO: RIMETTERE A POSTO
 
             this.setOnExitAnimationListener{
-                if(viewModel.status.value == Status.SUCCESS){
+                if(viewModel.status.value == STATUS.SUCCESS){
                     startActivity(Intent(this@MainActivity, HomeActivity::class.java))
                     finish()
-                } else if(viewModel.status.value == Status.ERROR){
+                } else if(viewModel.status.value == STATUS.ERROR){
                     startActivity(Intent(this@MainActivity, LoginActivity::class.java))
                     finish()
                 }

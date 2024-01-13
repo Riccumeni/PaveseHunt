@@ -11,7 +11,7 @@ import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.pavesehunt.R
-import com.example.pavesehunt.data.models.Status
+import com.example.pavesehunt.domain.usecases.STATUS
 import com.example.pavesehunt.ui.adapters.FriendAdapter
 import com.example.testapp.data.models.User
 import com.example.testapp.domain.viewmodels.UserViewModel
@@ -102,11 +102,11 @@ class AddFriendFragment : Fragment() {
         userViewModel.usersResponse.observe(viewLifecycleOwner){
             when(it.status){
 
-                Status.NOT_STARTED -> {
+                STATUS.NOT_STARTED -> {
 
                 }
 
-                Status.SUCCESS -> {
+                STATUS.SUCCESS -> {
                     val users = it.data as List<User>
 
 
@@ -120,11 +120,11 @@ class AddFriendFragment : Fragment() {
 
                 }
 
-                Status.LOADING -> {
+                STATUS.LOADING -> {
 
                 }
 
-                Status.ERROR -> {
+                STATUS.ERROR -> {
 
                 }
 

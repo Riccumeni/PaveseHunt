@@ -1,9 +1,7 @@
 package com.example.pavesehunt.ui.quiz
 
 import android.content.Context
-import android.content.Intent
 import android.os.Bundle
-import android.os.Handler
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -12,13 +10,12 @@ import androidx.fragment.app.activityViewModels
 import androidx.navigation.findNavController
 import com.bumptech.glide.Glide
 import com.example.pavesehunt.R
-import com.example.pavesehunt.data.models.Status
+import com.example.pavesehunt.domain.usecases.STATUS
 import com.example.pavesehunt.databinding.FragmentQuizBinding
 import com.example.pavesehunt.domain.viewmodels.TopBarViewModel
 import com.example.testapp.data.models.User
 import com.example.testapp.domain.viewmodels.QuizViewModel
 import com.example.testapp.domain.viewmodels.UserViewModel
-import com.unity3d.player.UnityPlayerActivity
 
 class QuizFragment : Fragment() {
 
@@ -58,7 +55,7 @@ class QuizFragment : Fragment() {
 
         userViewModel.userResponse.observe(viewLifecycleOwner){ response ->
 
-            if(response.status == Status.SUCCESS){
+            if(response.status == STATUS.SUCCESS){
                 val user = response.data as User
 
                 binding.pointsTextView.text = user.points.toString()
@@ -72,7 +69,7 @@ class QuizFragment : Fragment() {
 
 
                 binding.answerTextView.text = user.answer_given.toString()
-                binding.remainingAnswerTextView.text = (5 - user.answer_given!!).toString()
+                binding.remainingAnswerTextView.text = (4 - user.answer_given!!).toString()
 
                 with(shared.edit()){
                     putInt("points", user.points)
@@ -85,7 +82,6 @@ class QuizFragment : Fragment() {
 
         binding.quizButton.setOnClickListener {
             view.findNavController().navigate(R.id.action_quizFragment_to_questionFragment)
-            // startActivity(Intent(view.context, UnityPlayerActivity::class.java))
         }
     }
 

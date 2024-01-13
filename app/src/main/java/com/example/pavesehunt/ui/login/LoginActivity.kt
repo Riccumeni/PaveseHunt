@@ -3,10 +3,9 @@ package com.example.pavesehunt.ui.login
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.widget.Toast
 import androidx.activity.viewModels
 import com.example.pavesehunt.R
-import com.example.pavesehunt.data.models.Status
+import com.example.pavesehunt.domain.usecases.STATUS
 import com.example.pavesehunt.databinding.ActivityLoginBinding
 import com.example.testapp.domain.viewmodels.UserViewModel
 
@@ -30,15 +29,14 @@ class LoginActivity : AppCompatActivity() {
         }
 
         binding.registerButton.setOnClickListener {
-            //viewModel.registerEmail("gageve4075@apdiv.com", "gageve", "gianfranco", this)
             startActivity(Intent(this, SignUpActivity::class.java))
         }
 
         viewModel.status.observe(this){ status ->
-            if(status == Status.SUCCESS){
+            if(status == STATUS.SUCCESS){
                 startActivity(Intent(this, HomeActivity::class.java))
             }
-            if(status == Status.ERROR){
+            if(status == STATUS.ERROR){
                 binding.emailEditText.error = "Invalid credential"
                 binding.passwordEditText.error = "Invalid credential"
             }

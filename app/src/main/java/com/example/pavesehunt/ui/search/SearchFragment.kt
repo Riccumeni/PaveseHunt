@@ -11,13 +11,12 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.pavesehunt.R
 import com.example.pavesehunt.data.models.Collection
-import com.example.pavesehunt.data.models.Status
-import com.example.pavesehunt.databinding.FragmentQuizBinding
+import com.example.pavesehunt.domain.usecases.STATUS
 import com.example.pavesehunt.databinding.FragmentSearchBinding
 import com.example.pavesehunt.domain.viewmodels.CollectionViewModel
 import com.example.pavesehunt.domain.viewmodels.TopBarViewModel
 import com.example.pavesehunt.ui.adapters.CollectionAdapter
-import com.example.testapp.domain.viewmodels.UserViewModel
+import com.google.android.material.button.MaterialButton
 
 class SearchFragment : Fragment() {
 
@@ -52,13 +51,13 @@ class SearchFragment : Fragment() {
         topBarViewModel.screenChanged.value = true
 
         binding.searchEditText.addTextChangedListener {
-            if(collectionsViewModel.collectionsResponse.value!!.status === Status.SUCCESS){
+            if(collectionsViewModel.collectionsResponse.value!!.status === STATUS.SUCCESS){
                 collectionsViewModel.getCollectionsFiltered(it.toString())
             }
         }
 
         collectionsViewModel.collectionsFiltered.observe(viewLifecycleOwner){
-            if(collectionsViewModel.collectionsResponse.value!!.status === Status.SUCCESS){
+            if(collectionsViewModel.collectionsResponse.value!!.status === STATUS.SUCCESS){
                 view.findViewById<RecyclerView>(R.id.searchRecyclerView).apply {
                     adapter = CollectionAdapter(it, collectionsViewModel)
                     layoutManager = LinearLayoutManager(view.context, LinearLayoutManager.VERTICAL, false)
@@ -68,7 +67,7 @@ class SearchFragment : Fragment() {
 
         collectionsViewModel.collectionsResponse.observe(viewLifecycleOwner){
             when(it.status){
-                Status.SUCCESS -> {
+                STATUS.SUCCESS -> {
 
                     val collections = it.data as List<Collection>
 
@@ -78,22 +77,28 @@ class SearchFragment : Fragment() {
                     }
 
                     binding.searchRecyclerView.visibility = View.VISIBLE
-
                     binding.loadingLayout.root.visibility = View.GONE
                 }
 
-                Status.LOADING -> {
+                STATUS.LOADING -> {
+                    binding.loadingLayout.root.visibility = View.VISIBLE
+                    binding.errorLayout.root.visibility = View.GONE
+                }
+
+                STATUS.ERROR -> {
+                    binding.errorLayout.root.visibility = View.VISIBLE
+                    binding.loadingLayout.root.visibility = View.GONE
 
                 }
 
-                Status.ERROR -> {
-
-                }
-
-                Status.NOT_STARTED -> {
+                STATUS.NOT_STARTED -> {
 
                 }
             }
+        }
+
+        binding.errorLayout.root.findViewById<MaterialButton>(R.id.retryButton).setOnClickListener {
+            collectionsViewModel.getCollections()
         }
     }
 

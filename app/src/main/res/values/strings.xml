@@ -16,4 +16,6 @@
     <string name="points">Punti</string>
     <string name="cerca_la_raccolta">Cerca la raccolta</string>
     <string name="title_app">Pavese Hunt</string>
+    <string name="add_a_friend_hint">add a friend...</string>
+    <string name="registrati">Registrati</string>
 </resources>

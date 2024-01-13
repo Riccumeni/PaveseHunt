@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@color/background"
+    android:orientation="vertical"
+    android:padding="20dp"
+    android:gravity="center"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <ImageView
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_marginBottom="40dp"
+        android:src="@drawable/baseline_signal_wifi_connected_no_internet_4_24"
+        app:tint="@color/primaryContainer"
+        />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+
+        android:text="Check your internet connection"
+        android:textSize="20sp"
+        android:textAlignment="center"
+        android:textColor="@color/onBackground"
+        android:fontFamily="@font/poppins"
+        android:textFontWeight="600"
+
+        android:layout_marginBottom="40dp"
+
+        />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/retryButton"
+
+        style="@style/Widget.Material3.Button.OutlinedButton.Icon"
+        android:layout_width="150dp"
+        android:layout_height="65dp"
+        android:backgroundTint="@color/background"
+
+        android:text="Retry"
+        android:textColor="@color/primaryContainer"
+        android:textSize="18sp"
+        android:fontFamily="@font/poppins"
+        android:textFontWeight="600"
+
+        app:cornerRadius="10dp"
+        app:strokeColor="@color/primaryContainer"
+        app:strokeWidth="2dp"
+        app:icon="@drawable/baseline_retry"
+        app:iconTint="@color/primaryContainer"
+        />
+
+</LinearLayout>

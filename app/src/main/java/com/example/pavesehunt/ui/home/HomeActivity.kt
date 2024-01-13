@@ -31,6 +31,8 @@ class HomeActivity : AppCompatActivity() {
         binding = ActivityHomeBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        window.statusBarColor = getColor(R.color.primaryContainer)
+
         userViewModel.getUser()
 
         val navHostFragment = supportFragmentManager.findFragmentById(R.id.fragmentView) as NavHostFragment

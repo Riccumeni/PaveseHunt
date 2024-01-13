@@ -41,7 +41,9 @@
 
         android:layout_marginTop="20dp"
 
-        android:hint="add a friend..."
+        android:hint="@string/add_a_friend_hint"
+        android:textColorHint="#80FFFFFF"
+        android:textColor="@color/white"
 
         android:layout_marginBottom="20dp"
 

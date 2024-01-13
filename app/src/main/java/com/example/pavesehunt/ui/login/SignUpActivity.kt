@@ -13,8 +13,9 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import com.bumptech.glide.Glide
 import com.example.pavesehunt.R
-import com.example.pavesehunt.data.models.Status
+import com.example.pavesehunt.domain.usecases.STATUS
 import com.example.pavesehunt.databinding.ActivitySignUpBinding
+import com.example.pavesehunt.domain.usecases.ErrorCodes
 import com.example.testapp.domain.viewmodels.UserViewModel
 import java.io.ByteArrayOutputStream
 
@@ -25,42 +26,76 @@ class SignUpActivity : AppCompatActivity() {
     private lateinit var binding: ActivitySignUpBinding
     lateinit var profileImage: ImageView
 
+    var profileImageChanged = false
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivitySignUpBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        window.statusBarColor = getColor(R.color.primaryContainer)
+
         val registerButton = findViewById<Button>(R.id.registerButton)
         profileImage = findViewById(R.id.profileImage)
 
         viewModel.statusSignUpEmail.observe(this){
-            if(it == Status.SUCCESS){
+            if(it.status == STATUS.SUCCESS){
                 val toast = Toast.makeText(this, "Registrazione effettuata", Toast.LENGTH_LONG) // in Activity
                 toast.show()
 
                 Handler().postDelayed({
                     finish()
                 }, 1000)
+            }else if(it.status == STATUS.ERROR){
+
+                when(it.code){
+
+                    ErrorCodes.EMAIL_WRONG -> {
+                        binding.emailEditText.error = "Email is not valid"
+                    }
+
+                    ErrorCodes.INTERNET_CONNECTION -> {
+                        val toast = Toast.makeText(this, "Check your internet connection", Toast.LENGTH_LONG)
+                        toast.show()
+                    }
+
+                    ErrorCodes.PASSWORD_TOO_SHORT -> {
+                        binding.passwordEditText.error = "Password is too short"
+                    }
+
+                    ErrorCodes.USERNAME_ALREADY_TOKEN -> {
+                        binding.usernameEditText.error = "Username already token"
+                    }
+
+                    ErrorCodes.PASSWORDS_NOT_EQUAL -> {
+                        binding.passwordEditText.error = "Passwords are not equal"
+                        binding.repeatPasswordEditText.error = "Passwords are not equal"
+                    }
+
+                    else -> {
+                    }
+                }
             }
         }
 
 
         registerButton.setOnClickListener {
 
-            if(binding.usernameEditText.editText!!.text!!.isNotEmpty() &&
-                binding.emailEditText.editText!!.text!!.isNotEmpty() &&
-                binding.passwordEditText.editText!!.text!!.isNotEmpty() &&
-                binding.repeatPasswordEditText.editText!!.text!!.isNotEmpty()){
+            if(profileImageChanged){
                 val bitmap = (profileImage.drawable as BitmapDrawable).bitmap
                 val stream = ByteArrayOutputStream()
                 bitmap.compress(Bitmap.CompressFormat.PNG, 90, stream)
                 val image = stream.toByteArray()
 
                 viewModel.signUpEmail(
-                    binding.emailEditText.editText!!.text.toString()
-                    , binding.passwordEditText.editText!!.text.toString(), binding.usernameEditText.editText!!.text.toString(), image, this)
+                    email = binding.emailEditText.text.toString(),
+                    password = binding.passwordEditText.text.toString(),
+                    username = binding.usernameEditText.text.toString(),
+                    repeatedPassword = binding.repeatPasswordEditText.text.toString(),
+                    image = image,
+                    context = this)
             }else{
-                val toast = Toast.makeText(this, "Compila tutti i campi", Toast.LENGTH_LONG) // in Activity
+                val toast = Toast.makeText(this, "Inserisci anche l'immagine", Toast.LENGTH_LONG) // in Activity
                 toast.show()
             }
         }
@@ -75,5 +110,8 @@ class SignUpActivity : AppCompatActivity() {
         super.onActivityResult(requestCode, resultCode, data)
         val selectedImageUri = data?.data
         Glide.with(this).load(selectedImageUri).into(profileImage)
+        binding.profileImage.scaleX = 1.0f
+        binding.profileImage.scaleY = 1.0f
+        profileImageChanged = true
     }
 }

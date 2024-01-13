@@ -5,7 +5,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.pavesehunt.data.models.Event
 import com.example.pavesehunt.data.models.Response
-import com.example.pavesehunt.data.models.Status
+import com.example.pavesehunt.domain.usecases.STATUS
 import com.example.testapp.common.SupabaseClientSingleton
 import io.github.jan.supabase.exceptions.HttpRequestException
 import io.github.jan.supabase.postgrest.postgrest
@@ -13,7 +13,7 @@ import io.github.jan.supabase.postgrest.query.FilterOperator
 import kotlinx.coroutines.launch
 
 class EventsViewModel: ViewModel() {
-    val eventsResponse = MutableLiveData(Response(status = Status.NOT_STARTED))
+    val eventsResponse = MutableLiveData(Response(status = STATUS.NOT_STARTED))
     val selectedDay = MutableLiveData<Int>()
     var previousDay: Int? = null
 
@@ -27,10 +27,10 @@ class EventsViewModel: ViewModel() {
                     filter(column = "year", FilterOperator.EQ, year)
                 }.decodeList<Event>()
 
-                eventsResponse.value = Response(status = Status.SUCCESS, data = response)
+                eventsResponse.value = Response(status = STATUS.SUCCESS, data = response)
 
             }catch (err: HttpRequestException){
-                eventsResponse.value = Response(status = Status.ERROR)
+                eventsResponse.value = Response(status = STATUS.ERROR)
             }
         }
     }

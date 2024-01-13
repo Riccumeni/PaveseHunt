@@ -3,7 +3,7 @@ package com.example.pavesehunt.domain.viewmodels
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.pavesehunt.data.models.Status
+import com.example.pavesehunt.domain.usecases.STATUS
 import com.example.testapp.common.SupabaseClientSingleton
 import io.github.jan.supabase.exceptions.BadRequestRestException
 import io.github.jan.supabase.exceptions.HttpRequestException
@@ -14,7 +14,7 @@ import kotlinx.coroutines.launch
 
 
 class MainViewModel: ViewModel() {
-    val status = MutableLiveData(Status.LOADING)
+    val status = MutableLiveData(STATUS.LOADING)
 
 
     fun checkToken(token: String){
@@ -24,13 +24,13 @@ class MainViewModel: ViewModel() {
             try{
                 val user = client.auth.retrieveUser(token)
                 print(user.toString())
-                status.value = Status.SUCCESS
+                status.value = STATUS.SUCCESS
             }catch (err: BadRequestRestException){
-                status.value = Status.ERROR
+                status.value = STATUS.ERROR
             }catch (err: UnauthorizedRestException){
-                status.value = Status.ERROR
+                status.value = STATUS.ERROR
             }catch (err: HttpRequestException){
-                status.value = Status.ERROR
+                status.value = STATUS.ERROR
             }
         }
     }

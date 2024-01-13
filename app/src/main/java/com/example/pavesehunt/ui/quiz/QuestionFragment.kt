@@ -1,7 +1,6 @@
 package com.example.pavesehunt.ui.quiz
 
 import android.app.Dialog
-import android.content.Context
 import android.os.Bundle
 import android.os.Handler
 import androidx.fragment.app.Fragment
@@ -14,12 +13,10 @@ import android.widget.TextView
 import androidx.cardview.widget.CardView
 import androidx.fragment.app.activityViewModels
 import com.example.pavesehunt.R
-import com.example.pavesehunt.common.Questions
-import com.example.pavesehunt.data.models.Status
+import com.example.pavesehunt.data.models.Question
+import com.example.pavesehunt.domain.usecases.STATUS
 import com.example.pavesehunt.databinding.FragmentQuestionBinding
-import com.example.pavesehunt.databinding.FragmentQuizBinding
 import com.example.testapp.data.models.User
-import com.example.testapp.domain.viewmodels.QuestionTwo
 import com.example.testapp.domain.viewmodels.QuizViewModel
 import com.example.testapp.domain.viewmodels.UserViewModel
 import com.google.android.material.progressindicator.LinearProgressIndicator
@@ -62,26 +59,19 @@ class QuestionFragment : Fragment() {
 
         quizViewModel.questionsResponse.observe(viewLifecycleOwner){ response ->
             when(response.status){
-                Status.NOT_STARTED -> {
+                STATUS.NOT_STARTED -> {
                     quizViewModel.getQuestions()
                 }
 
-                Status.SUCCESS -> {
+                STATUS.SUCCESS -> {
 
                     binding.mainContent.visibility = View.VISIBLE
                     binding.loadingLayout.root.visibility = View.GONE
 
-                    quizViewModel.startTimer()
 
-                    val questions = response.data as List<QuestionTwo>
+                    val questions = response.data as List<Question>
 
                     val user = userViewModel.userResponse.value!!.data as User
-
-                    binding.questionText.text = questions[user.answer_given!!].question
-
-                    openPoemDialogCard.setOnClickListener {
-                        showDialog(questions[user.answer_given!!].poem)
-                    }
 
                     val buttons: List<Button> = listOf(
                         view.findViewById(R.id.firstAnswerButton),
@@ -90,62 +80,91 @@ class QuestionFragment : Fragment() {
                         view.findViewById(R.id.fourthAnswerButton)
                     )
 
-                    var answers = Json.decodeFromString<Array<String>>(questions[user.answer_given!!].answer)
 
-                    answers.forEachIndexed { index, answer ->
-                        buttons[index].text = answer
-                    }
 
-                    buttons.forEachIndexed{ index, button ->
-                        button.setOnClickListener {
+                    if(user.answer_given!! < questions.size){
+                        quizViewModel.startTimer()
 
-                            val time: Int? = quizViewModel.counter.value
+                        var answers = Json.decodeFromString<Array<String>>(questions[user.answer_given!!].answer)
 
-                            quizViewModel.stopTimer()
+                        binding.questionText.text = questions[user.answer_given!!].question
 
-                            if(index == questions[user.answer_given!!].correct_answer){
-                                userViewModel.addPoints(time!!, view.context)
-                            }
-                            buttons.forEachIndexed { i, button ->
-                                if(i == questions[user.answer_given!!].correct_answer){
-                                    buttons[i].setBackgroundColor(0xFF00FF00.toInt())
-                                }else{
-                                    if(i == index){
-                                        buttons[i].setBackgroundColor(0xFF0000FF.toInt())
-                                    }else{
-                                        buttons[i].setBackgroundColor(0xFFFF0000.toInt())
-                                    }
-
-                                }
-                            }
-
-                            user.answer_given = user.answer_given!! + 1
-
-                            Handler().postDelayed({
-
-                                answers = Json.decodeFromString(questions[user.answer_given!!].answer)
-
-                                answers.forEachIndexed{index, s ->
-                                    buttons[index].setBackgroundColor(0xFFCBB18C.toInt())
-                                    buttons[index].text = s
-                                }
-
-                                binding.questionText.text = Questions.questions[user.answer_given!!].question
-
-                                quizViewModel.startTimer()
-                            }, 1000)
+                        openPoemDialogCard.setOnClickListener {
+                            showDialog(questions[user.answer_given!!].poem)
                         }
+
+
+
+                        answers.forEachIndexed { index, answer ->
+                            buttons[index].text = answer
+                        }
+
+                        buttons.forEachIndexed{ index, button ->
+                            button.setOnClickListener {
+
+                                val time: Int? = quizViewModel.counter.value
+
+                                quizViewModel.stopTimer()
+
+                                if(index == questions[user.answer_given!!].correct_answer){
+                                    userViewModel.sendResult(
+                                        time = time!!,
+                                        actualProgress = user.answer_given!!,
+                                        isCorrect = true
+                                    )
+                                }else{
+                                    userViewModel.sendResult(
+                                        time = time!!,
+                                        actualProgress = user.answer_given!!,
+                                        isCorrect = false
+                                    )
+                                }
+
+                                buttons.forEachIndexed { i, button ->
+                                    if(i == questions[user.answer_given!!].correct_answer){
+                                        buttons[i].setBackgroundColor(0xFF1C9700.toInt())
+                                    }else{
+                                        if(i == index){
+                                            buttons[i].setBackgroundColor(0xFF43341E.toInt())
+                                        }else{
+                                            buttons[i].setBackgroundColor(0xFF780000.toInt())
+                                        }
+
+                                    }
+                                }
+
+                                user.answer_given = user.answer_given!! + 1
+
+                                if(user.answer_given!! < questions.size){
+                                    Handler().postDelayed({
+
+                                        answers = Json.decodeFromString(questions[user.answer_given!!].answer)
+
+                                        answers.forEachIndexed{index, s ->
+                                            buttons[index].setBackgroundColor(0xFFCBB18C.toInt())
+                                            buttons[index].text = s
+                                        }
+
+                                        binding.questionText.text = questions[user.answer_given!!].question
+
+                                        quizViewModel.startTimer()
+                                    }, 2000)
+                                }else{
+                                    binding.resetQuizLayout.visibility = View.VISIBLE
+                                }
+                            }
+                        }
+                    }else{
+                        binding.resetQuizLayout.visibility = View.VISIBLE
                     }
-
-
                 }
 
-                Status.LOADING -> {
+                STATUS.LOADING -> {
                     binding.loadingLayout.root.visibility = View.VISIBLE
                     binding.mainContent.visibility = View.GONE
                 }
 
-                Status.ERROR -> {
+                STATUS.ERROR -> {
 
                 }
             }

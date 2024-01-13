@@ -179,8 +179,8 @@
         app:boxCornerRadiusTopEnd="10dp"
         app:boxCornerRadiusTopStart="10dp"
 
-        app:boxStrokeColor="@color/secondaryContainer"
-        app:hintTextColor="@color/secondaryContainer"
+        app:boxStrokeColor="@color/primaryContainer"
+        app:hintTextColor="@color/primaryContainer"
 
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/usernameInputLayout"
@@ -197,22 +197,27 @@
     </com.google.android.material.textfield.TextInputLayout>
 
 
-    <TextView
+    <Button
         android:id="@+id/registerButton"
 
-        android:layout_width="match_parent"
+        style="@style/Widget.Material3.Button.TextButton"
+
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
 
-        android:layout_marginTop="20dp"
-        android:text="REGISTRATI"
+        android:layout_marginTop="40dp"
+        android:text="@string/registrati"
+        android:textAllCaps="true"
         android:textAlignment="center"
         android:textColor="#CBB18C"
 
         android:textSize="18sp"
 
         app:layout_constraintTop_toBottomOf="@+id/linearLayout"
-        tools:layout_editor_absoluteX="167dp">
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        tools:layout_editor_absoluteX="167dp"/>
 
-    </TextView>
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

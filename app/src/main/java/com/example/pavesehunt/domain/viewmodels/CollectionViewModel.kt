@@ -5,24 +5,23 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.pavesehunt.data.models.Collection
 import com.example.pavesehunt.data.models.Response
-import com.example.pavesehunt.data.models.Status
+import com.example.pavesehunt.domain.usecases.STATUS
 import com.example.testapp.common.SupabaseClientSingleton
 import io.github.jan.supabase.exceptions.BadRequestRestException
 import io.github.jan.supabase.exceptions.HttpRequestException
 import io.github.jan.supabase.postgrest.postgrest
-import io.github.jan.supabase.postgrest.query.Columns
 import io.github.jan.supabase.storage.storage
 import kotlinx.coroutines.launch
 
 class CollectionViewModel: ViewModel() {
-    val collectionsResponse = MutableLiveData(Response(status = Status.NOT_STARTED))
+    val collectionsResponse = MutableLiveData(Response(status = STATUS.NOT_STARTED))
     val collectionsFiltered = MutableLiveData<List<Collection>>()
     var collectionSelected: Collection? = null
 
     fun getCollections(){
         val client = SupabaseClientSingleton.getClient()
 
-        collectionsResponse.value = Response(status = Status.LOADING)
+        collectionsResponse.value = Response(status = STATUS.LOADING)
 
         viewModelScope.launch {
             try {
@@ -35,11 +34,11 @@ class CollectionViewModel: ViewModel() {
 
                 collectionsFiltered.value = collections
 
-                collectionsResponse.value = Response(status = Status.SUCCESS, data = collections)
+                collectionsResponse.value = Response(status = STATUS.SUCCESS, data = collections)
             }catch (err: HttpRequestException){
-                collectionsResponse.value = Response(status = Status.ERROR)
+                collectionsResponse.value = Response(status = STATUS.ERROR)
             }catch (err: BadRequestRestException){
-                collectionsResponse.value = Response(status = Status.ERROR)
+                collectionsResponse.value = Response(status = STATUS.ERROR)
             }
         }
     }

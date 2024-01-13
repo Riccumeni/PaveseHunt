@@ -4,7 +4,9 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class Question(
+    val id: Int? = null,
     val question: String,
-    val answers: List<String>,
-    val indexOfCorrectAnswer: Int
+    val answer: String,
+    val correct_answer: Int,
+    val poem: String
 )

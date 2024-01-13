@@ -5,7 +5,9 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.pavesehunt.data.models.Response
-import com.example.pavesehunt.data.models.Status
+import com.example.pavesehunt.domain.usecases.ErrorCodes
+import com.example.pavesehunt.domain.usecases.ErrorException
+import com.example.pavesehunt.domain.usecases.STATUS
 import com.example.testapp.common.SupabaseClientSingleton
 import com.example.testapp.data.models.User
 import io.github.jan.supabase.exceptions.BadRequestRestException
@@ -13,27 +15,24 @@ import io.github.jan.supabase.exceptions.HttpRequestException
 import io.github.jan.supabase.exceptions.UnauthorizedRestException
 import io.github.jan.supabase.gotrue.auth
 import io.github.jan.supabase.gotrue.providers.builtin.Email
-import io.github.jan.supabase.gotrue.user.UserInfo
 import io.github.jan.supabase.postgrest.postgrest
 import io.github.jan.supabase.postgrest.query.Columns
 import io.github.jan.supabase.postgrest.query.FilterOperator
 import io.github.jan.supabase.storage.storage
 import kotlinx.coroutines.launch
 import kotlinx.serialization.json.Json
-import java.lang.Error
-
 
 class UserViewModel: ViewModel() {
 
-    var status = MutableLiveData(Status.LOADING)
-    var statusSignOut = MutableLiveData(Status.LOADING)
-    var statusSignUpEmail = MutableLiveData(Status.LOADING)
+    var status = MutableLiveData(STATUS.LOADING)
+    var statusSignOut = MutableLiveData(STATUS.LOADING)
+    var statusSignUpEmail = MutableLiveData(Response(status = STATUS.NOT_STARTED))
 
-    val userResponse = MutableLiveData(Response(status = Status.NOT_STARTED))
+    val userResponse = MutableLiveData(Response(status = STATUS.NOT_STARTED))
 
-    var usersResponse = MutableLiveData(Response(status = Status.LOADING))
+    var usersResponse = MutableLiveData(Response(status = STATUS.LOADING))
 
-    fun addPoints(time: Int, context: Context){
+    fun sendResult(time: Int, isCorrect: Boolean, actualProgress: Int){
         val client = SupabaseClientSingleton.getClient()
 
         val user = userResponse.value!!.data as User
@@ -43,38 +42,29 @@ class UserViewModel: ViewModel() {
         try {
             viewModelScope.launch {
 
-                client.postgrest.from("users").update (
-                    {
-                        User::points setTo user.points
+                if(isCorrect){
+                    client.postgrest.from("users").update (
+                        {
+                            User::points setTo user.points
+                            User::answer_given setTo actualProgress + 1
+                        }
+                    ){
+                        filter(column = "uuid", operator = FilterOperator.EQ, value = "${user.uuid}")
                     }
-                ){
-                    filter(column = "uuid", operator = FilterOperator.EQ, value = "${user.uuid}")
+                }else{
+                    client.postgrest.from("users").update (
+                        {
+                            User::answer_given setTo actualProgress + 1
+                        }
+                    ){
+                        filter(column = "uuid", operator = FilterOperator.EQ, value = "${user.uuid}")
+                    }
                 }
             }
         }catch (err: HttpRequestException) {
 
         }catch (err: BadRequestRestException){
 
-        }
-    }
-
-    fun setProgress(actualProgress: Int){
-        val client = SupabaseClientSingleton.getClient()
-
-        val user = userResponse.value!!.data as User
-        user.answer_given = user.answer_given?.plus(1)
-
-        viewModelScope.launch {
-
-            try{
-                client.postgrest.from("users").update({
-                    User::answer_given setTo actualProgress + 1
-                }) {
-                    filter("uuid", FilterOperator.EQ, "${user.uuid}")
-                }
-            }catch (err: HttpRequestException){
-
-            }
         }
     }
 
@@ -95,7 +85,7 @@ class UserViewModel: ViewModel() {
 
                     user.imageUrl = url
 
-                    this@UserViewModel.userResponse.value = Response(status = Status.SUCCESS, data = user)
+                    this@UserViewModel.userResponse.value = Response(status = STATUS.SUCCESS, data = user)
                 }
             }catch(err: UnauthorizedRestException){
                 print("errore")
@@ -117,11 +107,11 @@ class UserViewModel: ViewModel() {
                     }
                 }
 
-                usersResponse.value = Response(status = Status.SUCCESS, data = response)
+                usersResponse.value = Response(status = STATUS.SUCCESS, data = response)
             }catch (err: BadRequestRestException){
-                usersResponse.value!!.status = Status.ERROR
+                usersResponse.value!!.status = STATUS.ERROR
             }catch (err: HttpRequestException){
-                usersResponse.value!!.status = Status.ERROR
+                usersResponse.value!!.status = STATUS.ERROR
             }
         }
     }
@@ -168,11 +158,11 @@ class UserViewModel: ViewModel() {
                     it.isFriend = true
                 }
 
-                usersResponse.value = Response(status = Status.SUCCESS, data = response)
+                usersResponse.value = Response(status = STATUS.SUCCESS, data = response)
             }catch (err: BadRequestRestException){
-                usersResponse.value!!.status = Status.ERROR
+                usersResponse.value!!.status = STATUS.ERROR
             }catch (err: HttpRequestException){
-                usersResponse.value!!.status = Status.ERROR
+                usersResponse.value!!.status = STATUS.ERROR
             }
         }
     }
@@ -190,9 +180,9 @@ class UserViewModel: ViewModel() {
                     apply()
                 }
 
-                statusSignOut.value = Status.SUCCESS
+                statusSignOut.value = STATUS.SUCCESS
             }catch (err: BadRequestRestException){
-                statusSignOut.value = Status.ERROR
+                statusSignOut.value = STATUS.ERROR
             }
         }
     }
@@ -228,13 +218,13 @@ class UserViewModel: ViewModel() {
                     apply()
                 }
 
-                status.value = Status.SUCCESS
+                status.value = STATUS.SUCCESS
             }catch(err: BadRequestRestException){
-                status.value = Status.ERROR
+                status.value = STATUS.ERROR
             }catch (err: HttpRequestException){
-                status.value = Status.ERROR
+                status.value = STATUS.ERROR
             } catch (err: Exception){
-                status.value = Status.ERROR
+                status.value = STATUS.ERROR
             }
 
         }
@@ -245,39 +235,67 @@ class UserViewModel: ViewModel() {
         return emailRegex.matches(email)
     }
 
-    fun signUpEmail(email: String, password: String, username: String, image: ByteArray, context: Context){
+    fun signUpEmail(email: String, password: String, repeatedPassword: String, username: String, image: ByteArray, context: Context){
+
+        try{
+            if(!isValidEmail(email)){
+                throw ErrorException(ErrorCodes.EMAIL_WRONG)
+            }
+
+            if(password.length <= 5){
+                throw ErrorException(ErrorCodes.PASSWORD_TOO_SHORT)
+            }
+
+            if(password != repeatedPassword){
+                throw ErrorException(ErrorCodes.PASSWORDS_NOT_EQUAL)
+            }
+        }catch (err: ErrorException){
+
+            statusSignUpEmail.value = Response(status = STATUS.ERROR, code = err.errorCode, message = err.message.toString())
+
+            return
+        }
+
+
+
         viewModelScope.launch {
             val client = SupabaseClientSingleton.getClient()
 
+            var usernameAlreadyExist = false
+
+            try {
+                val usernameIsAlreadyToken = client.postgrest.from("users").select { filter("username", FilterOperator.EQ, username) }.decodeSingle<User>()
+
+            }catch (err: Exception){
+                usernameAlreadyExist = true
+            }
+
             try{
+                if(!usernameAlreadyExist){
+                    throw Exception("username is already token")
+                }
+
 
                 val result = client.auth.signUpWith(Email){
                     this.email = email
                     this.password = password
                 }
 
-                val user = User(username = username, points = 0, uuid = result!!.id)
+                val user = User(username = username.lowercase(), points = 0, uuid = result!!.id)
 
                 client.postgrest.from("users").insert(user)
-
-                /*
-                val shared = context.getSharedPreferences("shared", Context.MODE_PRIVATE)
-
-                with(shared.edit()){
-                    putString("token", session.accessToken)
-                    apply()
-                }
-                 */
 
                 val bucket = client.storage.from("avatars")
                 bucket.upload("${username}.jpg", image, upsert = false)
 
-                statusSignUpEmail.value = Status.SUCCESS
+                statusSignUpEmail.value = Response(status = STATUS.SUCCESS)
 
-            }catch(err:BadRequestRestException){
-                statusSignUpEmail.value = Status.ERROR
+            } catch(err:BadRequestRestException){
+                statusSignUpEmail.value = Response(status = STATUS.ERROR)
             }catch (err: HttpRequestException){
-                statusSignUpEmail.value = Status.ERROR
+                statusSignUpEmail.value = Response(status = STATUS.ERROR, code = ErrorCodes.INTERNET_CONNECTION, message = "Check your internet connection")
+            }catch (err: Exception){
+                statusSignUpEmail.value = Response(status = STATUS.ERROR, code = ErrorCodes.USERNAME_ALREADY_TOKEN, message = err.message.toString())
             }
         }
     }

@@ -12,7 +12,7 @@ import androidx.cardview.widget.CardView
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.findNavController
 import com.example.pavesehunt.R
-import com.example.pavesehunt.data.models.Status
+import com.example.pavesehunt.domain.usecases.STATUS
 import com.example.pavesehunt.domain.viewmodels.TopBarViewModel
 import com.example.pavesehunt.ui.login.LoginActivity
 import com.example.testapp.domain.viewmodels.UserViewModel
@@ -54,7 +54,7 @@ class SettingsFragment : Fragment() {
         }
 
         viewModel.statusSignOut.observe(viewLifecycleOwner){
-            if(it == Status.SUCCESS){
+            if(it == STATUS.SUCCESS){
                 val c = view.context as AppCompatActivity
                 startActivity(Intent(view.context, LoginActivity::class.java))
                 c.finish()

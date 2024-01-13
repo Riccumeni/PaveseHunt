@@ -6,16 +6,12 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
 import android.widget.TextView
 import androidx.fragment.app.activityViewModels
-import androidx.lifecycle.LifecycleObserver
-import androidx.lifecycle.LifecycleOwner
-import androidx.navigation.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.pavesehunt.R
-import com.example.pavesehunt.data.models.Status
+import com.example.pavesehunt.domain.usecases.STATUS
 import com.example.pavesehunt.ui.adapters.RankAdapter
 import com.example.testapp.data.models.User
 import com.example.testapp.domain.viewmodels.QuizViewModel
@@ -75,7 +71,7 @@ class RankFragment : Fragment() {
 
         viewModel.leatherboard.observe(viewLifecycleOwner){ response ->
             when(response.status){
-                Status.SUCCESS -> {
+                STATUS.SUCCESS -> {
                     val leatherboard: List<User> = response!!.data as List<User>
 
 
@@ -89,14 +85,14 @@ class RankFragment : Fragment() {
                     }
 
                 }
-                Status.ERROR -> {
+                STATUS.ERROR -> {
 
                 }
-                Status.LOADING -> {
+                STATUS.LOADING -> {
                     circularProgress.visibility = View.VISIBLE
                 }
 
-                Status.NOT_STARTED -> {
+                STATUS.NOT_STARTED -> {
 
                 }
             }

@@ -9,7 +9,7 @@ import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.pavesehunt.common.TimeHelper
 import com.example.pavesehunt.data.models.Event
-import com.example.pavesehunt.data.models.Status
+import com.example.pavesehunt.domain.usecases.STATUS
 import com.example.pavesehunt.databinding.FragmentCalendarBinding
 import com.example.pavesehunt.domain.viewmodels.EventsViewModel
 import com.example.pavesehunt.domain.viewmodels.TopBarViewModel
@@ -69,10 +69,10 @@ class CalendarFragment : Fragment() {
 
         eventsViewModel.eventsResponse.observe(viewLifecycleOwner){
             when(it.status){
-                Status.NOT_STARTED -> {
+                STATUS.NOT_STARTED -> {
                     eventsViewModel.getEventsByMonthAndYear(current.month.value, current.year)
                 }
-                Status.SUCCESS -> {
+                STATUS.SUCCESS -> {
                     val events = it.data as List<Event>
                     val daysInEvent = ArrayList<Int>()
 
@@ -100,11 +100,11 @@ class CalendarFragment : Fragment() {
                         )
                     }
                 }
-                Status.LOADING -> {
+                STATUS.LOADING -> {
 
                 }
 
-                Status.ERROR -> {
+                STATUS.ERROR -> {
 
                 }
             }
