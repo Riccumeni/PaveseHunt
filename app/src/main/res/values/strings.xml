@@ -1,21 +1,21 @@
 <resources>
-    <string name="app_name">TestApp</string>
+    <string name="app_name" translatable="false">TestApp</string>
     <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="hello_blank_fragment" translatable="false">Hello blank fragment</string>
     <string name="game_view_content_description" translatable="false">Game view</string>
     <string name="punti">Punti</string>
     <string name="globale">Globale</string>
     <string name="amici">Amici</string>
     <string name="posizione">Posizione</string>
-    <string name="username">Username</string>
-    <string name="tutorial">Tutorial</string>
+    <string name="username">Nome Utente</string>
+    <string name="tutorial" translatable="false">Tutorial</string>
     <string name="tutorial_explained_dialog">Per leggere la poesia tappare sul bottone che rappresenta un libro</string>
-    <string name="pavese_verse">“non c\'è dolore peggiore dell\'amare chi non sa sceglierti ma non \nvuole perderti.”</string>
+    <string name="pavese_verse" translatable="false">“non c\'è dolore peggiore dell\'amare chi non sa sceglierti ma non \nvuole perderti.”</string>
     <string name="remaining">Rimanenti</string>
     <string name="answer">Risposte</string>
     <string name="points">Punti</string>
     <string name="cerca_la_raccolta">Cerca la raccolta</string>
-    <string name="title_app">Pavese Hunt</string>
-    <string name="add_a_friend_hint">add a friend...</string>
+    <string name="title_app" translatable="false">Pavese Hunt</string>
+    <string name="add_a_friend_hint">Aggiungi un amico...</string>
     <string name="registrati">Registrati</string>
 </resources>

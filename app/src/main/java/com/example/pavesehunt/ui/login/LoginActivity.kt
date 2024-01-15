@@ -3,6 +3,7 @@ package com.example.pavesehunt.ui.login
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.os.Handler
 import androidx.activity.viewModels
 import com.example.pavesehunt.R
 import com.example.pavesehunt.domain.usecases.STATUS
@@ -24,8 +25,13 @@ class LoginActivity : AppCompatActivity() {
         window.statusBarColor = getColor(R.color.primaryContainer)
 
         binding.loginButton.setOnClickListener {
-
             viewModel.login(binding.emailEditText.text.toString(),binding.passwordEditText.text.toString(), this)
+            binding.loginButton.setBackgroundColor(0xFFF2BE5F.toInt())
+            binding.loginButton.setTextColor(this.resources.getColor(R.color.background))
+            Handler().postDelayed({
+                binding.loginButton.setBackgroundColor(this.resources.getColor(R.color.background))
+                binding.loginButton.setTextColor(0xFFF2BE5F.toInt())
+            }, 200)
         }
 
         binding.registerButton.setOnClickListener {

@@ -118,6 +118,7 @@
         android:background="@color/tertiaryContainer"
 
         app:layout_constraintTop_toBottomOf="@id/topBarIndicator"
+        android:paddingBottom="40dp"
     />
 
     <com.google.android.material.progressindicator.CircularProgressIndicator

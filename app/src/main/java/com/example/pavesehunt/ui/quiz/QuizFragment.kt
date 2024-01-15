@@ -81,6 +81,8 @@ class QuizFragment : Fragment() {
         }
 
         binding.quizButton.setOnClickListener {
+            binding.quizButton.setBackgroundColor(this.resources.getColor(R.color.primaryContainer))
+            binding.quizButton.setTextColor(this.resources.getColor(R.color.onPrimaryContainer))
             view.findNavController().navigate(R.id.action_quizFragment_to_questionFragment)
         }
     }

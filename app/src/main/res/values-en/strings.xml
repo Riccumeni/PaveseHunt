@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="punti">Points</string>
+    <string name="globale">Global</string>
+    <string name="amici">Friends</string>
+    <string name="posizione">Position</string>
+    <string name="username">Username</string>
+    <string name="tutorial_explained_dialog">To read the poem, tap on the button representing a book.</string>
+    <string name="remaining">Remaining</string>
+    <string name="answer">Answers</string>
+    <string name="points">Points</string>
+    <string name="cerca_la_raccolta">Search the collection</string>
+    <string name="add_a_friend_hint">Add a friend...</string>
+    <string name="registrati">Register</string>
+</resources>

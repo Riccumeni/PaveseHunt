@@ -1,13 +1,17 @@
 package com.example.pavesehunt.ui.login
 
+import android.app.Dialog
 import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.drawable.BitmapDrawable
 import android.os.Bundle
 import android.os.Handler
 import android.provider.MediaStore
+import android.view.View
+import android.view.Window
 import android.widget.Button
 import android.widget.ImageView
+import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
@@ -40,12 +44,7 @@ class SignUpActivity : AppCompatActivity() {
 
         viewModel.statusSignUpEmail.observe(this){
             if(it.status == STATUS.SUCCESS){
-                val toast = Toast.makeText(this, "Registrazione effettuata", Toast.LENGTH_LONG) // in Activity
-                toast.show()
-
-                Handler().postDelayed({
-                    finish()
-                }, 1000)
+                showSignUpDialog()
             }else if(it.status == STATUS.ERROR){
 
                 when(it.code){
@@ -104,6 +103,31 @@ class SignUpActivity : AppCompatActivity() {
             val galleryIntent = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
             startActivityForResult(galleryIntent, 1)
         }
+    }
+
+    fun showSignUpDialog(){
+        val dialog = Dialog(this)
+
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
+        dialog.setCancelable(true)
+        dialog.setContentView(R.layout.reset_quiz_dialog)
+
+        val discardButton = dialog.findViewById<Button>(R.id.discardDialogButton)
+        val okButton = dialog.findViewById<Button>(R.id.okDialogButton)
+        val titleDialog = dialog.findViewById<TextView>(R.id.titleDialog)
+        val bodyDialog = dialog.findViewById<TextView>(R.id.bodyDialog)
+
+        titleDialog.text = "Registrazione effettuata"
+        bodyDialog.text = "Per confermare la registrazione andare nella casella di posta e cliccare su 'conferma email'"
+
+        discardButton.visibility = View.GONE
+
+        okButton.setOnClickListener {
+            dialog.dismiss()
+            finish()
+        }
+
+        dialog.show()
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {

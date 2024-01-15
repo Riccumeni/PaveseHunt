@@ -120,6 +120,7 @@ class QuestionFragment : Fragment() {
 
                                 buttons.forEachIndexed { i, button ->
                                     button.isEnabled = false
+                                    buttons[i].setTextColor(0xFFFFFFFF.toInt())
                                     if(i == questions[user.answer_given!!].correct_answer){
                                         buttons[i].setBackgroundColor(0xFF1C9700.toInt())
                                     }else{
@@ -140,6 +141,7 @@ class QuestionFragment : Fragment() {
                                         answers = Json.decodeFromString(questions[user.answer_given!!].answer)
 
                                         answers.forEachIndexed{index, s ->
+                                            buttons[index].setTextColor(0xFF55442B.toInt())
                                             buttons[index].setBackgroundColor(0xFFCBB18C.toInt())
                                             buttons[index].text = s
                                             buttons[index].isEnabled = true
@@ -150,7 +152,9 @@ class QuestionFragment : Fragment() {
                                         quizViewModel.startTimer()
                                     }, 2000)
                                 }else{
-                                    binding.resetQuizLayout.visibility = View.VISIBLE
+                                    Handler().postDelayed({
+                                        binding.resetQuizLayout.visibility = View.VISIBLE
+                                    }, 2000)
                                 }
                             }
                         }
