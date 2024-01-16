@@ -19,6 +19,7 @@ import com.example.pavesehunt.databinding.FragmentQuestionBinding
 import com.example.testapp.data.models.User
 import com.example.testapp.domain.viewmodels.QuizViewModel
 import com.example.testapp.domain.viewmodels.UserViewModel
+import com.google.android.material.button.MaterialButton
 import com.google.android.material.progressindicator.LinearProgressIndicator
 import kotlinx.serialization.json.Json
 
@@ -54,7 +55,7 @@ class QuestionFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         val counterIndicator = view.findViewById<LinearProgressIndicator>(R.id.counterIndicator)
-        val openPoemDialogCard = view.findViewById<CardView>(R.id.openPoemCard)
+        val openPoemDialogCard = view.findViewById<MaterialButton>(R.id.openPoemCard)
         val tutorialCard = view.findViewById<CardView>(R.id.tutorialCard)
 
         quizViewModel.questionsResponse.observe(viewLifecycleOwner){ response ->

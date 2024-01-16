@@ -6,8 +6,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.example.pavesehunt.R
 import com.example.testapp.data.models.User
 import com.example.testapp.domain.viewmodels.UserViewModel
@@ -31,6 +33,10 @@ class FriendAdapter(var users: List<User>, var friends: String, var userViewMode
 
         val userFriends: MutableList<Int> = Json.decodeFromString(friends)
 
+        val profileImage = holder.view.findViewById<ImageView>(R.id.friendProfileImage)
+
+        Glide.with(holder.view.context).load(user.imageUrl).into(profileImage)
+
         var isFriend = false
 
         userFriends.forEach {
@@ -48,16 +54,23 @@ class FriendAdapter(var users: List<User>, var friends: String, var userViewMode
         button.setOnClickListener {
             if(isFriend){
 
+                var indexOfFriendToRemove = -1
+
                 userFriends.forEachIndexed { index, userFav ->
                     if(userFav == user.id){
-                        userFriends.removeAt(index)
-                        friends = Json.encodeToString(userFriends)
-
-                        userViewModel.setFriends(friends, uuid)
+                        indexOfFriendToRemove = index
                     }
                 }
 
-                button.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.baseline_add_24, 0)
+                if(indexOfFriendToRemove != -1){
+                    userFriends.removeAt(indexOfFriendToRemove)
+                    friends = Json.encodeToString(userFriends)
+                    userViewModel.setFriends(friends, uuid)
+                    isFriend = false
+                    button.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.baseline_add_24, 0)
+                }
+
+
             }else{
                 userFriends.add(user.id!!)
 
@@ -66,6 +79,8 @@ class FriendAdapter(var users: List<User>, var friends: String, var userViewMode
                 userViewModel.setFriends(friends, uuid)
 
                 button.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.baseline_remove_24, 0)
+
+                isFriend = true
             }
         }
     }

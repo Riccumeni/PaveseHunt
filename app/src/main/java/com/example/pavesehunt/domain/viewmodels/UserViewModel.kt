@@ -132,6 +132,8 @@ class UserViewModel: ViewModel() {
                     if(isFriend(it.id!!)){
                         it.isFriend = true
                     }
+                    val url = client.storage.from("avatars").publicUrl("${it.username}.jpg")
+                    it.imageUrl = url
                 }
 
                 usersResponse.value = Response(status = STATUS.SUCCESS, data = response)
@@ -181,6 +183,7 @@ class UserViewModel: ViewModel() {
 
             try{
 
+
                 lateinit var response: List<User>
 
                 if(text == null){
@@ -191,17 +194,12 @@ class UserViewModel: ViewModel() {
                     }.decodeList<User>()
                 }
 
-                response = response.filter {
-                    isFriend(it.id!!)
+                response = response.filter {                    isFriend(it.id!!)
                 }
-
-                /*
-                response = response.filter {
-                    isFriend(it, context)
-                }
-                */
 
                 response.forEach {
+                    val url = client.storage.from("avatars").publicUrl("${it.username}.jpg")
+                    it.imageUrl = url
                     it.isFriend = true
                 }
 

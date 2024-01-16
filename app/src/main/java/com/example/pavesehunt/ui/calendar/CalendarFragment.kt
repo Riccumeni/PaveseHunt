@@ -59,13 +59,13 @@ class CalendarFragment : Fragment() {
             calendar.get(Calendar.SECOND)
         )
 
-        binding.monthText.text = (current.month).toString()
-
         val currentYearMonth = YearMonth.now()
         val numberOfDaysInMonth = currentYearMonth.lengthOfMonth()
 
         var currentMonth = current.month.value
         var currentYear = current.year
+
+        binding.monthText.text = TimeHelper.getMonthNameByNumber(currentMonth)
 
         eventsViewModel.eventsResponse.observe(viewLifecycleOwner){
             when(it.status){

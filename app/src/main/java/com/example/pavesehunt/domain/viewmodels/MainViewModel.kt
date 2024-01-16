@@ -10,27 +10,29 @@ import io.github.jan.supabase.exceptions.HttpRequestException
 import io.github.jan.supabase.exceptions.UnauthorizedRestException
 import io.github.jan.supabase.gotrue.auth
 import kotlinx.coroutines.launch
-
+import java.lang.RuntimeException
 
 
 class MainViewModel: ViewModel() {
     val status = MutableLiveData(STATUS.LOADING)
 
 
-    fun checkToken(token: String){
-        viewModelScope.launch {
-            val client = SupabaseClientSingleton.getClient()
+    suspend fun checkToken(token: String){
 
-            try{
-                val user = client.auth.retrieveUser(token)
-                status.value = STATUS.SUCCESS
-            }catch (err: BadRequestRestException){
-                status.value = STATUS.ERROR
-            }catch (err: UnauthorizedRestException){
-                status.value = STATUS.ERROR
-            }catch (err: HttpRequestException){
-                status.value = STATUS.ERROR
-            }
+        val client = SupabaseClientSingleton.getClient()
+
+        try{
+            val user = client.auth.retrieveUser(token)
+            status.value = STATUS.SUCCESS
+        }catch (err: BadRequestRestException){
+            status.value = STATUS.ERROR
+        }catch (err: UnauthorizedRestException){
+            status.value = STATUS.ERROR
+        }catch (err: HttpRequestException){
+            status.value = STATUS.ERROR
+        }catch (err: Exception){
+            status.value = STATUS.ERROR
         }
+
     }
 }

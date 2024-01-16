@@ -59,6 +59,7 @@ class AddFriendFragment : Fragment() {
 
                     when(indexTabLayout){
                         0 -> {
+                            addFriendEditText.setText("")
                             addFriendEditText.visibility = View.GONE
                             userViewModel.getFriends(view.context, null)
                         }

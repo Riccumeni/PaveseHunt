@@ -151,13 +151,15 @@
     <androidx.cardview.widget.CardView
         android:id="@+id/imgCesarePavese"
 
+        android:visibility="gone"
+
         android:layout_marginTop="40dp"
 
         app:cardElevation="0dp"
 
 
-        android:layout_width="150dp"
-        android:layout_height="200dp"
+        android:layout_width="100dp"
+        android:layout_height="150dp"
         app:cardCornerRadius="10dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/cardStatistic">
@@ -166,12 +168,12 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:scaleType="centerCrop"
-            android:src="@drawable/cesare_pavese" />
+            android:src="@drawable/ic_launcher_background" />
     </androidx.cardview.widget.CardView>
 
     <View
         android:id="@+id/view"
-        android:layout_width="90dp"
+        android:layout_width="match_parent"
         android:layout_height="2dp"
         android:layout_marginTop="40dp"
         android:background="@color/secondaryContainer"
@@ -180,53 +182,54 @@
 
     <!-- Phrase -->
     <TextView
-
         android:id="@+id/fraseNota"
-        android:layout_width="90dp"
-        android:layout_height="162dp"
-        android:layout_marginVertical="10dp"
-        android:layout_toEndOf="@+id/imgCesarePavese"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginVertical="20dp"
         android:text="@string/pavese_verse"
-        android:textAlignment="textStart"
+        android:textAlignment="center"
         android:textColor="@color/white"
         android:textSize="14sp"
         android:textStyle="bold"
-        app:layout_constraintBottom_toBottomOf="@+id/view2"
+        android:fontFamily="@font/lugrasimo"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/view" />
 
     <View
         android:id="@+id/view2"
-        android:layout_width="90dp"
+        android:layout_width="match_parent"
         android:layout_height="2dp"
+        android:layout_marginTop="20dp"
         android:background="@color/secondaryContainer"
-        app:layout_constraintBottom_toBottomOf="@+id/imgCesarePavese"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/fraseNota" />
 
     <!-- Button Quiz -->
     <com.google.android.material.button.MaterialButton
         android:id="@+id/quizButton"
 
-        android:layout_width="160dp"
-        android:layout_height="55dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_below="@+id/imgCesarePavese"
         android:layout_centerInParent="true"
 
-        android:backgroundTint="@color/secondaryContainer"
+        android:layout_marginBottom="20dp"
 
+        android:backgroundTint="@color/secondaryContainer"
         android:fontFamily="@font/poppins"
         android:text="Play Quiz"
         android:textAllCaps="false"
         android:textColor="@color/onSecondaryContainer"
         android:textFontWeight="500"
         android:textSize="24sp"
-        app:cornerRadius="10dp"
 
-        android:layout_marginBottom="20dp"
+        app:cornerRadius="10dp"
 
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/view2" />
 
     <include
         android:id="@+id/errorLayout"
@@ -237,7 +240,7 @@
         />
 
     <include android:id="@+id/loadingLayout"
-        android:visibility="gone"
+        android:visibility="visible"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         layout="@layout/loading_layout"/>
