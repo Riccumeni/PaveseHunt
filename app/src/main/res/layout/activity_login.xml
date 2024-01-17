@@ -132,6 +132,9 @@
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/usernameInputLayout"
 
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.MyStyle"
+        android:theme="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.MyStyle"
+
         android:layout_width="match_parent"
         android:layout_height="60dp"
         android:layout_marginHorizontal="40dp"
@@ -140,18 +143,11 @@
         android:hint="Email"
         app:errorEnabled="true"
 
-        app:boxCornerRadiusBottomEnd="10dp"
-        app:boxCornerRadiusBottomStart="10dp"
-        app:boxCornerRadiusTopEnd="10dp"
-        app:boxCornerRadiusTopStart="10dp"
-
-        app:boxStrokeColor="@color/primaryContainer"
-        app:hintTextColor="@color/secondaryContainer"
-
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/titleApp"
 
-        app:startIconDrawable="@drawable/ic_baseline_person_24">
+        app:startIconDrawable="@drawable/ic_baseline_person_24"
+        >
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/emailEditText"
@@ -165,6 +161,9 @@
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/passwordInputLayout"
 
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.MyStyle"
+        android:theme="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.MyStyle"
+
         android:layout_width="match_parent"
         android:layout_height="60dp"
         android:layout_marginHorizontal="40dp"
@@ -173,14 +172,6 @@
         android:hint="Password"
 
         app:errorEnabled="true"
-
-        app:boxCornerRadiusBottomEnd="10dp"
-        app:boxCornerRadiusBottomStart="10dp"
-        app:boxCornerRadiusTopEnd="10dp"
-        app:boxCornerRadiusTopStart="10dp"
-
-        app:boxStrokeColor="@color/primaryContainer"
-        app:hintTextColor="@color/primaryContainer"
 
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/usernameInputLayout"

@@ -40,7 +40,7 @@
         app:cardCornerRadius="10dp"
         android:layout_marginBottom="20dp"
         android:layout_width="match_parent"
-        android:layout_height="50dp">
+        android:layout_height="70dp">
         <LinearLayout
             android:orientation="horizontal"
             android:layout_width="match_parent"
@@ -130,7 +130,7 @@
         android:backgroundTint="@color/secondaryContainer"
         app:cardCornerRadius="10dp"
         android:layout_width="match_parent"
-        android:layout_height="50dp">
+        android:layout_height="70dp">
         <LinearLayout
             android:orientation="horizontal"
             android:layout_width="match_parent"
@@ -168,6 +168,7 @@
     <!-- FeedBack -->
     <TextView
         android:id="@+id/feedbackText"
+        android:visibility="gone"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="35dp"
@@ -180,6 +181,7 @@
     <!-- Schermata Problema -->
 
     <androidx.cardview.widget.CardView
+        android:visibility="gone"
         android:backgroundTint="@color/secondaryContainer"
         app:cardCornerRadius="10dp"
         android:layout_width="match_parent"

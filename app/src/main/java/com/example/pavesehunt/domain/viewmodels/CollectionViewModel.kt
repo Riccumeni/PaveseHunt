@@ -48,7 +48,7 @@ class CollectionViewModel: ViewModel() {
     fun getCollectionsFiltered(text: String){
         var collections = collectionsResponse.value!!.data as List<Collection>
 
-        val pattern = ("^$text.*").toRegex()
+        val pattern = ("^$text.*").toRegex(RegexOption.IGNORE_CASE)
 
         collectionsFiltered.value = collections.filter {
             pattern.matches(it.title)

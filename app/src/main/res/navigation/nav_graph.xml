@@ -5,72 +5,101 @@
     android:id="@+id/nav_graph"
     app:startDestination="@id/quizFragment">
 
-    <fragment
+    <navigation
         android:id="@+id/quizFragment"
-        android:name="com.example.pavesehunt.ui.quiz.QuizFragment"
-        android:label="fragment_quiz"
-        tools:layout="@layout/fragment_quiz" >
-        <action
-            android:id="@+id/action_quizFragment_to_rankFragment"
-            app:destination="@id/rankFragment"
-            app:enterAnim="@anim/slide_in_right"
-            app:exitAnim="@anim/fade_out"
-            app:popEnterAnim="@anim/fade_in"
-            app:popExitAnim="@anim/slide_out_right" />
-        <action
-            android:id="@+id/action_quizFragment_to_questionFragment"
-            app:destination="@id/questionFragment"
-            app:enterAnim="@anim/slide_in_right"
-            app:exitAnim="@anim/fade_out"
-            app:popEnterAnim="@anim/fade_in"
-            app:popExitAnim="@anim/slide_out_right" />
-    </fragment>
-    <fragment
-        android:id="@+id/rankFragment"
-        android:name="com.example.pavesehunt.ui.quiz.RankFragment"
-        android:label="fragment_rank"
-        tools:layout="@layout/fragment_rank" />
-    <fragment
-        android:id="@+id/questionFragment"
-        android:name="com.example.pavesehunt.ui.quiz.QuestionFragment"
-        android:label="fragment_question"
-        tools:layout="@layout/fragment_question" />
-    <fragment
-        android:id="@+id/searchFragment"
-        android:name="com.example.pavesehunt.ui.search.SearchFragment"
-        android:label="fragment_search"
-        tools:layout="@layout/fragment_search" >
-        <action
-            android:id="@+id/action_searchFragment2_to_detailFragment2"
-            app:destination="@id/detailFragment2"
-            app:enterAnim="@anim/slide_in_right"
-            app:exitAnim="@anim/fade_out"
-            app:popEnterAnim="@anim/fade_in"
-            app:popExitAnim="@anim/slide_out_right" />
-    </fragment>
-    <fragment
-        android:id="@+id/detailFragment2"
-        android:name="com.example.pavesehunt.ui.search.DetailFragment"
-        android:label="fragment_detail"
-        tools:layout="@layout/fragment_detail" />
-    <fragment
+        app:startDestination="@id/quizFragmentScreen"
+        >
+
+        <fragment
+            android:id="@+id/quizFragmentScreen"
+            android:name="com.example.pavesehunt.ui.quiz.QuizFragment"
+            android:label="fragment_quiz"
+            tools:layout="@layout/fragment_quiz" >
+            <action
+                android:id="@+id/action_quizFragment_to_rankFragment"
+                app:destination="@id/rankFragment"
+                app:enterAnim="@anim/slide_in_right"
+                app:exitAnim="@anim/fade_out"
+                app:popEnterAnim="@anim/fade_in"
+                app:popExitAnim="@anim/slide_out_right"
+                app:popUpTo="@id/quizFragmentScreen" />
+            <action
+                android:id="@+id/action_quizFragment_to_questionFragment"
+                app:destination="@id/questionFragment"
+                app:enterAnim="@anim/slide_in_right"
+                app:exitAnim="@anim/fade_out"
+                app:popEnterAnim="@anim/fade_in"
+                app:popExitAnim="@anim/slide_out_right"
+                app:popUpTo="@id/quizFragmentScreen" />
+        </fragment>
+
+        <fragment
+            android:id="@+id/rankFragment"
+            android:name="com.example.pavesehunt.ui.quiz.RankFragment"
+            android:label="fragment_rank"
+            tools:layout="@layout/fragment_rank" />
+
+        <fragment
+            android:id="@+id/questionFragment"
+            android:name="com.example.pavesehunt.ui.quiz.QuestionFragment"
+            android:label="fragment_question"
+            tools:layout="@layout/fragment_question" />
+
+    </navigation>
+
+    <navigation
+        android:id="@id/searchFragment"
+        app:startDestination="@id/searchFragmentScreen"
+        >
+        <fragment
+            android:id="@+id/searchFragmentScreen"
+            android:name="com.example.pavesehunt.ui.search.SearchFragment"
+            android:label="fragment_search"
+            tools:layout="@layout/fragment_search" >
+            <action
+                android:id="@+id/action_searchFragment2_to_detailFragment2"
+                app:destination="@id/detailFragment2"
+                app:enterAnim="@anim/slide_in_right"
+                app:exitAnim="@anim/fade_out"
+                app:popEnterAnim="@anim/fade_in"
+                app:popExitAnim="@anim/slide_out_right"
+                app:popUpTo="@id/searchFragmentScreen" />
+        </fragment>
+        <fragment
+            android:id="@+id/detailFragment2"
+            android:name="com.example.pavesehunt.ui.search.DetailFragment"
+            android:label="fragment_detail"
+            tools:layout="@layout/fragment_detail" />
+    </navigation>
+
+
+
+    <navigation
         android:id="@+id/settingsFragment"
-        android:name="com.example.pavesehunt.ui.settings.SettingsFragment"
-        android:label="fragment_settings"
-        tools:layout="@layout/fragment_settings" >
-        <action
-            android:id="@+id/action_settingsFragment_to_addFriendFragment"
-            app:destination="@id/addFriendFragment"
-            app:enterAnim="@anim/slide_in_right"
-            app:exitAnim="@anim/fade_out"
-            app:popEnterAnim="@anim/fade_in"
-            app:popExitAnim="@anim/slide_out_right" />
-    </fragment>
-    <fragment
-        android:id="@+id/addFriendFragment"
-        android:name="com.example.pavesehunt.ui.settings.AddFriendFragment"
-        android:label="fragment_add_friend"
-        tools:layout="@layout/fragment_add_friend" />
+        app:startDestination="@id/settingsFragmentScreen"
+        >
+        <fragment
+            android:id="@+id/settingsFragmentScreen"
+            android:name="com.example.pavesehunt.ui.settings.SettingsFragment"
+            android:label="fragment_settings"
+            tools:layout="@layout/fragment_settings" >
+            <action
+                android:id="@+id/action_settingsFragment_to_addFriendFragment"
+                app:destination="@id/addFriendFragment"
+                app:enterAnim="@anim/slide_in_right"
+                app:exitAnim="@anim/fade_out"
+                app:popEnterAnim="@anim/fade_in"
+                app:popExitAnim="@anim/slide_out_right"
+                app:popUpTo="@id/settingsFragmentScreen" />
+        </fragment>
+        <fragment
+            android:id="@+id/addFriendFragment"
+            android:name="com.example.pavesehunt.ui.settings.AddFriendFragment"
+            android:label="fragment_add_friend"
+            tools:layout="@layout/fragment_add_friend" />
+    </navigation>
+
+
     <fragment
         android:id="@+id/calendarFragment"
         android:name="com.example.pavesehunt.ui.calendar.CalendarFragment"

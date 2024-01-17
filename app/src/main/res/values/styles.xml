@@ -3,4 +3,14 @@
     <style name="circular">
         <item name="cornerSize">10%</item>
     </style>
+
+    <style name="Widget.MaterialComponents.TextInputLayout.OutlinedBox.MyStyle">
+        <item name="colorControlActivated">@color/primaryContainer</item>
+        <item name="cursorColor">@color/primaryContainer</item>
+        <item name="android:textColorHint">#49454F</item>
+        <item name="startIconTint">#49454F</item>
+        <item name="boxStrokeColor">@color/primaryContainer</item>
+        <item name="hintTextColor">@color/primaryContainer</item>
+        <item name="cornerRadius">10dp</item>
+    </style>
 </resources>

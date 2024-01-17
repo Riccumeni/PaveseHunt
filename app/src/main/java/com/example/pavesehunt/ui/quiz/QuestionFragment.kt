@@ -92,8 +92,6 @@ class QuestionFragment : Fragment() {
                             showDialog(questions[user.answer_given!!].poem)
                         }
 
-
-
                         answers.forEachIndexed { index, answer ->
                             buttons[index].text = answer
                         }

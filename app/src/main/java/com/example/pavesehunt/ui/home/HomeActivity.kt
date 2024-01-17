@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
 import androidx.activity.viewModels
+import androidx.core.view.get
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.NavigationUI
 import com.example.pavesehunt.R
@@ -11,6 +12,7 @@ import com.example.pavesehunt.databinding.ActivityHomeBinding
 import com.example.pavesehunt.domain.viewmodels.CollectionViewModel
 import com.example.pavesehunt.domain.viewmodels.TopBarViewModel
 import com.example.pavesehunt.ui.calendar.CalendarFragment
+import com.example.pavesehunt.ui.quiz.QuestionFragment
 import com.example.testapp.domain.viewmodels.QuizViewModel
 import com.example.pavesehunt.ui.quiz.QuizFragment
 import com.example.pavesehunt.ui.search.SearchFragment

@@ -12,21 +12,19 @@
     <com.google.android.material.textfield.TextInputLayout
         android:layout_width="match_parent"
         android:layout_height="60dp"
+
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.MyStyle"
+        android:theme="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.MyStyle"
+
         android:hint="@string/cerca_la_raccolta"
-        app:hintTextColor="@color/secondaryContainer"
 
         android:layout_marginVertical="20dp"
 
-        app:boxCornerRadiusBottomEnd="10dp"
-        app:boxCornerRadiusTopEnd="10dp"
-        app:boxCornerRadiusBottomStart="10dp"
-        app:boxCornerRadiusTopStart="10dp"
-
-        app:boxStrokeColor="@color/secondaryContainer"
         app:startIconDrawable="@drawable/baseline_search_24">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/searchEditText"
+            android:textColor="@color/white"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:inputType="text" />

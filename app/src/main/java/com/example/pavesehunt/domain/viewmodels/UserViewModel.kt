@@ -64,12 +64,12 @@ class UserViewModel: ViewModel() {
 
         val user = userResponse.value!!.data as User
 
-        user.points = user.points + (1000/time)
-
         try {
             viewModelScope.launch {
 
                 if(isCorrect){
+                    user.points = user.points + (300/time)
+
                     client.postgrest.from("users").update (
                         {
                             User::points setTo user.points
